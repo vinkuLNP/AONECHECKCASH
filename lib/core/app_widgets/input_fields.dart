@@ -76,7 +76,7 @@ class AppInputField extends StatelessWidget {
                 : readOnly
                 ? Theme.of(context).highlightColor.withValues(alpha: 0.4)
                 : Theme.of(context).hintColor,
-            errorStyle: appTextStyle(fontSize: 12, color: Colors.red),
+            errorStyle: appTextStyle(fontSize: 12, color: AppColors.primary),
             hintStyle: appTextStyle(
               fontSize: 13,
               color: const Color(0xFF9CA3AF),
@@ -119,7 +119,8 @@ class AppPasswordField extends StatelessWidget {
   final bool obscure;
   final VoidCallback? onTap;
   final Function(String?)? onFieldSubmitted;
-
+  final int? maxLength;
+  final int? maxLines;
   final AutovalidateMode? autovalidateMode;
   final VoidCallback onToggle;
   final FocusNode? focusNode;
@@ -131,6 +132,8 @@ class AppPasswordField extends StatelessWidget {
     required this.obscure,
     required this.onToggle,
     this.validator,
+    this.maxLength,
+    this.maxLines,
     this.autovalidateMode,
     this.focusNode,
     this.onTap,
@@ -153,15 +156,17 @@ class AppPasswordField extends StatelessWidget {
           focusNode: focusNode,
           onFieldSubmitted: onFieldSubmitted,
           onTap: onTap,
-
+          maxLength: maxLength,
+          maxLines: maxLength != null ? 1 : maxLines,
           autovalidateMode: autovalidateMode,
           onChanged: onChanged,
           style: appTextStyle(fontSize: 12),
           decoration: InputDecoration(
+            counterText: '',
             filled: false,
             hintText: '******',
             hintStyle: appTextStyle(fontSize: 12, color: Colors.grey),
-            errorStyle: appTextStyle(fontSize: 12, color: Colors.red),
+            errorStyle: appTextStyle(fontSize: 12, color: AppColors.primary),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

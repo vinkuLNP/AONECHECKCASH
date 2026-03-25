@@ -18,7 +18,7 @@ class AutoServicesSection extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE5E7EB)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -40,7 +40,7 @@ class AutoServicesSection extends StatelessWidget {
             text: AppStrings.autoTitle,
             fontSize: 26,
             fontWeight: FontWeight.w800,
-            color: const Color(0xFF111827),
+            color:  AppColors.textDark,
           ),
 
           const SizedBox(height: 12),

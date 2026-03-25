@@ -5,7 +5,7 @@ import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class PrepaidCard extends StatelessWidget {
-  const PrepaidCard();
+  const PrepaidCard({super.key});
 
   @override
   Widget build(BuildContext context) {

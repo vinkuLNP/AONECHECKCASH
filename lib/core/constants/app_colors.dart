@@ -5,7 +5,7 @@ class AppColors {
   static const Color whiteColor = Color(0xffFFFFFF);
   static const Color transparent = Color(0x00ffffff);
   static const Color black = Color(0xff000000);
-  static const Color authThemeColor = Colors.red;
+  static const Color authThemeColor = AppColors.primary;
   static const Color errorColor = Color.fromARGB(255, 148, 29, 21);
   static const Color greyishColor = Colors.black54;
   static const Color screenBackgroundColor = Color(0xFFECECED);
@@ -15,5 +15,8 @@ class AppColors {
   static const primary = Color(0xFFE11D2E);
   static const textDark = Color(0xFF111827);
   static const textLight = Color(0xFF6B7280);
-  static const card = Colors.white;
+  static const heroWidgetBackground = Color(0xFFF6F3F2);
+  static const primaryDark = Color(0xFFC62828);
+  static const lightWhite = Color(0xFFFDECEC);
+    static const whyChooseWidgetColor = Color(0xFFF5F5F5);
 }

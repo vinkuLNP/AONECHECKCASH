@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class BusinessCard extends StatelessWidget {
   final BusinessServiceEntity item;
 
-  const BusinessCard({required this.item});
+  const BusinessCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BusinessCard extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE5E7EB)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -31,7 +31,7 @@ class BusinessCard extends StatelessWidget {
             height: 52,
             width: 52,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.08),
+              color: AppColors.primary.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Icon(item.icon, color: AppColors.primary, size: 26),
@@ -43,7 +43,7 @@ class BusinessCard extends StatelessWidget {
             text: item.title,
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: const Color(0xFF111827),
+            color:  AppColors.textDark,
           ),
 
           const SizedBox(height: 10),

@@ -1,9 +1,13 @@
+import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
+import 'package:a1_check_cashers/core/constants/app_colors.dart';
+import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_strings.dart';
 
 class TopHeader extends StatelessWidget {
-  const TopHeader({super.key});
+  final bool showDrawer;
+  const TopHeader({super.key, this.showDrawer = true});
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +15,13 @@ class TopHeader extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          color: const Color(0xFF0B1B2B),
+          color: AppColors.textDark,
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Column(
             children: const [
               AppText(
                 text: AppStrings.openToday,
-                color: Colors.white,
+                color: AppColors.whiteColor,
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
@@ -31,7 +35,7 @@ class TopHeader extends StatelessWidget {
           ),
         ),
         Container(
-          color: Colors.white,
+          color: AppColors.whiteColor,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
@@ -40,8 +44,7 @@ class TopHeader extends StatelessWidget {
                 children: const [
                   AppText(
                     text: AppStrings.appName,
-
-                    color: Colors.red,
+                    color: AppColors.primary,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
@@ -53,15 +56,23 @@ class TopHeader extends StatelessWidget {
                   ),
                 ],
               ),
-
-              const Spacer(),
-
-              Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(Icons.menu, size: 26),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+              if (showDrawer) ...[
+                const Spacer(),
+                AppButton(
+                  width: 100,
+                  text: AppStrings.signIn,
+                  onPressed: () =>
+                      Navigator.pushNamed(context, AppRoutes.login),
+                  isOutlined: true,
+                  icon: Icon(Icons.person, color: AppColors.primary),
                 ),
-              ),
+                Builder(
+                  builder: (context) => IconButton(
+                    icon: const Icon(Icons.menu, size: 26),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  ),
+                ),
+              ],
             ],
           ),
         ),

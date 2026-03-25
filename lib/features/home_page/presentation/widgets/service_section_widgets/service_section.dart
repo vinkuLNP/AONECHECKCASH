@@ -19,22 +19,20 @@ class ServiceSection extends StatelessWidget {
           crossAxisCount = 3;
         }
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: services.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-              childAspectRatio: 0.9,
-            ),
-            itemBuilder: (context, index) {
-              return ServiceCard(item: services[index]);
-            },
+        return GridView.builder(
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: services.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+            childAspectRatio: 0.9,
           ),
+          itemBuilder: (context, index) {
+            return ServiceCard(item: services[index]);
+          },
         );
       },
     );
