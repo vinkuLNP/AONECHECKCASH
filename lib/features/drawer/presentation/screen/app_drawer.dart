@@ -14,6 +14,7 @@ class AppDrawer extends StatelessWidget {
     final provider = context.watch<DrawerProvider>();
 
     return Drawer(
+      backgroundColor: AppColors.heroColor,
       child: SafeArea(
         child: Column(
           children: [
@@ -37,13 +38,13 @@ class AppDrawer extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () => Navigator.of(context).pop(),
-                    child: const Icon(Icons.close, color: Colors.grey),
+                    child: const Icon(Icons.close, color: AppColors.textLight),
                   ),
                 ],
               ),
             ),
 
-            const Divider(),
+            Divider(color: AppColors.textLight.withValues(alpha: 0.5)),
 
             Expanded(
               child: ListView.builder(
@@ -102,6 +103,7 @@ class AppDrawer extends StatelessWidget {
                     text: AppStrings.callNow,
                     onPressed: () {},
                     isOutlined: true,
+                    textColor: AppColors.primary,
                     icon: Icon(Icons.phone, color: AppColors.primary),
                   ),
                   const SizedBox(height: 12),

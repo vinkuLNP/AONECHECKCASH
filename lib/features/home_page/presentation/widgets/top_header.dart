@@ -35,7 +35,7 @@ class TopHeader extends StatelessWidget {
           ),
         ),
         Container(
-          color: AppColors.whiteColor,
+          color: AppColors.primary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
@@ -44,14 +44,14 @@ class TopHeader extends StatelessWidget {
                 children: const [
                   AppText(
                     text: AppStrings.appName,
-                    color: AppColors.primary,
+                    color: AppColors.whiteColor,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                   SizedBox(height: 2),
                   AppText(
                     text: AppStrings.subtitle,
-                    color: Colors.grey,
+                    color: AppColors.lightWhite,
                     fontSize: 13,
                   ),
                 ],
@@ -64,11 +64,17 @@ class TopHeader extends StatelessWidget {
                   onPressed: () =>
                       Navigator.pushNamed(context, AppRoutes.login),
                   isOutlined: true,
-                  icon: Icon(Icons.person, color: AppColors.primary),
+                  outlinedColor: AppColors.primary,
+                  borderColor: AppColors.whiteColor,
+                  icon: Icon(Icons.person, color: AppColors.whiteColor),
                 ),
                 Builder(
                   builder: (context) => IconButton(
-                    icon: const Icon(Icons.menu, size: 26),
+                    icon: const Icon(
+                      Icons.menu,
+                      size: 26,
+                      color: AppColors.whiteColor,
+                    ),
                     onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
                 ),

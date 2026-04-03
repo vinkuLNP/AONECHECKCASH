@@ -1,9 +1,9 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
-import 'package:a1_check_cashers/core/constants/app_text_style.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/auth/presentation/auth_validator.dart';
+import 'package:a1_check_cashers/features/auth/presentation/widgets/auth_widgets.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/top_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,14 +19,13 @@ class SignupScreen extends StatelessWidget {
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  // final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.whyChooseWidgetColor,
+      backgroundColor: AppColors.heroColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -49,27 +48,13 @@ class SignupScreen extends StatelessWidget {
 
                       const AppText(
                         text: AppStrings.signupSubtitle,
-                        color: Colors.grey,
+                        color: AppColors.textLight,
                         textAlign: TextAlign.center,
                       ),
 
                       const SizedBox(height: 20),
 
-                      Container(
-                        constraints: const BoxConstraints(maxWidth: 400),
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 10,
-                              color: Colors.black.withValues(alpha: 0.05),
-                            ),
-                          ],
-                        ),
-
+                      authContainer(
                         child: Form(
                           key: _formKey,
                           child: Consumer<AuthProvider>(
@@ -290,35 +275,8 @@ class SignupScreen extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 16),
-
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: appTextStyle(color: Colors.grey),
-                            children: [
-                              TextSpan(text: AppStrings.termsPrefix),
-                              TextSpan(
-                                text: AppStrings.terms,
-                                style: appTextStyle(color: Colors.red),
-                              ),
-                              TextSpan(text: " ${AppStrings.and} "),
-                              TextSpan(
-                                text: AppStrings.privacy,
-                                style: appTextStyle(color: Colors.red),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      AppButton(
-                        width: 200,
-                        text: AppStrings.backToHomePage,
-                        onPressed: () => Navigator.pop(context),
-                        isOutlined: true,
-                        icon: Icon(Icons.arrow_back, color: AppColors.primary),
-                      ),
+                      termsAndPrivacy(),
+                      backToHomeButton(context),
                       SizedBox(height: 20),
                     ],
                   ),

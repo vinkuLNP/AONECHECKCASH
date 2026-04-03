@@ -11,7 +11,9 @@ class AppInputField extends StatelessWidget {
   final String? Function(String?)? validator;
   final Function(String?)? onChanged;
   final Function(String?)? onFieldSubmitted;
-
+  final Color? fillColor;
+  final Color? borderColor;
+  final Color? focusColor;
   final String? hint;
   final int? maxLength;
   final int? maxLines;
@@ -40,6 +42,9 @@ class AppInputField extends StatelessWidget {
     this.onFieldSubmitted,
     this.isDense = false,
     this.readOnly = false,
+    this.fillColor,
+    this.borderColor,
+    this.focusColor,
   });
 
   @override
@@ -70,12 +75,13 @@ class AppInputField extends StatelessWidget {
             counterText: '',
             hintText: hint,
             filled: isDense || readOnly,
-
-            fillColor: isDense
-                ? Colors.white
-                : readOnly
-                ? Theme.of(context).highlightColor.withValues(alpha: 0.4)
-                : Theme.of(context).hintColor,
+            fillColor:
+                fillColor ??
+                (isDense
+                    ? Colors.white
+                    : readOnly
+                    ? Theme.of(context).highlightColor.withValues(alpha: 0.4)
+                    : Theme.of(context).hintColor),
             errorStyle: appTextStyle(fontSize: 12, color: AppColors.primary),
             hintStyle: appTextStyle(
               fontSize: 13,
@@ -85,13 +91,15 @@ class AppInputField extends StatelessWidget {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: isDense ? const Color(0xFFE5E7EB) : Colors.grey,
+                color:
+                    borderColor ??
+                    (isDense ? const Color(0xFFE5E7EB) : Colors.grey),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(
-                color: AppColors.authThemeColor,
+              borderSide: BorderSide(
+                color: focusColor ?? AppColors.authThemeColor,
                 width: 2,
               ),
             ),

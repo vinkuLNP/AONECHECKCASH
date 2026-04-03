@@ -12,7 +12,7 @@ class HeroWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final zipController = TextEditingController();
     return Container(
-      color: AppColors.heroWidgetBackground,
+      color: AppColors.heroColor,
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,78 +36,84 @@ class HeroWidget extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.06),
-                  blurRadius: 18,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                AppInputField(
+          Row(
+            children: [
+              Flexible(
+                flex: 2,
+                child: AppInputField(
                   label: "",
+                  fillColor: AppColors.whiteColor.withValues(alpha: 0.7),
+                  borderColor: AppColors.whiteColor.withValues(alpha: 0.7),
+                  focusColor: AppColors.whiteColor.withValues(alpha: 0.7),
                   controller: zipController,
                   hint: AppStrings.enterZip,
                   isDense: true,
                   keyboardType: TextInputType.number,
                 ),
+              ),
 
-                const SizedBox(height: 14),
+              const SizedBox(width: 10),
 
-                AppButton(
-                  text: AppStrings.findStore,
-                  icon: const Icon(Icons.location_on, color: Colors.white),
-                  onPressed: () {},
-                ),
+              Flexible(
+                flex: 1,
+                child: AppButton(text: AppStrings.findStore, onPressed: () {}),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
 
-                const SizedBox(height: 12),
-
-                GestureDetector(
-                  onTap: () {},
-                  child: const Row(
-                    children: [
-                      Icon(Icons.near_me, size: 18, color: AppColors.primary),
-                      SizedBox(width: 6),
-                      AppText(
-                        text: AppStrings.useMyLocation,
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
+          GestureDetector(
+            onTap: () {},
+            child: const Row(
+              children: [
+                Icon(Icons.location_on, size: 16, color: AppColors.primary),
+                SizedBox(width: 6),
+                AppText(
+                  text: AppStrings.useMyLocation,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.primary,
+                  fontSize: 13,
                 ),
               ],
             ),
           ),
-
           const SizedBox(height: 20),
-
-          AppButton(
-            text: AppStrings.getDirections,
-            isOutlined: true,
-            borderColor: AppColors.primary,
-            textColor: AppColors.primary,
-            outlinedColor: AppColors.heroWidgetBackground,
-            icon: const Icon(Icons.location_on, color: AppColors.primary),
-          ),
-          const SizedBox(height: 12),
-
-          AppButton(
-            text: AppStrings.callNow,
-            isOutlined: true,
-            outlinedColor: AppColors.heroWidgetBackground,
-            borderColor: AppColors.primary,
-            icon: const Icon(Icons.phone, color: AppColors.primary),
+          Row(
+            children: [
+              Expanded(
+                child: AppButton(
+                  text: AppStrings.getDirections,
+                  isOutlined: true,
+                  borderColor: AppColors.primary,
+                  textColor: AppColors.whiteColor,
+                  outlinedColor: AppColors.primary,
+                  icon: const Icon(
+                    Icons.location_on,
+                    color: AppColors.whiteColor,
+                    size: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: AppButton(
+                  text: AppStrings.callNow,
+                  isOutlined: true,
+                  textColor: AppColors.whiteColor,
+                  outlinedColor: AppColors.primary,
+                  borderColor: AppColors.primary,
+                  icon: const Icon(
+                    Icons.phone,
+                    color: AppColors.whiteColor,
+                    size: 18,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 18),
-
           const Center(
             child: AppText(
               text: AppStrings.tagline,

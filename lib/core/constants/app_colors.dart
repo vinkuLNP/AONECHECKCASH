@@ -14,9 +14,11 @@ class AppColors {
   static const bg = Color(0xFFF5F6F8);
   static const primary = Color(0xFFE11D2E);
   static const textDark = Color(0xFF111827);
-  static const textLight = Color(0xFF6B7280);
+  // static const textLight = Color(0xFF6B7280);
   static const heroWidgetBackground = Color(0xFFF6F3F2);
   static const primaryDark = Color(0xFFC62828);
   static const lightWhite = Color(0xFFFDECEC);
-    static const whyChooseWidgetColor = Color(0xFFF5F5F5);
+  static const whyChooseWidgetColor = Color(0xFFF5F5F5);
+  static const textLight = Color.fromARGB(255, 71, 71, 72);
+  static const heroColor = Color.fromARGB(255, 236, 202, 206);
 }

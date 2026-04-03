@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
   final String text;
-  final Color? color;
+  final Color? color, decorationColor;
   final double fontSize;
   final FontWeight fontWeight;
   final TextAlign textAlign;
@@ -25,6 +25,7 @@ class AppText extends StatelessWidget {
     this.height = 1.5,
     this.fontStyle = FontStyle.normal,
     this.decoration,
+    this.decorationColor,
   });
 
   @override
@@ -41,6 +42,7 @@ class AppText extends StatelessWidget {
         height: height,
         fontStyle: fontStyle,
         decoration: decoration,
+        decorationColor: decorationColor ?? Theme.of(context).hintColor,
       ),
     );
   }

@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
         SliverAppBar(
           pinned: true,
           automaticallyImplyLeading: false,
-          backgroundColor: AppColors.whiteColor,
+          backgroundColor: AppColors.heroColor,
           elevation: 2,
           toolbarHeight: 144,
           flexibleSpace: SafeArea(
@@ -25,7 +25,7 @@ class HomeView extends StatelessWidget {
           delegate: SliverChildListDelegate([
             HeroWidget(),
             ServiceSection(),
-         /*   WhyChoose(),
+            /*   WhyChoose(),
             HighlightSection(),
             MoneyServicesCarouselSection(),
             EverydayServicesQuickSection(),
@@ -35,7 +35,7 @@ class HomeView extends StatelessWidget {
             AutoServicesSection(),
             CareersStripSection(),
             CustomerSupportSection(),*/
-            SizedBox(height: 60),
+            Container(color: AppColors.heroColor, height: 60),
           ]),
         ),
       ],

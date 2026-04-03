@@ -60,7 +60,7 @@ class AppButton extends StatelessWidget {
               if (icon != null) ...[icon!, const SizedBox(width: 8)],
               AppText(
                 text: text,
-                color: isOutlined ? borderColor : textColor,
+                color: textColor,
                 fontWeight: FontWeight.w600,
               ),
             ],

@@ -31,7 +31,7 @@ class _ServiceCardState extends State<ServiceCard> {
         margin: const EdgeInsets.all(4),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.whiteColor,
+          color: AppColors.whiteColor.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
@@ -44,39 +44,39 @@ class _ServiceCardState extends State<ServiceCard> {
         ),
 
         child: Transform.scale(
-    scale: isPressed ? 0.97 : 1.0,
+          scale: isPressed ? 0.97 : 1.0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.lightWhite,
+                  color: const Color.fromARGB(255, 243, 215, 215),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(widget.item.icon, color: AppColors.primary),
               ),
-          
+
               const SizedBox(height: 12),
-          
+
               AppText(
                 text: widget.item.title,
                 textAlign: TextAlign.center,
                 fontWeight: FontWeight.w700,
                 fontSize: 16,
               ),
-          
+
               const SizedBox(height: 6),
-          
+
               AppText(
                 text: widget.item.desc,
                 textAlign: TextAlign.center,
                 fontSize: 13,
                 color: AppColors.textLight,
               ),
-          
+
               const Spacer(),
-          
+
               InkWell(
                 onTap: () {},
                 borderRadius: BorderRadius.circular(12),
