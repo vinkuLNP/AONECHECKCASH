@@ -1,3 +1,4 @@
+import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/features/home_page/data/data_sources/customer_support_data.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/customer_support_widgets/support_card.dart';
@@ -32,7 +33,7 @@ class CustomerSupportSection extends StatelessWidget {
           AppText(
             text: AppStrings.contactA1,
             fontSize: 15,
-            color: const Color(0xFF6B7280),
+            color: AppColors.textLight,
           ),
 
           const SizedBox(height: 22),

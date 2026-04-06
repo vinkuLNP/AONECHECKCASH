@@ -1,6 +1,7 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
+import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_strings.dart';
 
@@ -11,7 +12,7 @@ class HeroWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final zipController = TextEditingController();
     return Container(
-      color: const Color(0xFFF6F3F2),
+      color: AppColors.heroColor,
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,7 +22,7 @@ class HeroWidget extends StatelessWidget {
             fontSize: 30,
             fontWeight: FontWeight.w800,
             height: 1.2,
-            color: Color(0xFF111827),
+            color: AppColors.primary,
           ),
 
           const SizedBox(height: 12),
@@ -30,88 +31,94 @@ class HeroWidget extends StatelessWidget {
             text: AppStrings.heroSubtitle,
             fontSize: 15,
             height: 1.5,
-            color: Color(0xFF6B7280),
+            color: AppColors.textLight,
           ),
 
           const SizedBox(height: 20),
 
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
-                  blurRadius: 18,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                AppInputField(
+          Row(
+            children: [
+              Flexible(
+                flex: 2,
+                child: AppInputField(
                   label: "",
+                  fillColor: AppColors.whiteColor.withValues(alpha: 0.7),
+                  borderColor: AppColors.whiteColor.withValues(alpha: 0.7),
+                  focusColor: AppColors.whiteColor.withValues(alpha: 0.7),
                   controller: zipController,
                   hint: AppStrings.enterZip,
                   isDense: true,
                   keyboardType: TextInputType.number,
                 ),
+              ),
 
-                const SizedBox(height: 14),
+              const SizedBox(width: 10),
 
-                AppButton(
-                  text: AppStrings.findStore,
-                  icon: const Icon(Icons.location_on, color: Colors.white),
-                  onPressed: () {},
-                ),
+              Flexible(
+                flex: 1,
+                child: AppButton(text: AppStrings.findStore, onPressed: () {}),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
 
-                const SizedBox(height: 12),
-
-                GestureDetector(
-                  onTap: () {},
-                  child: const Row(
-                    children: [
-                      Icon(Icons.near_me, size: 18, color: Colors.red),
-                      SizedBox(width: 6),
-                      AppText(
-                        text: AppStrings.useMyLocation,
-                        color: Colors.red,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
+          GestureDetector(
+            onTap: () {},
+            child: const Row(
+              children: [
+                Icon(Icons.location_on, size: 16, color: AppColors.primary),
+                SizedBox(width: 6),
+                AppText(
+                  text: AppStrings.useMyLocation,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.primary,
+                  fontSize: 13,
                 ),
               ],
             ),
           ),
-
           const SizedBox(height: 20),
-
-          AppButton(
-            text: AppStrings.getDirections,
-            isOutlined: true,
-            borderColor: Colors.red,
-            textColor: Colors.red,
-            outlinedColor: Color(0xFFF6F3F2),
-            icon: const Icon(Icons.location_on, color: Colors.red),
-          ),
-          const SizedBox(height: 12),
-
-          AppButton(
-            text: AppStrings.callNow,
-            isOutlined: true,
-            outlinedColor: Color(0xFFF6F3F2),
-            borderColor: Colors.red,
-            icon: const Icon(Icons.phone, color: Colors.red),
+          Row(
+            children: [
+              Expanded(
+                child: AppButton(
+                  text: AppStrings.getDirections,
+                  isOutlined: true,
+                  borderColor: AppColors.primary,
+                  textColor: AppColors.whiteColor,
+                  outlinedColor: AppColors.primary,
+                  icon: const Icon(
+                    Icons.location_on,
+                    color: AppColors.whiteColor,
+                    size: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: AppButton(
+                  text: AppStrings.callNow,
+                  isOutlined: true,
+                  textColor: AppColors.whiteColor,
+                  outlinedColor: AppColors.primary,
+                  borderColor: AppColors.primary,
+                  icon: const Icon(
+                    Icons.phone,
+                    color: AppColors.whiteColor,
+                    size: 18,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 18),
-
           const Center(
             child: AppText(
               text: AppStrings.tagline,
               fontSize: 13,
-              color: Color(0xFF6B7280),
+              color: AppColors.textLight,
             ),
           ),
         ],

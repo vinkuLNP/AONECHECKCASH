@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DrawerProvider extends ChangeNotifier {
   final DrawerLocalDataSource _dataSource = DrawerLocalDataSource();
 
-  late List<DrawerItem> _items = _dataSource.getDrawerItems();
+  late final List<DrawerItem> _items = _dataSource.getDrawerItems();
   List<DrawerItem> get items => _items;
 
   late DrawerItem _selectedItem = _items.first;
