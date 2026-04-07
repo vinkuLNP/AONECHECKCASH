@@ -155,7 +155,10 @@ class LoginScreen extends StatelessWidget {
                                         final isSuccess =
                                             message ==
                                             AppStrings.loginSuccessful;
-
+                                        Navigator.pushNamed(
+                                          context,
+                                          AppRoutes.imageViewer,
+                                        );
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(

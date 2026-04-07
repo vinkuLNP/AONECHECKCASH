@@ -1,5 +1,6 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
+import 'package:a1_check_cashers/core/constants/app_enum.dart';
 import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
@@ -21,6 +22,7 @@ class AppButton extends StatelessWidget {
   final double borderRadius;
   final EdgeInsets padding;
   final Widget? icon;
+  final IconPosition iconPosition;
 
   const AppButton({
     super.key,
@@ -38,6 +40,7 @@ class AppButton extends StatelessWidget {
     this.borderRadius = 12,
     this.width = double.infinity,
     this.icon,
+    this.iconPosition = IconPosition.prefix,
     this.padding = const EdgeInsets.all(8),
   });
 
@@ -57,12 +60,20 @@ class AppButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (icon != null) ...[icon!, const SizedBox(width: 8)],
+              if (icon != null && iconPosition == IconPosition.prefix) ...[
+                icon!,
+                const SizedBox(width: 8),
+              ],
+
               AppText(
                 text: text,
                 color: textColor,
                 fontWeight: FontWeight.w600,
               ),
+              if (icon != null && iconPosition == IconPosition.suffix) ...[
+                const SizedBox(width: 8),
+                icon!,
+              ],
             ],
           );
     return SizedBox(

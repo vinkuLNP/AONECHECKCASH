@@ -51,6 +51,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       user = await loginUseCase(email, password);
       return AppStrings.loginSuccessful;
+      
     } catch (e) {
       debugPrint("Login Error: $e");
       return _handleError(e);

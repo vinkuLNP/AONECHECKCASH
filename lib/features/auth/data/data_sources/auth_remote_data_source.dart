@@ -1,20 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
+import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
+import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class AuthRemoteDataSource {
-  final String appId = "69c0e18a8116b36bb6987016";
-  final String apiKey = "74a47d63-f749-410e-8020-2ecfe5fe4c4d";
-
   Future<UserModel> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse("https://api.knack.com/v1/applications/$appId/session"),
-      headers: {
-        "X-Knack-Application-Id": appId,
-        "X-Knack-REST-API-Key": "knack",
-        "Content-Type": "application/json",
-      },
+      Uri.parse(ApiEndpoints.login),
+      headers: ApiHeaders.loginHeaders(),
       body: jsonEncode({"email": email, "password": password}),
     );
 
@@ -31,16 +27,12 @@ class AuthRemoteDataSource {
 
   Future<UserModel> signup(String email, String password, String name) async {
     final response = await http.post(
-      Uri.parse("https://api.knack.com/v1/objects/object_4/records"),
-      headers: {
-        "X-Knack-Application-Id": appId,
-        "X-Knack-REST-API-Key": apiKey,
-        "Content-Type": "application/json",
-      },
+      Uri.parse(ApiEndpoints.signup),
+      headers: ApiHeaders.jsonHeaders(),
       body: jsonEncode({
-        "field_31": email,
-        "field_32": password,
-        "field_30": {"first": name, "last": ""},
+        KnackFields.email: email,
+        KnackFields.password: password,
+        KnackFields.name: {"first": name, "last": ""},
       }),
     );
     log(response.body.toString());
