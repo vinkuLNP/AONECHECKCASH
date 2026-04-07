@@ -13,7 +13,7 @@ class AppInputField extends StatelessWidget {
   final Function(String?)? onFieldSubmitted;
   final Color? fillColor;
   final Color? borderColor;
-  final Color? focusColor;
+  final Color? focusColor, labelColor;
   final String? hint;
   final int? maxLength;
   final int? maxLines;
@@ -24,7 +24,7 @@ class AppInputField extends StatelessWidget {
 
   final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
-  final bool isDense;
+  final bool isDense, fillTextField;
   const AppInputField({
     required this.label,
     required this.controller,
@@ -42,6 +42,8 @@ class AppInputField extends StatelessWidget {
     this.onFieldSubmitted,
     this.isDense = false,
     this.readOnly = false,
+    this.fillTextField = false,
+    this.labelColor = AppColors.textDark,
     this.fillColor,
     this.borderColor,
     this.focusColor,
@@ -53,7 +55,12 @@ class AppInputField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (!isDense) ...[
-          AppText(text: label, fontWeight: FontWeight.w400, fontSize: 14),
+          AppText(
+            text: label,
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+            color: labelColor,
+          ),
           const SizedBox(height: 8),
         ],
         TextFormField(
@@ -74,7 +81,7 @@ class AppInputField extends StatelessWidget {
           decoration: InputDecoration(
             counterText: '',
             hintText: hint,
-            filled: isDense || readOnly,
+            filled: isDense || readOnly || fillTextField,
             fillColor:
                 fillColor ??
                 (isDense

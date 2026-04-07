@@ -189,6 +189,24 @@ class AppStrings {
   static const String confirmPasswordRequired = "Confirm password is required";
   static const String passwordMismatch = "Passwords do not match";
   static const String invalidName = "Enter a valid name";
-static const String emailAlreadyExists = "Email already registered";
-static const String noInternet = "No internet connection";
+  static const String emailAlreadyExists = "Email already registered";
+  static const String noInternet = "No internet connection";
+  static const uploadDocument = "Upload Document";
+  static const editDocument = "Edit Document";
+  static const camera = "Camera";
+  static const gallery = "Gallery";
+  static const descriptionLabel = "Description / Notes";
+  static const submit = "Submit";
+  static const update = "Update";
+  static const uploadHint = "Tap to upload image";
+  static const documents = "Documents";
+  static const uploaded = "uploaded";
+  static const noDocuments = "No Documents";
+  static const uploadHintDescription =
+      "Upload cheque or bank documents for verification";
+  static const edit = "Edit";
+  static const delete = "Delete";
+  static const uploadedRecently = "Uploaded recently";
+  static const keyEdit = "edit";
+  static const keyDelete = "delete";
 }
