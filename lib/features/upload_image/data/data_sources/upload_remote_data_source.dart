@@ -26,11 +26,16 @@ class UploadRemoteDataSource {
     return null;
   }
 
-  Future<bool> createDocument(String description, String fileId) async {
+  Future<bool> createDocument(
+    String description,
+    String fileId,
+    String userId,
+  ) async {
     final body = {
       KnackFields.description: description,
       KnackFields.image: fileId,
       KnackFields.status: "Pending",
+      KnackFields.userId: userId,
     };
 
     final response = await http.post(
@@ -42,11 +47,16 @@ class UploadRemoteDataSource {
     return response.statusCode == 200 || response.statusCode == 201;
   }
 
-  Future<List<ItemModel>> fetchDocuments() async {
-    final response = await http.get(
-      Uri.parse(ApiEndpoints.documents),
-      headers: ApiHeaders.jsonHeaders(),
+  Future<List<ItemModel>> fetchDocuments(String userId) async {
+    final uri = Uri.parse(ApiEndpoints.documents)
+    .replace(
+      queryParameters: {
+        "filters": jsonEncode([
+          {"field": KnackFields.userId, "operator": "is", "value": userId},
+        ]),
+      },
     );
+    final response = await http.get(uri, headers: ApiHeaders.jsonHeaders());
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -55,5 +65,33 @@ class UploadRemoteDataSource {
       );
     }
     return [];
+  }
+
+  Future<bool> updateDocument(
+    String id,
+    String description,
+    String fileId,
+  ) async {
+    final body = {
+      KnackFields.description: description,
+      KnackFields.image: fileId,
+    };
+
+    final response = await http.put(
+      Uri.parse("${ApiEndpoints.documents}/$id"),
+      headers: ApiHeaders.jsonHeaders(),
+      body: jsonEncode(body),
+    );
+
+    return response.statusCode == 200;
+  }
+
+  Future<bool> deleteDocument(String id) async {
+    final response = await http.delete(
+      Uri.parse("${ApiEndpoints.documents}/$id"),
+      headers: ApiHeaders.jsonHeaders(),
+    );
+
+    return response.statusCode == 200;
   }
 }
