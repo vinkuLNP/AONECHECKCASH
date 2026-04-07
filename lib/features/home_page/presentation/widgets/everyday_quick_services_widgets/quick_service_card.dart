@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class QuickServiceCard extends StatelessWidget {
   final QuickServiceEntity item;
 
-  const QuickServiceCard({required this.item});
+  const QuickServiceCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class QuickServiceCard extends StatelessWidget {
         border: Border.all(color: const Color(0xFFEAEAEA)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 14,
             offset: const Offset(0, 6),
           ),
@@ -31,7 +31,7 @@ class QuickServiceCard extends StatelessWidget {
             height: 56,
             width: 56,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.10),
+              color: AppColors.primary.withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(item.icon, color: AppColors.primary, size: 28),

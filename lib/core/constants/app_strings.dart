@@ -145,4 +145,68 @@ class AppStrings {
       'Contact A1 Check Cashing for questions about services, store locations, careers, or general support.';
 
   static const contactUs = '$contact Us';
+  static const welcomeBack = "Welcome back";
+  static const signInSubtitle = "Sign in to access your account";
+  static const email = "Email Address";
+  static const password = "Password";
+  static const signIn = "Sign In";
+  static const rememberMe = "Remember me";
+  static const forgotPassword = "Forgot password?";
+  static const noAccount = "Don't have an account? ";
+  static const signUp = "Sign Up";
+  static const termsPrefix = "By signing in, you agree to our ";
+  static const terms = "Terms of Service";
+  static const privacy = "Privacy Policy";
+  static const enterYourEmail = "Enter your email";
+  static const or = "OR";
+  static const and = "and";
+  static const backToHomePage = "Back to Home Page";
+  static const loginSuccessful = "Login successful!";
+
+  static const String createAccount = "Create Account";
+  static const String signupSubtitle = "Join A1 Check Cashing today";
+
+  static const String signupSuccessful = "Account created successfully";
+  static const String signupFailed = "Signup failed";
+  static const String loginFailed = "Login failed";
+  static const String smthngWntWrong = "Soemthing went wrong";
+  static const String alreadyHaveAccount = "Already have an account? ";
+  static const String fullName = "Full Name";
+  static const String phone = "Phone Number";
+  static const String confirmPassword = "Confirm Password";
+  static const String enterFullName = "Enter your full name";
+  static const String enterPhone = "(555) 123-4567";
+  static const String createPassword = "Create a password";
+  static const String confirmYourPassword = "Confirm your password";
+  static const String nameRequired = "Full name is required";
+  static const String emailRequired = "Email is required";
+  static const String invalidEmail = "Enter a valid email";
+  static const String phoneRequired = "Phone number is required";
+  static const String invalidPhone = "Enter a valid phone number";
+  static const String passwordRequired = "Password is required";
+  static const String passwordMinLength =
+      "Password must be at least 6 characters";
+  static const String confirmPasswordRequired = "Confirm password is required";
+  static const String passwordMismatch = "Passwords do not match";
+  static const String invalidName = "Enter a valid name";
+  static const String emailAlreadyExists = "Email already registered";
+  static const String noInternet = "No internet connection";
+  static const uploadDocument = "Upload Document";
+  static const editDocument = "Edit Document";
+  static const camera = "Camera";
+  static const gallery = "Gallery";
+  static const descriptionLabel = "Description / Notes";
+  static const submit = "Submit";
+  static const update = "Update";
+  static const uploadHint = "Tap to upload image";
+  static const documents = "Documents";
+  static const uploaded = "uploaded";
+  static const noDocuments = "No Documents";
+  static const uploadHintDescription =
+      "Upload cheque or bank documents for verification";
+  static const edit = "Edit";
+  static const delete = "Delete";
+  static const uploadedRecently = "Uploaded recently";
+  static const keyEdit = "edit";
+  static const keyDelete = "delete";
 }

@@ -1,3 +1,4 @@
+import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
@@ -13,7 +14,7 @@ class CareersStripSection extends StatelessWidget {
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: const Color(0xFF111827),
+        color:  AppColors.textDark,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

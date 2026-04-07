@@ -33,7 +33,7 @@ class HighlightSection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFFFDECEC),
+              color: AppColors.lightWhite,
               borderRadius: BorderRadius.circular(20),
             ),
             child: const AppText(
@@ -49,7 +49,7 @@ class HighlightSection extends StatelessWidget {
             text: AppStrings.highlightTitle,
             fontSize: 26,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF111827),
+            color: AppColors.textDark,
           ),
 
           const SizedBox(height: 10),
@@ -58,7 +58,7 @@ class HighlightSection extends StatelessWidget {
             text: AppStrings.highlightDesc,
             fontSize: 15,
             height: 1.6,
-            color: Color(0xFF6B7280),
+            color: AppColors.textLight,
           ),
 
           const SizedBox(height: 16),
@@ -72,7 +72,7 @@ class HighlightSection extends StatelessWidget {
                       width: 26,
                       height: 26,
                       decoration: const BoxDecoration(
-                        color: Color(0xFFFDECEC),
+                        color: AppColors.lightWhite,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
