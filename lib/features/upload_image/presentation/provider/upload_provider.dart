@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
+import 'package:a1_check_cashers/core/utils/image_compressor.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/item_entity.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/create_document_usecase.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/delete_document_usecase.dart';
@@ -61,11 +61,15 @@ class UploadProvider extends ChangeNotifier {
     String? fileId;
 
     if (image != null) {
-      fileId = await uploadImage(image);
+      final File? compressed = await ImageCompressor.compress(image);
+
+      final File fileToUpload = compressed ?? image;
+
+      fileId = await uploadImage(fileToUpload);
     }
 
     if (image == null && existingFileId != null) {
-      fileId =existingFileId; 
+      fileId = existingFileId;
     }
 
     bool success;

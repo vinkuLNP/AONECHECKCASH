@@ -3,9 +3,11 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
+import 'package:a1_check_cashers/core/utils/app_toast.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/item_entity.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/provider/upload_provider.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/screens/upload_document_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -163,7 +165,18 @@ class ImageViewerScreen extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   child: item.imageUrl.isNotEmpty
-                      ? Image.network(item.imageUrl, fit: BoxFit.cover)
+                      ? CachedNetworkImage(
+                          imageUrl: item.imageUrl,
+                          fit: BoxFit.cover,
+
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.broken_image),
+
+                          fadeInDuration: const Duration(milliseconds: 300),
+                        )
                       : const Icon(Icons.image_not_supported),
                 ),
               ),
@@ -194,6 +207,9 @@ class ImageViewerScreen extends StatelessWidget {
                       );
                     } else {
                       context.read<UploadProvider>().deleteItem(item.id);
+                      AppToast.show(
+                        "${item.description} ${AppStrings.deleted}",
+                      );
                     }
                   },
                   itemBuilder: (_) => const [
@@ -232,11 +248,11 @@ class ImageViewerScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.access_time, size: 14, color: Colors.grey),
                       SizedBox(width: 4),
                       AppText(
-                        text: AppStrings.uploadedRecently,
+                        text: "${AppStrings.uploadedOn} ${item.createdAt}",
                         color: Colors.grey,
                         fontSize: 12,
                       ),

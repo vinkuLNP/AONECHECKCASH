@@ -206,7 +206,11 @@ class AppStrings {
       "Upload cheque or bank documents for verification";
   static const edit = "Edit";
   static const delete = "Delete";
-  static const uploadedRecently = "Uploaded recently";
+  static const uploadedOn = "Uploaded on";
   static const keyEdit = "edit";
   static const keyDelete = "delete";
+  static const deleted = "deleted";
+  static const documentUpdated = "Document updated successfully";
+  static const documentUploaded = "Document uploaded successfully";
+
 }
