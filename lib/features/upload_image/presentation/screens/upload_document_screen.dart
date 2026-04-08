@@ -4,6 +4,7 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/utils/app_toast.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/item_entity.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/provider/upload_provider.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,7 @@ class _UploadScreenState extends State<UploadScreen> {
 
   void save() async {
     final provider = context.read<UploadProvider>();
+    final isUpdate = widget.item != null;
     final success = await provider.saveDocument(
       id: widget.item?.id,
       description: controller.text,
@@ -89,7 +91,12 @@ class _UploadScreenState extends State<UploadScreen> {
       existingFileId: widget.item?.fileId,
     );
     if (success && mounted) {
+      AppToast.show(
+        isUpdate ? AppStrings.documentUpdated : AppStrings.documentUploaded,
+      );
       Navigator.pop(context);
+    } else {
+      AppToast.show(AppStrings.smthngWntWrong, isError: true);
     }
   }
 

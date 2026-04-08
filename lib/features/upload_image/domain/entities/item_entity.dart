@@ -4,6 +4,7 @@ class Item {
   String description;
   String status;
   String fileId;
+  String createdAt;
 
   Item({
     required this.id,
@@ -11,5 +12,6 @@ class Item {
     required this.description,
     required this.status,
     required this.fileId,
+    required this.createdAt,
   });
 }
