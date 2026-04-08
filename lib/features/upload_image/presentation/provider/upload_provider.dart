@@ -41,54 +41,6 @@ class UploadProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<bool> saveDocument({
-  //   String? id,
-  //   required String description,
-  //   File? image,
-  //   String? existingImage,
-  // }) async {
-  //   isLoading = true;
-  //   notifyListeners();
-
-  //   final userId = await SessionManager.getUserId();
-
-  //   if (userId == null) {
-  //     isLoading = false;
-  //     notifyListeners();
-  //     return false;
-  //   }
-
-  //   String? fileId = existingImage;
-
-  //   if (image != null) {
-  //     fileId = await uploadImage(image);
-  //   }
-
-  //   bool success;
-
-  //  if (id != null) {
-  //   // ✅ UPDATE EXISTING DOCUMENT
-  //   success = await createDoc.updateDocument(
-  //     id,
-  //     description,
-  //     fileId ?? "",
-  //   );
-  // } else {
-  //   // ✅ CREATE NEW DOCUMENT
-  //   success = await createDoc(
-  //     description,
-  //     fileId ?? "",
-  //     userId,
-  //   );
-  // }
-
-  //   await loadDocuments();
-
-  //   isLoading = false;
-  //   notifyListeners();
-
-  //   return success;
-  // }
   Future<bool> saveDocument({
     String? id,
     required String description,
@@ -108,23 +60,19 @@ class UploadProvider extends ChangeNotifier {
 
     String? fileId;
 
-    /// 🔥 If new image selected → upload
     if (image != null) {
       fileId = await uploadImage(image);
     }
 
-    /// 🔥 If editing & no new image → KEEP OLD FILE ID
     if (image == null && existingFileId != null) {
-      fileId =existingFileId; // 👈 IMPORTANT
+      fileId =existingFileId; 
     }
 
     bool success;
 
     if (id != null) {
-      /// ✅ UPDATE
       success = await updateDoc(id, description, fileId ?? "");
     } else {
-      /// ✅ CREATE
       success = await createDoc(description, fileId ?? "", userId);
     }
 
