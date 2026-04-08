@@ -86,7 +86,7 @@ class _UploadScreenState extends State<UploadScreen> {
       id: widget.item?.id,
       description: controller.text,
       image: image,
-      existingImage: widget.item?.imageUrl,
+      existingFileId: widget.item?.fileId,
     );
     if (success && mounted) {
       Navigator.pop(context);

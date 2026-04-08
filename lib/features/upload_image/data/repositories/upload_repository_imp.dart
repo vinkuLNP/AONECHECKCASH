@@ -15,12 +15,21 @@ class UploadRepositoryImpl implements UploadRepository {
   }
 
   @override
-  Future<bool> createDocument(String description, String fileId) {
-    return remote.createDocument(description, fileId);
+  Future<bool> createDocument(String description, String fileId,String userId) {
+    return remote.createDocument(description, fileId,userId);
   }
 
   @override
-  Future<List<Item>> fetchDocuments() async {
-    return await remote.fetchDocuments();
+  Future<List<Item>> fetchDocuments(String userId) async {
+    return await remote.fetchDocuments(userId);
   }
+   @override
+  Future<bool> updateDocument(String docId, String description, String fileId) {
+    return remote.updateDocument(docId, description, fileId);
+  } 
+  @override
+  Future<bool> deleteDocuments(String docId) {
+    return remote.deleteDocument(docId);
+  }
+ 
 }

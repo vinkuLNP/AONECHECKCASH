@@ -168,8 +168,8 @@ class AppStrings {
 
   static const String signupSuccessful = "Account created successfully";
   static const String signupFailed = "Signup failed";
-  static const String loginFailed = "Login failed";
-  static const String smthngWntWrong = "Soemthing went wrong";
+  static const String loginFailed = "Email or password incorrect";
+  static const String smthngWntWrong = "Something went wrong";
   static const String alreadyHaveAccount = "Already have an account? ";
   static const String fullName = "Full Name";
   static const String phone = "Phone Number";

@@ -3,6 +3,7 @@ class KnackFields {
   static const description = "field_37";
   static const image = "field_39";
   static const status = "field_40";
+  static const userId = "field_49";
 
   // USER
   static const email = "field_2";

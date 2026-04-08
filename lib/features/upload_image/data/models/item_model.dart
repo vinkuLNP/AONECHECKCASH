@@ -6,15 +6,18 @@ class ItemModel extends Item {
     required super.description,
     required super.imageUrl,
     required super.status,
+    required super.fileId,
   });
 
   factory ItemModel.fromJson(Map<String, dynamic> json) {
     String imageUrl = "";
+    String fileId = "";
 
     final imageRaw = json["field_39_raw"];
 
     if (imageRaw is Map) {
       imageUrl = imageRaw["signed_url_inline"] ?? imageRaw["url"] ?? "";
+      fileId = imageRaw["id"] ?? ""; // 🔥 IMPORTANT (this is actual fileId)
     }
 
     return ItemModel(
@@ -22,6 +25,7 @@ class ItemModel extends Item {
       description: json["field_37"] ?? "",
       imageUrl: imageUrl,
       status: json["field_40"] ?? "Pending",
+      fileId: fileId,
     );
   }
 }

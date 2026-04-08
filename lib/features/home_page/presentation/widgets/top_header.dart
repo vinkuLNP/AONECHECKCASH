@@ -2,6 +2,7 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
+import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_strings.dart';
 
@@ -61,8 +62,15 @@ class TopHeader extends StatelessWidget {
                 AppButton(
                   width: 100,
                   text: AppStrings.signIn,
-                  onPressed: () =>
-                      Navigator.pushNamed(context, AppRoutes.login),
+                  onPressed: () async {
+                    final isLoggedIn = await SessionManager.isLoggedIn();
+                    if (isLoggedIn) {
+                      Navigator.pushNamed(context, AppRoutes.imageViewer);
+                    } else {
+                      Navigator.pushNamed(context, AppRoutes.login);
+                    }
+                  },
+
                   isOutlined: true,
                   outlinedColor: AppColors.primary,
                   borderColor: AppColors.whiteColor,

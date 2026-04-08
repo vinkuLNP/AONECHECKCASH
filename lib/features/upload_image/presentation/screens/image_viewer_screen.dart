@@ -193,7 +193,7 @@ class ImageViewerScreen extends StatelessWidget {
                         ),
                       );
                     } else {
-                      context.read<UploadProvider>().delete(index);
+                      context.read<UploadProvider>().deleteItem(item.id);
                     }
                   },
                   itemBuilder: (_) => const [
