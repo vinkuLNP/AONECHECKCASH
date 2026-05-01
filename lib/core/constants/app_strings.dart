@@ -1,29 +1,45 @@
 class AppStrings {
   static const appName = "A1";
-  static const subtitle = "Check Cashing";
+  static const subtitle = "Check Cashers";
 
   static const home = "Home";
+  static const westernUnion = "Western Union";
+
   static const checkCashing = "Check Cashing";
   static const moneyTransfer = "Money Transfer";
   static const moneyOrders = "Money Orders";
+  static const billPayments = "Bill Payments";
+  static const cash4Debit = "Cash 4 Debit(ATM)";
+
   static const billPay = "Bill Pay";
   static const prepaidCards = "Prepaid Cards";
+  static const nexsCard = "Nexscard";
+  static const wuCard = "WU Card";
+
   static const convenienceServices = "Convenience Services";
+  static const faxCopies = "Fax/Copies";
+  static const notary = "Notary";
+  static const postage = "Postage";
+
   static const auto = "Auto";
-  static const locations = "Locations";
+  static const money = "Money";
+
+  static const locations = "Store Locations";
   static const careers = "Careers";
   static const contact = "Contact";
 
   static const findStore = "Find a Store";
   static const callNow = "Call Now";
+  static const verifyCheckNow = "Verify My Check Now";
+
   static const language = "EN / ES";
 
-  static const openToday = "Open Today: 8:00 AM – 9:00 PM";
+  static const openToday = "Mon-Sat: 9AM – 8PM • Fri: 9AM – 9PM";
   static const nearestLocation = "Nearest Location: 77015";
 
   static const heroTitle = "Fast money services near you.";
   static const heroSubtitle =
-      "Check cashing, money transfer, money orders, bill pay, prepaid cards, and more — all in one place.";
+      "Check Cashing • Money Transfers • Money Orders • Bill Payments • Prepaid Cards & More — All in One Place";
 
   static const enterZip = "Enter Your ZIP Code";
   static const useMyLocation = "Use My Location";

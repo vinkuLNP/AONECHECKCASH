@@ -1,5 +1,6 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
+import 'package:a1_check_cashers/core/app_widgets/app_logo_header_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,33 +15,27 @@ class AppDrawer extends StatelessWidget {
     final provider = context.watch<DrawerProvider>();
 
     return Drawer(
-      backgroundColor: AppColors.heroColor,
+      backgroundColor: AppColors.whiteColor,
       child: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                        text: AppStrings.appName,
-                        color: AppColors.primary,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+            Container(
+              color: AppColors.whiteColor,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppLogoHeaderWidget(),
+                    InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: const Icon(
+                        Icons.close,
+                        color: AppColors.textLight,
                       ),
-                      SizedBox(height: 4),
-                      AppText(text: AppStrings.subtitle, fontSize: 14),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: const Icon(Icons.close, color: AppColors.textLight),
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -70,17 +65,59 @@ class AppDrawer extends StatelessWidget {
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: ListTile(
-                          title: AppText(
-                            text: item.title,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: AppText(
+                                text: item.title,
 
-                            color: isSelected
-                                ? AppColors.primary
-                                : Colors.black87,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.normal,
-                          ),
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : Colors.black87,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                              ),
+                              trailing: item.hasChildren
+                                  ? Icon(
+                                      provider.isExpanded(item)
+                                          ? Icons.expand_less
+                                          : Icons.expand_more,
+                                      color: Colors.black54,
+                                    )
+                                  : null,
+                              onTap: () {
+                                if (item.hasChildren) {
+                                  provider.toggleExpand(item);
+                                } else {
+                                  provider.selectItem(item);
+                                }
+                              },
+                            ),
+                            if (item.hasChildren && provider.isExpanded(item))
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Column(
+                                  children: item.subItems!.map((subItem) {
+                                    final isSubSelected =
+                                        subItem == provider.selectedItem;
+
+                                    return ListTile(
+                                      title: AppText(
+                                        text: subItem.title,
+                                        fontSize: 14,
+                                        color: isSubSelected
+                                            ? AppColors.primary
+                                            : Colors.black54,
+                                      ),
+                                      onTap: () {
+                                        provider.selectItem(subItem);
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),
@@ -100,11 +137,11 @@ class AppDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   AppButton(
-                    text: AppStrings.callNow,
+                    text: AppStrings.verifyCheckNow,
                     onPressed: () {},
                     isOutlined: true,
                     textColor: AppColors.primary,
-                    icon: Icon(Icons.phone, color: AppColors.primary),
+                    icon: Icon(Icons.check, color: AppColors.primary),
                   ),
                   const SizedBox(height: 12),
                   AppText(text: AppStrings.language),

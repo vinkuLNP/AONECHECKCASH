@@ -1,5 +1,7 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
+import 'package:a1_check_cashers/core/app_widgets/app_logo_header_widget.dart';
+import 'package:a1_check_cashers/core/constants/app_assets.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
@@ -40,23 +42,7 @@ class TopHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  AppText(
-                    text: AppStrings.appName,
-                    color: AppColors.whiteColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  SizedBox(height: 2),
-                  AppText(
-                    text: AppStrings.subtitle,
-                    color: AppColors.lightWhite,
-                    fontSize: 13,
-                  ),
-                ],
-              ),
+              const AppLogoHeaderWidget(textColor: true),
               if (showDrawer) ...[
                 const Spacer(),
                 AppButton(

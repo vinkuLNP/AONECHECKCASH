@@ -99,13 +99,13 @@ class HeroWidget extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: AppButton(
-                  text: AppStrings.callNow,
+                  text: AppStrings.verifyCheckNow,
                   isOutlined: true,
                   textColor: AppColors.whiteColor,
                   outlinedColor: AppColors.primary,
                   borderColor: AppColors.primary,
                   icon: const Icon(
-                    Icons.phone,
+                    Icons.check,
                     color: AppColors.whiteColor,
                     size: 18,
                   ),

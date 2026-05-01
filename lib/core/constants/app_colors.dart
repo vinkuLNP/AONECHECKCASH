@@ -12,13 +12,13 @@ class AppColors {
   static const Color premiumColor = Color.fromRGBO(200, 230, 201, 1);
   static const Color lightGrey = Color.fromRGBO(224, 224, 224, 1);
   static const bg = Color(0xFFF5F6F8);
-  static const primary = Color(0xFFE11D2E);
+  static const primary = Color(0xFFC41219);
   static const textDark = Color(0xFF111827);
   // static const textLight = Color(0xFF6B7280);
   static const heroWidgetBackground = Color(0xFFF6F3F2);
-  static const primaryDark = Color(0xFFC62828);
+  static const primaryDark = Color(0xFFC41219);
   static const lightWhite = Color(0xFFFDECEC);
   static const whyChooseWidgetColor = Color(0xFFF5F5F5);
   static const textLight = Color.fromARGB(255, 71, 71, 72);
-  static const heroColor = Color.fromARGB(255, 236, 202, 206);
+  static const heroColor = Color(0xFFF3D5E2);
 }

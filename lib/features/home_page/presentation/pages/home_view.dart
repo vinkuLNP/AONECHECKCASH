@@ -16,9 +16,9 @@ class HomeView extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: AppColors.heroColor,
           elevation: 2,
-          toolbarHeight: 144,
+          toolbarHeight: 160,
           flexibleSpace: SafeArea(
-            child: SizedBox(height: 144, child: TopHeader()),
+            child: SizedBox(height: 160, child: TopHeader()),
           ),
         ),
         SliverList(
