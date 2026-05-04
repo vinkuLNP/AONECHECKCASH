@@ -17,8 +17,12 @@ class AppColors {
   // static const textLight = Color(0xFF6B7280);
   static const heroWidgetBackground = Color(0xFFF6F3F2);
   static const primaryDark = Color(0xFFC41219);
+  static const darkRed = Color(0xFFA30F1A);
   static const lightWhite = Color(0xFFFDECEC);
   static const whyChooseWidgetColor = Color(0xFFF5F5F5);
   static const textLight = Color.fromARGB(255, 71, 71, 72);
   static const heroColor = Color(0xFFF3D5E2);
 }
+// C41219
+
+// #

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/item_entity.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/create_document_usecase.dart';
@@ -30,7 +30,7 @@ class UploadProvider extends ChangeNotifier {
   Future<void> loadDocuments() async {
     isLoading = true;
     notifyListeners();
-    final userId = await SessionManager.getUserId();
+    final userId = await SessionManager.getClientRecordId();
     if (userId == null) {
       items = [];
     } else {
@@ -44,13 +44,15 @@ class UploadProvider extends ChangeNotifier {
   Future<bool> saveDocument({
     String? id,
     required String description,
-    File? image,
-    String? existingFileId,
+    File? frontImage,
+    File? backImage,
+    String? existingFrontFileId,
+    String? existingBackFileId,
   }) async {
     isLoading = true;
     notifyListeners();
 
-    final userId = await SessionManager.getUserId();
+    final userId = await SessionManager.getClientRecordId();
 
     if (userId == null) {
       isLoading = false;
@@ -58,22 +60,38 @@ class UploadProvider extends ChangeNotifier {
       return false;
     }
 
-    String? fileId;
+    String? frontFileId;
+    String? backFileId;
 
-    if (image != null) {
-      fileId = await uploadImage(image);
+    if (frontImage != null) {
+      frontFileId = await uploadImage(frontImage, KnackFields.frontImage);
+    } else if (existingFrontFileId != null) {
+      frontFileId = existingFrontFileId;
+    } else {}
+
+    if (backImage != null) {
+      backFileId = await uploadImage(backImage, KnackFields.backImage);
+    } else if (existingBackFileId != null) {
+      backFileId = existingBackFileId;
+    } else {}
+
+    if ((frontFileId == null || frontFileId.isEmpty) ||
+        (backFileId == null || backFileId.isEmpty)) {
+      isLoading = false;
+      notifyListeners();
+      return false;
     }
 
-    if (image == null && existingFileId != null) {
-      fileId =existingFileId; 
-    }
+    bool success = false;
 
-    bool success;
-
-    if (id != null) {
-      success = await updateDoc(id, description, fileId ?? "");
-    } else {
-      success = await createDoc(description, fileId ?? "", userId);
+    try {
+      if (id != null) {
+        success = await updateDoc(id, description, frontFileId, backFileId);
+      } else {
+        success = await createDoc(description, frontFileId, backFileId, userId);
+      }
+    } catch (e) {
+      success = false;
     }
 
     await loadDocuments();

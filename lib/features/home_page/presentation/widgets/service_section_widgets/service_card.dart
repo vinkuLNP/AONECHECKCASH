@@ -63,7 +63,7 @@ class _ServiceCardState extends State<ServiceCard> {
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: isPressed
                       ? const Color.fromARGB(255, 235, 200, 200)

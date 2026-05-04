@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
-import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/item_entity.dart';
@@ -20,8 +19,11 @@ class UploadScreen extends StatefulWidget {
 }
 
 class _UploadScreenState extends State<UploadScreen> {
-  File? image;
-  String? networkImage;
+  File? frontImage;
+  File? backImage;
+
+  String? frontNetworkImage;
+  String? backNetworkImage;
   final controller = TextEditingController();
 
   @override
@@ -30,21 +32,31 @@ class _UploadScreenState extends State<UploadScreen> {
 
     if (widget.item != null) {
       controller.text = widget.item!.description;
-      networkImage = widget.item!.imageUrl;
+      frontNetworkImage = widget.item!.frontImageUrl.isNotEmpty
+          ? widget.item!.frontImageUrl
+          : widget.item!.backImageUrl;
+      backNetworkImage = widget.item!.backImageUrl.isNotEmpty
+          ? widget.item!.backImageUrl
+          : widget.item!.frontImageUrl;
     }
   }
 
-  Future pickImage(ImageSource source) async {
+  Future pickImage(ImageSource source, bool isFront) async {
     final picked = await ImagePicker().pickImage(source: source);
     if (picked != null) {
       setState(() {
-        image = File(picked.path);
-        networkImage = null;
+        if (isFront) {
+          frontImage = File(picked.path);
+          frontNetworkImage = null;
+        } else {
+          backImage = File(picked.path);
+          backNetworkImage = null;
+        }
       });
     }
   }
 
-  void showPicker() {
+  void showPicker(bool isFront) {
     showModalBottomSheet(
       context: context,
 
@@ -60,7 +72,7 @@ class _UploadScreenState extends State<UploadScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                pickImage(ImageSource.camera);
+                pickImage(ImageSource.camera, isFront);
               },
             ),
             ListTile(
@@ -70,7 +82,7 @@ class _UploadScreenState extends State<UploadScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                pickImage(ImageSource.gallery);
+                pickImage(ImageSource.gallery, isFront);
               },
             ),
             const SizedBox(height: 100),
@@ -85,8 +97,10 @@ class _UploadScreenState extends State<UploadScreen> {
     final success = await provider.saveDocument(
       id: widget.item?.id,
       description: controller.text,
-      image: image,
-      existingFileId: widget.item?.fileId,
+      frontImage: frontImage,
+      backImage: backImage,
+      existingFrontFileId: widget.item?.frontFileId,
+      existingBackFileId: widget.item?.backFileId,
     );
     if (success && mounted) {
       Navigator.pop(context);
@@ -117,28 +131,32 @@ class _UploadScreenState extends State<UploadScreen> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: showPicker,
-              child: Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.grey),
-                  color: Colors.white.withValues(alpha: 0.8),
-                ),
-                child: _buildImageView(),
+              onTap: () => showPicker(true),
+              child: containerImageBuild(
+                frontImage,
+                frontNetworkImage,
+                AppStrings.uploadFrontImage,
               ),
             ),
             const SizedBox(height: 20),
-            AppInputField(
-              label: AppStrings.descriptionLabel,
-              controller: controller,
-              fillColor: Colors.white.withValues(alpha: 0.8),
-              focusColor: Colors.white,
-              borderColor: Colors.white,
-              labelColor: AppColors.textLight,
-              fillTextField: true,
+            GestureDetector(
+              onTap: () => showPicker(false),
+              child: containerImageBuild(
+                backImage,
+                backNetworkImage,
+                AppStrings.uploadBackImage,
+              ),
             ),
+            // const SizedBox(height: 20),
+            // AppInputField(
+            //   label: AppStrings.descriptionLabel,
+            //   controller: controller,
+            //   fillColor: Colors.white.withValues(alpha: 0.8),
+            //   focusColor: Colors.white,
+            //   borderColor: Colors.white,
+            //   labelColor: AppColors.textLight,
+            //   fillTextField: true,
+            // ),
             const SizedBox(height: 20),
             AppButton(
               isLoading: provider.isLoading,
@@ -153,27 +171,40 @@ class _UploadScreenState extends State<UploadScreen> {
     );
   }
 
-  Widget _buildImageView() {
-    if (image != null) {
+  Widget containerImageBuild(File? file, String? network, String label) {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey),
+        color: Colors.white.withValues(alpha: 0.8),
+      ),
+      child: _buildImageView(file, network, label),
+    );
+  }
+
+  Widget _buildImageView(File? file, String? network, String label) {
+    if (file != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: Image.file(image!, fit: BoxFit.cover),
+        child: Image.file(file, fit: BoxFit.cover),
       );
     }
 
-    if (networkImage != null) {
+    if (network != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: Image.network(networkImage!, fit: BoxFit.cover),
+        child: Image.network(network, fit: BoxFit.cover),
       );
     }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         Icon(Icons.upload_file, size: 40, color: Colors.grey),
         SizedBox(height: 10),
-        AppText(text: AppStrings.uploadHint),
+        AppText(text: label),
       ],
     );
   }

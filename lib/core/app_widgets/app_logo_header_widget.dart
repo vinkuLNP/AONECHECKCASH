@@ -11,19 +11,23 @@ class AppLogoHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         SizedBox(
-          height: 50,
-          width: 50,
-          child: Image.asset(appLogo, height: 50, width: 50),
+          height: 60,
+          width: 60,
+          child: Image.asset(appLogo, height: 60, width: 60),
         ),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppText(
               text: AppStrings.subtitle.toUpperCase(),
               fontStyle: FontStyle.italic,
-              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
               color: textColor ? AppColors.whiteColor : AppColors.black,
             ),
             Row(
@@ -31,15 +35,16 @@ class AppLogoHeaderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: Image.asset(westernUnionLogo, height: 30, width: 30),
+                  height: 26,
+                  width: 26,
+                  child: Image.asset(westernUnionLogo, height: 26, width: 26),
                 ),
                 Column(
                   children: [
                     AppText(
                       text: AppStrings.westernUnion,
-                      fontSize: 14,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
                       color: textColor ? AppColors.whiteColor : AppColors.black,
                     ),
                     SizedBox(height: 2),

@@ -37,7 +37,7 @@ class AppStrings {
   static const openToday = "Mon-Sat: 9AM – 8PM • Fri: 9AM – 9PM";
   static const nearestLocation = "Nearest Location: 77015";
 
-  static const heroTitle = "Fast money services near you.";
+  static const heroTitle = "Fast Money Services Near You.";
   static const heroSubtitle =
       "Check Cashing • Money Transfers • Money Orders • Bill Payments • Prepaid Cards & More — All in One Place";
 
@@ -54,9 +54,9 @@ class AppStrings {
   static const moneyOrdersDesc = "A secure way to make payments.";
   static const billPayDesc = "Pay everyday bills quickly in-store.";
   static const businessCheckCashing = "Business Check Cashing";
-  static const businessCheckCashingDesc = "Business Check Cashing.";
+  static const businessCheckCashingDesc = "Fast solutions for business checks.";
   static const prepaidCardsDesc = "Reloadable card options for daily use.";
-  static const convenienceServicesDesc = "Convenience Services";
+  static const convenienceServicesDesc = "Fax, copy, transit cards, and more.";
   static const a1Auto = "A1 Auto";
   static const a1AutoDesc = "Explore used cars and related services.";
   static const learnMore = "Learn More";
@@ -161,7 +161,7 @@ class AppStrings {
       'Contact A1 Check Cashing for questions about services, store locations, careers, or general support.';
 
   static const contactUs = '$contact Us';
-  static const welcomeBack = "Welcome back";
+  static const welcomeBack = "Welcome Back";
   static const signInSubtitle = "Sign in to access your account";
   static const email = "Email Address";
   static const password = "Password";
@@ -200,6 +200,11 @@ class AppStrings {
   static const String phoneRequired = "Phone number is required";
   static const String invalidPhone = "Enter a valid phone number";
   static const String passwordRequired = "Password is required";
+  static const String mustIncludeUppercase =
+      "Must include at least one uppercase letter";
+  static const String mustIncludeNumber = "Must include at least one number";
+  static const String mustIncludeSpecialCharacter =
+      "Must include at least one special character";
   static const String passwordMinLength =
       "Password must be at least 6 characters";
   static const String confirmPasswordRequired = "Confirm password is required";
@@ -215,6 +220,9 @@ class AppStrings {
   static const submit = "Submit";
   static const update = "Update";
   static const uploadHint = "Tap to upload image";
+  static const uploadFrontImage = "Tap to upload Front Image of Document";
+  static const uploadBackImage = "Tap to upload Back Image of Document";
+
   static const documents = "Documents";
   static const uploaded = "uploaded";
   static const noDocuments = "No Documents";
