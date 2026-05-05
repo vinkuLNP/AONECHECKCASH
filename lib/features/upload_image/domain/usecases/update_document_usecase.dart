@@ -4,6 +4,6 @@ class UpdateDocumentsUseCase {
   final UploadRepository repo;
   UpdateDocumentsUseCase(this.repo);
 
-  Future<bool> call(String docId, String description, String fileId) =>
-      repo.updateDocument(docId, description, fileId);
+  Future<bool> call(String docId, String description, String frontFileId, String backFileId) =>
+      repo.updateDocument(docId, description, frontFileId, backFileId);
 }

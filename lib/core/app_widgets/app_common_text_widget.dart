@@ -32,6 +32,7 @@ class AppText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,

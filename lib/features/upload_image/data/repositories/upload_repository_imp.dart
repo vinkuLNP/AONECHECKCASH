@@ -10,13 +10,13 @@ class UploadRepositoryImpl implements UploadRepository {
   UploadRepositoryImpl(this.remote);
 
   @override
-  Future<String?> uploadImage(File file) {
-    return remote.uploadImage(file);
+  Future<String?> uploadImage(File file, String fieldKey) {
+    return remote.uploadImage(file, fieldKey);
   }
 
   @override
-  Future<bool> createDocument(String description, String fileId,String userId) {
-    return remote.createDocument(description, fileId,userId);
+  Future<bool> createDocument(String description, String frontFileId, String backFileId, String userId) {
+    return remote.createDocument(description, frontFileId, backFileId, userId);
   }
 
   @override
@@ -24,8 +24,8 @@ class UploadRepositoryImpl implements UploadRepository {
     return await remote.fetchDocuments(userId);
   }
    @override
-  Future<bool> updateDocument(String docId, String description, String fileId) {
-    return remote.updateDocument(docId, description, fileId);
+  Future<bool> updateDocument(String docId, String description, String frontFileId, String backFileId) {
+    return remote.updateDocument(docId, description, frontFileId, backFileId);
   } 
   @override
   Future<bool> deleteDocuments(String docId) {

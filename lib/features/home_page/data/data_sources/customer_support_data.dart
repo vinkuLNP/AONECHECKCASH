@@ -6,7 +6,10 @@ class CustomerSupportLocalData {
   static List<SupportItem> getItems() {
     return const [
       SupportItem(title: AppStrings.findStore, icon: Icons.storefront_outlined),
-      SupportItem(title: AppStrings.callNow, icon: Icons.call_outlined),
+      SupportItem(
+        title: AppStrings.verifyCheckNow,
+        icon: Icons.check_circle_outline,
+      ),
       SupportItem(
         title: AppStrings.contactUs,
         icon: Icons.mail_outline_rounded,

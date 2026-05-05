@@ -4,28 +4,43 @@ class ItemModel extends Item {
   ItemModel({
     required super.id,
     required super.description,
-    required super.imageUrl,
     required super.status,
-    required super.fileId,
+    required super.frontFileId,
+    required super.backFileId,
+    required super.frontImageUrl,
+    required super.backImageUrl,
   });
 
   factory ItemModel.fromJson(Map<String, dynamic> json) {
-    String imageUrl = "";
-    String fileId = "";
+    String frontImageUrl = "";
+    String backImageUrl = "";
 
-    final imageRaw = json["field_39_raw"];
+    String frontFileId = "";
+    String backFileId = "";
 
-    if (imageRaw is Map) {
-      imageUrl = imageRaw["signed_url_inline"] ?? imageRaw["url"] ?? "";
-      fileId = imageRaw["id"] ?? ""; // 🔥 IMPORTANT (this is actual fileId)
+    final frontRaw = json["field_62_raw"];
+
+    if (frontRaw is Map) {
+      frontImageUrl = frontRaw["signed_url_inline"] ?? frontRaw["url"] ?? "";
+      frontFileId = frontRaw["id"] ?? "";
     }
 
+    /// BACK IMAGE
+    final backRaw = json["field_63_raw"];
+
+    if (backRaw is Map) {
+      backImageUrl = backRaw["signed_url_inline"] ?? backRaw["url"] ?? "";
+      backFileId = backRaw["id"] ?? "";
+    }
     return ItemModel(
       id: json["id"].toString(),
       description: json["field_37"] ?? "",
-      imageUrl: imageUrl,
+      frontImageUrl: frontImageUrl,
+      backImageUrl: backImageUrl,
+      frontFileId: frontFileId,
+      backFileId: backFileId,
+
       status: json["field_40"] ?? "Pending",
-      fileId: fileId,
     );
   }
 }

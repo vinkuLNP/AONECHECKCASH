@@ -162,8 +162,8 @@ class ImageViewerScreen extends StatelessWidget {
                 ),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: item.imageUrl.isNotEmpty
-                      ? Image.network(item.imageUrl, fit: BoxFit.cover)
+                  child: item.frontImageUrl.isNotEmpty
+                      ? Image.network(item.frontImageUrl, fit: BoxFit.cover)
                       : const Icon(Icons.image_not_supported),
                 ),
               ),
