@@ -147,16 +147,6 @@ class _UploadScreenState extends State<UploadScreen> {
                 AppStrings.uploadBackImage,
               ),
             ),
-            // const SizedBox(height: 20),
-            // AppInputField(
-            //   label: AppStrings.descriptionLabel,
-            //   controller: controller,
-            //   fillColor: Colors.white.withValues(alpha: 0.8),
-            //   focusColor: Colors.white,
-            //   borderColor: Colors.white,
-            //   labelColor: AppColors.textLight,
-            //   fillTextField: true,
-            // ),
             const SizedBox(height: 20),
             AppButton(
               isLoading: provider.isLoading,

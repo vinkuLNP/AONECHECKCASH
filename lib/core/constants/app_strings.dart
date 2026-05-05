@@ -233,4 +233,61 @@ class AppStrings {
   static const uploadedRecently = "Uploaded recently";
   static const keyEdit = "edit";
   static const keyDelete = "delete";
+
+  static const cheques = "Cheques";
+  static const filter = "Filter";
+  static const all = "All";
+  static const emptyKey = "empty";
+
+  static const noChequesFound = "No Cheques Found";
+
+  static const emptyChequeMessage =
+      "Try changing the filter or add a new cheque";
+
+  static const addCheque = "Add Cheque";
+  static const underReview = "Under Review";
+  static const approved = "Approved";
+  static const rejected = "Rejected";
+  static const needMoreInfo = "Need More Info";
+  static const type = "Type";
+  static const company = "Company";
+
+  static const frontSide = "Front Side";
+  static const backSide = "Back Side";
+
+  static const notesComments = "Notes / Comments";
+
+  static const created = "Created";
+
+  static const view = "View";
+
+  static const imageError = "Image not available";
+  static const editCheque = "Edit Cheque";
+
+  static const saveCheque = "Save Cheque";
+  static const cancel = "Cancel";
+
+  static const status = "Status";
+  static const chequeNumber = "Cheque Number";
+  static const chequeAmount = "Cheque Amount";
+  static const chequeDate = "Date of Cheque";
+  static const chequeType = "Cheque Type";
+  static const companyName = "Cheque Company Name";
+  static const chequeImages = "Cheque Images";
+  static const notes = "Notes / Comments";
+
+  static const noNotes = "No Notes Available";
+
+  static const uploadFront = "Uploading front image...";
+  static const uploadBack = "Uploading back image...";
+
+  static const uploadSuccessFront = "Front image uploaded successfully";
+
+  static const uploadSuccessBack = "Back image uploaded successfully";
+
+  static const uploadFailed = "Image upload failed";
+
+  static const uploadBothImages = "Please upload both cheque images";
+
+  static const saveFailed = "Failed to save cheque";
 }

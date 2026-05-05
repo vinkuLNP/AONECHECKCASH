@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
+import 'package:a1_check_cashers/features/upload_image/data/models/cheque_model.dart';
 import 'package:a1_check_cashers/features/upload_image/data/models/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -42,10 +43,8 @@ class UploadRemoteDataSource {
     String userId,
   ) async {
     final body = {
-      // KnackFields.description: description,
       KnackFields.frontImage: frontFileId,
       KnackFields.backImage: backFileId,
-      // KnackFields.status: "Pending",
       KnackFields.userIdForIdDocument: [
         {"id": userId},
       ],
@@ -122,6 +121,112 @@ class UploadRemoteDataSource {
     final response = await http.delete(
       Uri.parse("${ApiEndpoints.idDocuments}/$id"),
       headers: ApiHeaders.jsonHeaders(),
+    );
+
+    return response.statusCode == 200;
+  }
+
+  Future<List<ChequeModel>> fetchCheques(String userId) async {
+    final uri = Uri.parse(ApiEndpoints.cheques).replace(
+      queryParameters: {
+        "filters": jsonEncode([
+          {
+            "field": KnackFields.userIdForCheque,
+            "operator": "is",
+            "value": userId,
+          },
+        ]),
+      },
+    );
+    final response = await http.get(uri, headers: ApiHeaders.jsonHeaders());
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return List<ChequeModel>.from(
+        data["records"].map((e) => ChequeModel.fromJson(e)),
+      );
+    }
+    return [];
+  }
+
+  Future<bool> createCheque({
+    required String clientId,
+    required String chequeNumber,
+    required double amount,
+    required DateTime date,
+    required String companyName,
+    required String frontFileId,
+    required String backFileId,
+    required String chequeType,
+    String status = "Under Review",
+    String? notes,
+  }) async {
+    final body = {
+      KnackFields.userIdForCheque: [
+        {"id": clientId},
+      ],
+
+      KnackFields.chequeStatus: status,
+
+      KnackFields.chequeNumber: chequeNumber,
+
+      KnackFields.chequeAmount: amount,
+
+      KnackFields.chequeDate: date.toIso8601String(),
+
+      KnackFields.chequeType: chequeType,
+
+      KnackFields.chequeCompanyName: companyName,
+
+      KnackFields.chequeFrontImage: frontFileId,
+
+      KnackFields.chequeBackImage: backFileId,
+    };
+
+    final response = await http.post(
+      Uri.parse(ApiEndpoints.cheques),
+      headers: ApiHeaders.jsonHeaders(),
+      body: jsonEncode(body),
+    );
+    return response.statusCode == 200 || response.statusCode == 201;
+  }
+
+  Future<bool> updateCheque({
+    required String clientId,
+    required String chequeNumber,
+    required double amount,
+    required DateTime date,
+    required String companyName,
+    required String frontFileId,
+    required String backFileId,
+    required String chequeType,
+    required String status,
+    String? notes,
+  }) async {
+    final body = {
+      KnackFields.chequeStatus: status,
+
+      KnackFields.chequeNumber: chequeNumber,
+
+      KnackFields.chequeAmount: amount,
+
+      KnackFields.chequeDate: date.toIso8601String(),
+
+      KnackFields.chequeType: chequeType,
+
+      KnackFields.chequeCompanyName: companyName,
+
+      KnackFields.chequeFrontImage: frontFileId,
+
+      KnackFields.chequeBackImage: backFileId,
+
+      KnackFields.chequeNotes: notes ?? "",
+    };
+
+    final response = await http.put(
+      Uri.parse("${ApiEndpoints.cheques}/$clientId"),
+      headers: ApiHeaders.jsonHeaders(),
+      body: jsonEncode(body),
     );
 
     return response.statusCode == 200;
