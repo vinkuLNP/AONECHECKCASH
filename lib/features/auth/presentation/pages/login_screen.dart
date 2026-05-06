@@ -5,6 +5,8 @@ import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/auth/presentation/auth_validator.dart';
 import 'package:a1_check_cashers/features/auth/presentation/widgets/auth_widgets.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/top_header.dart';
+import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
+import 'package:a1_check_cashers/features/upload_image/presentation/provider/cheque_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -160,7 +162,7 @@ class LoginScreen extends StatelessWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
-                                            content: Text(message),
+                                            content: AppText(text: message),
                                             backgroundColor: isSuccess
                                                 ? Colors.green
                                                 : Colors.red,
@@ -171,6 +173,12 @@ class LoginScreen extends StatelessWidget {
                                             context,
                                             AppRoutes.imageViewer,
                                           );
+                                          await context
+                                              .read<ProfileProvider>()
+                                              .loadProfile();
+                                          await context
+                                              .read<ChequeFormProvider>()
+                                              .loadCheques();
                                         }
                                       }
                                     },

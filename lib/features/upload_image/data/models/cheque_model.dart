@@ -13,9 +13,14 @@ class ChequeModel extends Cheque {
     required super.chequeDate,
     required super.createdAt,
     required super.type,
-    required super.companyName,
     required super.frontImage,
     required super.backImage,
+    required super.customerName,
+    required super.customerPhone,
+    required super.payee,
+    required super.makerName,
+    required super.makerPhone,
+    required super.chequeDetails,
     super.notes,
   });
 static double _parseAmount(dynamic value) {
@@ -93,7 +98,12 @@ static DateTime _parseDate(dynamic value) {
 
       type: parsedType,
 
-      companyName: json["field_45"] ?? "",
+   customerName: json["field_67"] ?? "",
+      customerPhone: json["field_68"] ?? "",
+      payee: json["field_70"] ?? "",
+      makerName: json["field_45"] ?? "",
+      makerPhone: json["field_69"] ?? "",
+      chequeDetails: json["field_71"] ?? "",
 
       frontImage: frontImageUrl,
 

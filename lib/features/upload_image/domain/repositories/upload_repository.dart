@@ -28,25 +28,33 @@ abstract class UploadRepository {
     String chequeNumber,
     double amount,
     DateTime date,
-    String companyName,
     String frontImage,
     String backImage,
     ChequeType type,
+    String customerName,
+    String customerPhone,
+    String payeeName,
+    String makerName,
+    String makerPhone,
+    String chequeDetails,
     String status,
     String? notes,
-
   );
   Future<bool> updateCheque(
     String userId,
     String chequeNumber,
     double amount,
     DateTime date,
-    String companyName,
     String frontImage,
     String backImage,
     ChequeType type,
+    String customerName,
+    String customerPhone,
+    String payeeName,
+    String makerName,
+    String makerPhone,
+    String chequeDetails,
     String status,
     String? notes,
-
   );
 }

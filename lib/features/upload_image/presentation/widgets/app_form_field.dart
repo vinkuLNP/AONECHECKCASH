@@ -7,7 +7,10 @@ class AppFormField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool readOnly;
-  final int maxLines;
+  final int? maxLines;
+  final int? minLines;
+
+  final int? maxLength;
 
   const AppFormField({
     super.key,
@@ -15,7 +18,9 @@ class AppFormField extends StatelessWidget {
     required this.controller,
     this.keyboardType = TextInputType.text,
     this.readOnly = false,
-    this.maxLines = 1,
+    this.maxLines,
+    this.minLines,
+    this.maxLength,
   });
 
   @override
@@ -25,12 +30,16 @@ class AppFormField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       readOnly: readOnly,
+      labelFontSize: 12,
       maxLines: maxLines,
+      minLines: minLines,
       fillColor: Colors.white.withValues(alpha: readOnly ? 0.4 : 0.8),
       focusColor: Colors.white,
       borderColor: AppColors.primary.withValues(alpha: .35),
       labelColor: AppColors.primary,
       fillTextField: true,
+      maxLength: maxLength,
+
     );
   }
 }

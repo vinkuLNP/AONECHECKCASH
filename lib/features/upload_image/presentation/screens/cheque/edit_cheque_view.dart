@@ -9,8 +9,8 @@ import 'package:a1_check_cashers/features/upload_image/presentation/provider/che
 import 'package:a1_check_cashers/features/upload_image/presentation/widgets/app_date_picker.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/widgets/app_form_field.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/widgets/app_section_tile.dart';
+import 'package:a1_check_cashers/features/upload_image/presentation/widgets/app_status_chip.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/widgets/dropdown_field.dart';
-import 'package:a1_check_cashers/features/upload_image/presentation/widgets/status_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,8 +29,12 @@ class EditChequeView extends StatelessWidget {
         backgroundColor: AppColors.heroColor,
         foregroundColor: AppColors.primary.withValues(alpha: .8),
         centerTitle: true,
-        title: const AppText(
-          text: AppStrings.editCheque,
+        title: AppText(
+          text: provider.isEditMode
+              ? AppStrings.editCheque
+              : provider.isReadOnly
+              ? AppStrings.viewCheque
+              : AppStrings.addCheque,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -42,10 +46,57 @@ class EditChequeView extends StatelessWidget {
           padding: const EdgeInsets.all(16),
 
           children: [
-            AppSectionTitle(title: AppStrings.status),
-            statusChip(status: provider.status.status),
+            if (!provider.isCreateMode) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AppSectionTitle(title: AppStrings.status, isPadding: false),
+                  const SizedBox(width: 20),
+
+                  AppStatusChip(
+                    title: provider.status.status,
+                    icon: provider.status.statusIcon,
+                    color: provider.status.statusColor,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+            ],
+            AppSectionTitle(
+              title: AppStrings.customerInfo,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: AppFormField(
+                    label: AppStrings.customerName,
+                    controller: provider.customerNameController,
+                    readOnly: provider.isReadOnly,
+                  ),
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: AppFormField(
+                    label: AppStrings.customerPhone,
+                    controller: provider.customerPhoneController,
+                    keyboardType: TextInputType.number,
+                    readOnly: provider.isReadOnly,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 20),
 
+            AppSectionTitle(
+              title: AppStrings.chequeInfo,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
             Row(
               children: [
                 Expanded(
@@ -53,6 +104,7 @@ class EditChequeView extends StatelessWidget {
                     label: AppStrings.chequeNumber,
                     controller: provider.chequeNumberController,
                     keyboardType: TextInputType.number,
+                    readOnly: provider.isReadOnly,
                   ),
                 ),
 
@@ -63,22 +115,23 @@ class EditChequeView extends StatelessWidget {
                     label: AppStrings.chequeAmount,
                     controller: provider.amountController,
                     keyboardType: TextInputType.number,
+                    readOnly: provider.isReadOnly,
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
             AppSectionTitle(title: AppStrings.chequeDate),
 
             AppDatePickerField(
               selectedDate: provider.selectedDate,
-
+              enabled: !provider.isReadOnly,
               onDateSelected: provider.updateDate,
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
             AppSectionTitle(title: AppStrings.chequeType),
 
@@ -88,23 +141,58 @@ class EditChequeView extends StatelessWidget {
 
               labelBuilder: (type) => type.chequeTypeName,
 
-              onChanged: (value) {
-                if (value != null) {
-                  provider.updateType(value);
-                }
-              },
+              onChanged: provider.isReadOnly
+                  ? null
+                  : (value) {
+                      provider.isReadOnly ? null : provider.updateType(value!);
+                      if (value != null) {
+                        provider.updateType(value);
+                      }
+                    },
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
             AppFormField(
-              label: AppStrings.companyName,
-              controller: provider.companyController,
+              label: AppStrings.payeeName,
+              controller: provider.payeeController,
+              readOnly: provider.isReadOnly,
             ),
+            const SizedBox(height: 20),
 
-            const SizedBox(height: 24),
+            AppSectionTitle(
+              title: AppStrings.makerInfo,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: AppFormField(
+                    label: AppStrings.makerName,
+                    controller: provider.makerNameController,
+                    readOnly: provider.isReadOnly,
+                  ),
+                ),
 
-            AppSectionTitle(title: AppStrings.chequeImages),
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: AppFormField(
+                    label: AppStrings.makerPhone,
+                    controller: provider.makerPhoneController,
+                    keyboardType: TextInputType.number,
+                    readOnly: provider.isReadOnly,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            AppSectionTitle(
+              title: AppStrings.chequeImages,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
 
             Row(
               children: [
@@ -113,9 +201,11 @@ class EditChequeView extends StatelessWidget {
                     title: AppStrings.frontSide,
                     file: provider.frontImage,
                     imageUrl: provider.frontFileId,
-                    onTap: () {
-                      provider.pickImage(context, true);
-                    },
+                    onTap: provider.isReadOnly
+                        ? null
+                        : () {
+                            provider.pickImage(context, true);
+                          },
                   ),
                 ),
 
@@ -126,9 +216,11 @@ class EditChequeView extends StatelessWidget {
                     title: AppStrings.backSide,
                     file: provider.backImage,
                     imageUrl: provider.backFileId,
-                    onTap: () {
-                      provider.pickImage(context, false);
-                    },
+                    onTap: provider.isReadOnly
+                        ? null
+                        : () {
+                            provider.pickImage(context, false);
+                          },
                   ),
                 ),
               ],
@@ -137,11 +229,26 @@ class EditChequeView extends StatelessWidget {
             const SizedBox(height: 24),
 
             AppFormField(
-              label: AppStrings.notesComments,
-              controller: provider.notesController,
-              readOnly: true,
-              maxLines: 4,
+              label: AppStrings.additionalNotes,
+              controller: provider.chequeDetailsController,
+              maxLines: null,
+              minLines: 5,
+              maxLength: 500,
+              readOnly: provider.isReadOnly,
             ),
+            if (!provider.isCreateMode &&
+                provider.notesController.text.isNotEmpty &&
+                provider.notesController.toString() != "") ...[
+              const SizedBox(height: 24),
+
+              AppFormField(
+                label: AppStrings.notesComments,
+                controller: provider.notesController,
+                readOnly: true,
+                maxLines: 4,
+                maxLength: 500,
+              ),
+            ],
 
             const SizedBox(height: 30),
 
@@ -160,8 +267,12 @@ class EditChequeView extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: AppButton(
-                    text: AppStrings.saveCheque,
-                    onPressed: provider.isSaving
+                    text: provider.isEditMode
+                        ? AppStrings.update
+                        : AppStrings.saveCheque,
+                    onPressed: provider.isReadOnly
+                        ? null
+                        : provider.isSaving
                         ? null
                         : () async {
                             final success = await provider.saveCheque();

@@ -227,24 +227,24 @@ class AppStrings {
   static const uploaded = "uploaded";
   static const noDocuments = "No Documents";
   static const uploadHintDescription =
-      "Upload cheque or bank documents for verification";
+      "Upload check or bank documents for verification";
   static const edit = "Edit";
   static const delete = "Delete";
   static const uploadedRecently = "Uploaded recently";
   static const keyEdit = "edit";
   static const keyDelete = "delete";
 
-  static const cheques = "Cheques";
+  static const cheques = "Checks";
   static const filter = "Filter";
   static const all = "All";
   static const emptyKey = "empty";
 
-  static const noChequesFound = "No Cheques Found";
+  static const noChequesFound = "No Checks Found";
 
   static const emptyChequeMessage =
-      "Try changing the filter or add a new cheque";
+      "Try changing the filter or add a new check";
 
-  static const addCheque = "Add Cheque";
+  static const addCheque = "Add Check";
   static const underReview = "Under Review";
   static const approved = "Approved";
   static const rejected = "Rejected";
@@ -254,6 +254,7 @@ class AppStrings {
 
   static const frontSide = "Front Side";
   static const backSide = "Back Side";
+  static const chequeInfo = "Check Information";
 
   static const notesComments = "Notes / Comments";
 
@@ -262,18 +263,29 @@ class AppStrings {
   static const view = "View";
 
   static const imageError = "Image not available";
-  static const editCheque = "Edit Cheque";
+  static const editCheque = "Edit Check";
+  static const viewCheque = "View Check";
 
-  static const saveCheque = "Save Cheque";
+
+  static const saveCheque = "Save Check";
   static const cancel = "Cancel";
 
   static const status = "Status";
-  static const chequeNumber = "Cheque Number";
-  static const chequeAmount = "Cheque Amount";
-  static const chequeDate = "Date of Cheque";
-  static const chequeType = "Cheque Type";
-  static const companyName = "Cheque Company Name";
-  static const chequeImages = "Cheque Images";
+  static const customerInfo = "Customer Information";
+  static const customerName = "Customer Full Name";
+  static const customerPhone = "Customer Phone Number";
+  static const payeeName = "Payee Name";
+  static const makerInfo = "Maker Information";
+  static const makerName = "Check Maker Name";
+  static const makerPhone = "Check Maker Phone Number";
+  static const additionalNotes = "Additional Notes";
+
+  static const chequeNumber = "Check Number";
+  static const chequeAmount = "Check Amount";
+  static const chequeDate = "Date of Check";
+  static const chequeType = "Check Type";
+  static const companyName = "Check Company Name";
+  static const chequeImages = "Check Images";
   static const notes = "Notes / Comments";
 
   static const noNotes = "No Notes Available";
@@ -287,7 +299,14 @@ class AppStrings {
 
   static const uploadFailed = "Image upload failed";
 
-  static const uploadBothImages = "Please upload both cheque images";
+  static const uploadBothImages = "Please upload both check images";
 
-  static const saveFailed = "Failed to save cheque";
+  static const saveFailed = "Failed to save check";
+
+  static const na = "N/A";
+  static const identityVerification = "IDENTITY VERIFICATION" ;
+  static const uploadIdDocument =  "Upload ID Document";
+  static const uploadIdHint =  "PNG, JPG up to 3MB";
+  static const manageChecks =  "Manage Checks";
+
 }
