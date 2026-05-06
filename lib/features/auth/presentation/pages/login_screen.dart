@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 60),
+                  padding: const EdgeInsets.only(top: 40),
                   child: Column(
                     children: [
                       const AppText(
@@ -155,10 +155,7 @@ class LoginScreen extends StatelessWidget {
                                         final isSuccess =
                                             message ==
                                             AppStrings.loginSuccessful;
-                                        Navigator.pushNamed(
-                                          context,
-                                          AppRoutes.imageViewer,
-                                        );
+
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
@@ -169,6 +166,12 @@ class LoginScreen extends StatelessWidget {
                                                 : Colors.red,
                                           ),
                                         );
+                                        if (isSuccess) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            AppRoutes.imageViewer,
+                                          );
+                                        }
                                       }
                                     },
                                   ),

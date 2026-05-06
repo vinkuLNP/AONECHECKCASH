@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
@@ -33,6 +34,7 @@ class AuthRemoteDataSource {
         KnackFields.email: email,
         KnackFields.password: password,
         KnackFields.name: {"first": name, "last": ""},
+        KnackFields.userStatus: AppKeys.activeKeyword,
       }),
     );
     log(response.body.toString());

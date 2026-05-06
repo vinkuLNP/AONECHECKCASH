@@ -9,6 +9,7 @@ class ApiHeaders {
   static Map<String, String> jsonHeaders() => {
     ...baseHeaders(),
     "Content-Type": "application/json",
+    "cache-control": "no-cache",
   };
 
   static Map<String, String> loginHeaders() => {

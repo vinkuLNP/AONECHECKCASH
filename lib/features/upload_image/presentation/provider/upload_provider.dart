@@ -1,19 +1,40 @@
 import 'dart:io';
-
+import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
+import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/entities/cheque_entity.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/item_entity.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_status_enum.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_type_enum.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/usecases/create_cheque_usecase.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/create_document_usecase.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/usecases/delete_document_usecase.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/usecases/fetch_cheques_usecase.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/fetch_document_usecase.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/usecases/update_cheque_usecase.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/usecases/update_document_usecase.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/upload_image_usecase.dart';
 import 'package:flutter/material.dart';
+
 class UploadProvider extends ChangeNotifier {
   final UploadImageUseCase uploadImage;
   final CreateDocumentUseCase createDoc;
   final FetchDocumentsUseCase fetchDocs;
+  final FetchChequesUseCase fetchCheques;
+  final CreateChequeUsecase createChequeUsecase;
+  final UpdateChequeUsecase updateChequeUsecase;
+  final UpdateDocumentsUseCase updateDoc;
+  final DeleteDocumentUseCase deleteDoc;
 
   UploadProvider({
     required this.uploadImage,
     required this.createDoc,
     required this.fetchDocs,
+    required this.updateDoc,
+    required this.deleteDoc,
+    required this.fetchCheques,
+    required this.createChequeUsecase,
+    required this.updateChequeUsecase,
   });
 
   List<Item> items = [];
@@ -22,34 +43,68 @@ class UploadProvider extends ChangeNotifier {
   Future<void> loadDocuments() async {
     isLoading = true;
     notifyListeners();
-
-    items = await fetchDocs();
+    final userId = await SessionManager.getClientRecordId();
+    if (userId == null) {
+      items = [];
+    } else {
+      items = await fetchDocs(userId);
+    }
 
     isLoading = false;
     notifyListeners();
   }
 
   Future<bool> saveDocument({
-    String? id, 
+    String? id,
     required String description,
-    File? image,
-    String? existingImage,
+    File? frontImage,
+    File? backImage,
+    String? existingFrontFileId,
+    String? existingBackFileId,
   }) async {
     isLoading = true;
     notifyListeners();
 
-    String? fileId = existingImage;
+    final userId = await SessionManager.getClientRecordId();
 
-    if (image != null) {
-      fileId = await uploadImage(image);
+    if (userId == null) {
+      isLoading = false;
+      notifyListeners();
+      return false;
     }
 
-    bool success;
+    String? frontFileId;
+    String? backFileId;
 
-    if (id != null) {
-      success = await createDoc(description, fileId ?? "");
-    } else {
-      success = await createDoc(description, fileId ?? "");
+    if (frontImage != null) {
+      frontFileId = await uploadImage(frontImage, KnackFields.frontImage);
+    } else if (existingFrontFileId != null) {
+      frontFileId = existingFrontFileId;
+    } else {}
+
+    if (backImage != null) {
+      backFileId = await uploadImage(backImage, KnackFields.backImage);
+    } else if (existingBackFileId != null) {
+      backFileId = existingBackFileId;
+    } else {}
+
+    if ((frontFileId == null || frontFileId.isEmpty) ||
+        (backFileId == null || backFileId.isEmpty)) {
+      isLoading = false;
+      notifyListeners();
+      return false;
+    }
+
+    bool success = false;
+
+    try {
+      if (id != null) {
+        success = await updateDoc(id, description, frontFileId, backFileId);
+      } else {
+        success = await createDoc(description, frontFileId, backFileId, userId);
+      }
+    } catch (e) {
+      success = false;
     }
 
     await loadDocuments();
@@ -60,8 +115,121 @@ class UploadProvider extends ChangeNotifier {
     return success;
   }
 
-  void delete(int index) {
-    items.removeAt(index);
+  Future<void> deleteItem(String id) async {
+    isLoading = true;
+    notifyListeners();
+
+    await deleteDoc(id);
+
+    await loadDocuments();
+
+    isLoading = false;
     notifyListeners();
   }
+
+  String extractFileId(String url) {
+    final uri = Uri.parse(url);
+    return uri.pathSegments.last;
+  }
+
+  ///////------------------- For Cheque Management ------------------///////
+
+
+
+  List<Cheque> _cheques = [];
+
+  ChequeStatus? _filterStatus;
+
+  int _statusPriority(ChequeStatus status) {
+    switch (status) {
+      case ChequeStatus.needMoreInfo:
+        return 0;
+      case ChequeStatus.approved:
+        return 1;
+      case ChequeStatus.underReview:
+        return 2;
+      case ChequeStatus.rejected:
+        return 3;
+    }
+  }
+
+  void setFilter(ChequeStatus? status) {
+    _filterStatus = status;
+    notifyListeners();
+  }
+
+  ChequeStatus? get currentFilter => _filterStatus;
+
+  List<Cheque> get cheques {
+    List<Cheque> filtered = _filterStatus == null
+        ? [..._cheques]
+        : _cheques.where((c) => c.status == _filterStatus).toList();
+
+    filtered.sort(
+      (a, b) => _statusPriority(a.status).compareTo(_statusPriority(b.status)),
+    );
+
+    return filtered;
+  }
+
+  Future<void> loadCheques() async {
+    isLoading = true;
+    notifyListeners();
+
+    final userId = await SessionManager.getClientRecordId();
+
+    if (userId == null) {
+      _cheques = [];
+    } else {
+      _cheques = await fetchCheques(userId);
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+
+Future<bool> saveCheque({
+  required String chequeNumber,
+  required double amount,
+  required DateTime date,
+  required String companyName,
+  required String frontFileId,
+  required String backFileId,
+  required ChequeType type,
+  String? notes,
+}) async {
+  isLoading = true;
+  notifyListeners();
+
+  final userId = await SessionManager.getClientRecordId();
+
+  if (userId == null) {
+    isLoading = false;
+    notifyListeners();
+    return false;
+  }
+
+  bool success = false;
+
+  success = await createChequeUsecase(
+    userId,
+    chequeNumber,
+    amount,
+    date,
+    companyName,
+    frontFileId,
+    backFileId,
+    type,
+    AppStrings.underReview,
+    notes,
+  );
+
+  await loadCheques();
+
+  isLoading = false;
+  notifyListeners();
+
+  return success;
+}
 }

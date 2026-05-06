@@ -25,7 +25,7 @@ class HeroWidget extends StatelessWidget {
             color: AppColors.primary,
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
 
           const AppText(
             text: AppStrings.heroSubtitle,
@@ -56,7 +56,19 @@ class HeroWidget extends StatelessWidget {
 
               Flexible(
                 flex: 1,
-                child: AppButton(text: AppStrings.findStore, onPressed: () {}),
+                child: AppButton(
+                  text: AppStrings.findStore,
+                  onPressed: () {},
+                  isOutlined: true,
+                  borderColor: AppColors.primary,
+                  textColor: AppColors.whiteColor,
+                  outlinedColor: AppColors.primary,
+                  icon: const Icon(
+                    Icons.location_on,
+                    color: AppColors.whiteColor,
+                    size: 18,
+                  ),
+                ),
               ),
             ],
           ),
@@ -66,7 +78,11 @@ class HeroWidget extends StatelessWidget {
             onTap: () {},
             child: const Row(
               children: [
-                Icon(Icons.location_on, size: 16, color: AppColors.primary),
+                Icon(
+                  Icons.near_me_outlined,
+                  size: 16,
+                  color: AppColors.primary,
+                ),
                 SizedBox(width: 6),
                 AppText(
                   text: AppStrings.useMyLocation,
@@ -99,13 +115,13 @@ class HeroWidget extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: AppButton(
-                  text: AppStrings.callNow,
+                  text: AppStrings.verifyCheckNow,
                   isOutlined: true,
                   textColor: AppColors.whiteColor,
                   outlinedColor: AppColors.primary,
                   borderColor: AppColors.primary,
                   icon: const Icon(
-                    Icons.phone,
+                    Icons.check,
                     color: AppColors.whiteColor,
                     size: 18,
                   ),
@@ -113,7 +129,7 @@ class HeroWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 20),
           const Center(
             child: AppText(
               text: AppStrings.tagline,

@@ -10,6 +10,18 @@ class DrawerProvider extends ChangeNotifier {
 
   late DrawerItem _selectedItem = _items.first;
   DrawerItem? get selectedItem => _selectedItem;
+  final Set<DrawerItem> _expandedItems = {};
+
+  bool isExpanded(DrawerItem item) => _expandedItems.contains(item);
+
+  void toggleExpand(DrawerItem item) {
+    if (_expandedItems.contains(item)) {
+      _expandedItems.remove(item);
+    } else {
+      _expandedItems.add(item);
+    }
+    notifyListeners();
+  }
 
   void selectItem(DrawerItem item) {
     _selectedItem = item;

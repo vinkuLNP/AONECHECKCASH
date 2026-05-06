@@ -16,9 +16,9 @@ class HomeView extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: AppColors.heroColor,
           elevation: 2,
-          toolbarHeight: 144,
+          toolbarHeight: 150,
           flexibleSpace: SafeArea(
-            child: SizedBox(height: 144, child: TopHeader()),
+            child: SizedBox(height: 150, child: TopHeader()),
           ),
         ),
         SliverList(
@@ -35,7 +35,7 @@ class HomeView extends StatelessWidget {
             AutoServicesSection(),
             CareersStripSection(),
             CustomerSupportSection(),*/
-            Container(color: AppColors.heroColor, height: 60),
+            Container(color: AppColors.heroColor, height: 70),
           ]),
         ),
       ],

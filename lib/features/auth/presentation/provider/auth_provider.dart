@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/auth/domain/enitities/user_entity.dart';
 import 'package:a1_check_cashers/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:flutter/material.dart';
 import '../../domain/usecases/login_usecase.dart';
+
 class AuthProvider extends ChangeNotifier {
   final LoginUseCase loginUseCase;
   final SignupUseCase signupUseCase;
@@ -47,13 +49,20 @@ class AuthProvider extends ChangeNotifier {
 
   Future<String?> login(String email, String password) async {
     _setLoading(true);
-
     try {
       user = await loginUseCase(email, password);
+      if (user!.clientRecordId.isEmpty) {
+        return "Client record not found";
+      }
+
+      await SessionManager.saveSession(
+        userId: user!.id,
+        token: user!.token,
+        clientRecordId: user!.clientRecordId,
+      );
+
       return AppStrings.loginSuccessful;
-      
     } catch (e) {
-      debugPrint("Login Error: $e");
       return _handleError(e);
     } finally {
       _setLoading(false);
@@ -72,7 +81,7 @@ class AuthProvider extends ChangeNotifier {
       user = await signupUseCase(
         email,
         password,
-        name,//phone
+        name, //phone
       );
 
       return AppStrings.signupSuccessful;
@@ -92,7 +101,9 @@ class AuthProvider extends ChangeNotifier {
   String _handleError(dynamic e) {
     final message = e.toString();
 
-    if (message.contains("invalid-credentials")) {
+    if (message.contains("invalid-credentials") ||
+        message.contains("validate_login_incorrect") ||
+        message.contains("Email or password incorrect")) {
       return AppStrings.loginFailed;
     } else if (message.contains("email-already-in-use")) {
       return AppStrings.emailAlreadyExists;
@@ -101,6 +112,7 @@ class AuthProvider extends ChangeNotifier {
     }
 
     return AppStrings.smthngWntWrong;
+    // return message;
   }
 
   void reset() {

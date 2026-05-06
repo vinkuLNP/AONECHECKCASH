@@ -1,7 +1,9 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
+import 'package:a1_check_cashers/core/app_widgets/app_logo_header_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
+import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_strings.dart';
 
@@ -15,7 +17,7 @@ class TopHeader extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          color: AppColors.textDark,
+          color: AppColors.primary,
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Column(
             children: const [
@@ -28,43 +30,34 @@ class TopHeader extends StatelessWidget {
               SizedBox(height: 2),
               AppText(
                 text: AppStrings.nearestLocation,
-                color: Colors.white70,
+                color: AppColors.whiteColor,
                 fontSize: 12,
               ),
             ],
           ),
         ),
         Container(
-          color: AppColors.primary,
+          color: AppColors.darkRed,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  AppText(
-                    text: AppStrings.appName,
-                    color: AppColors.whiteColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  SizedBox(height: 2),
-                  AppText(
-                    text: AppStrings.subtitle,
-                    color: AppColors.lightWhite,
-                    fontSize: 13,
-                  ),
-                ],
-              ),
+              const AppLogoHeaderWidget(textColor: true),
               if (showDrawer) ...[
                 const Spacer(),
                 AppButton(
                   width: 100,
                   text: AppStrings.signIn,
-                  onPressed: () =>
-                      Navigator.pushNamed(context, AppRoutes.login),
+                  onPressed: () async {
+                    final isLoggedIn = await SessionManager.isLoggedIn();
+                    if (isLoggedIn) {
+                      Navigator.pushNamed(context, AppRoutes.imageViewer);
+                    } else {
+                      Navigator.pushNamed(context, AppRoutes.login);
+                    }
+                  },
+
                   isOutlined: true,
-                  outlinedColor: AppColors.primary,
+                  outlinedColor: AppColors.darkRed,
                   borderColor: AppColors.whiteColor,
                   icon: Icon(Icons.person, color: AppColors.whiteColor),
                 ),

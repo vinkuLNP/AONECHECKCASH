@@ -16,8 +16,7 @@ class AuthValidator {
       return AppStrings.emailRequired;
     }
 
-    final emailRegex =
-        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     if (!emailRegex.hasMatch(value.trim())) {
       return AppStrings.invalidEmail;
@@ -44,18 +43,31 @@ class AuthValidator {
     if (value == null || value.isEmpty) {
       return AppStrings.passwordRequired;
     }
+ final errors = <String>[];
 
     if (value.length < 6) {
-      return AppStrings.passwordMinLength;
+      errors.add(AppStrings.passwordMinLength);
+    }
+    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+      errors.add(AppStrings.mustIncludeUppercase);
+    }
+
+    if (!RegExp(r'[0-9]').hasMatch(value)) {
+      errors.add(AppStrings.mustIncludeNumber);
+    }
+
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+      errors.add(AppStrings.mustIncludeSpecialCharacter);
+    }
+
+    if (errors.isNotEmpty) {
+      return errors.join('\n');
     }
 
     return null;
   }
 
-  static String? confirmPassword(
-    String? value,
-    String password,
-  ) {
+  static String? confirmPassword(String? value, String password) {
     if (value == null || value.isEmpty) {
       return AppStrings.confirmPasswordRequired;
     }

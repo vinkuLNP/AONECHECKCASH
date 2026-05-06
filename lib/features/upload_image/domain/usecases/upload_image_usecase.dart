@@ -5,6 +5,6 @@ class UploadImageUseCase {
   final UploadRepository repo;
   UploadImageUseCase(this.repo);
 
-  Future<String?> call(File file) => repo.uploadImage(file);
+  Future<String?> call(File file,String fieldKey) => repo.uploadImage(file, fieldKey);
 }
 

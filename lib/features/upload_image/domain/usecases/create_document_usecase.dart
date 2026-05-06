@@ -4,6 +4,6 @@ class CreateDocumentUseCase {
   final UploadRepository repo;
   CreateDocumentUseCase(this.repo);
 
-  Future<bool> call(String desc, String fileId) =>
-      repo.createDocument(desc, fileId);
+  Future<bool> call(String desc, String frontFileId,String backFileId,String userId) =>
+      repo.createDocument(desc, frontFileId, backFileId, userId);
 }
