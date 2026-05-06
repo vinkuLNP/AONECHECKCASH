@@ -12,23 +12,19 @@ class KnackFields {
   static const userStatus = "field_33";
   static const userType = "field_34";
 
-
-// Client Id Document
+  // Client Id Document
   static const frontImage = "field_62";
   static const backImage = "field_63";
   static const userIdForIdDocument = "field_60";
 
-
-// Cheque Document
-  static const frontChequeImage = "field_47";
-  static const backChequeImage = "field_48";
   static const userIdForCheque = "field_59";
   static const chequeStatus = "field_51";
-  static const chequeNumber = "field_43";
-  static const chequeAmount = "field_23";
-  static const dateOfCheque = "field_43";
+  static const chequeNumber = "field_23";
+  static const chequeAmount = "field_42";
+  static const chequeDate = "field_43";
   static const chequeType = "field_44";
   static const chequeCompanyName = "field_45";
-  static const notes = "field_46";
-
+  static const chequeFrontImage = "field_47";
+  static const chequeBackImage = "field_48";
+  static const chequeNotes = "field_46";
 }
