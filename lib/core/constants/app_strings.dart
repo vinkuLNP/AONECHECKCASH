@@ -266,24 +266,23 @@ class AppStrings {
   static const editCheque = "Edit Check";
   static const viewCheque = "View Check";
 
-
   static const saveCheque = "Save Check";
   static const cancel = "Cancel";
 
   static const status = "Status";
   static const customerInfo = "Customer Information";
-  static const customerName = "Customer Full Name";
-  static const customerPhone = "Customer Phone Number";
+  static const customerName = "Full Name";
+  static const customerPhone = "Phone Number";
   static const payeeName = "Payee Name";
   static const makerInfo = "Maker Information";
   static const makerName = "Check Maker Name";
   static const makerPhone = "Check Maker Phone Number";
   static const additionalNotes = "Additional Notes";
 
-  static const chequeNumber = "Check Number";
-  static const chequeAmount = "Check Amount";
+  static const chequeNumber = "Number";
+  static const chequeAmount = "Amount";
   static const chequeDate = "Date of Check";
-  static const chequeType = "Check Type";
+  static const chequeType = "Type";
   static const companyName = "Check Company Name";
   static const chequeImages = "Check Images";
   static const notes = "Notes / Comments";
@@ -304,9 +303,33 @@ class AppStrings {
   static const saveFailed = "Failed to save check";
 
   static const na = "N/A";
-  static const identityVerification = "IDENTITY VERIFICATION" ;
-  static const uploadIdDocument =  "Upload ID Document";
-  static const uploadIdHint =  "PNG, JPG up to 3MB";
-  static const manageChecks =  "Manage Checks";
+  static const identityVerification = "IDENTITY VERIFICATION";
+  static const uploadIdDocument = "Upload ID Document";
+  static const uploadIdHint = "PNG, JPG up to 3MB";
+  static const manageChecks = "Manage Checks";
+  static const failedToLoadImage = "Failed to load image";
+  static const pleaseWaitForCurrentUpload =
+      "Please wait for current upload to finish.";
+  static const uploadFrontImageHint = 'Uploading front image...';
+  static const uploadBackImageHint = 'Uploading back image...';
+  static const failedToUploadImage = 'Failed to upload image.';
+  static const frontImageUploadedSuccessfully =
+      'Front image uploaded successfully.';
+  static const backImageUploadedSuccessfully =
+      'Back image uploaded successfully.';
 
+  static const personalCheck = "Personal Check";
+  static const businessCheck = "Business Cheque";
+  static const cashierCheck = "Cashier’s Cheque";
+  static const certifiedCheck = "Certified Cheque";
+  static const bankerCheck = "Banker’s Draft";
+  static const travelerCheck = "Traveler’s Cheque";
+  static const eCheck = "Electronic Cheque (eCheck)";
+  static const other = "Other";
+  static const logOut = "Log Out";
+
+  static const viewImage = "View Image";
+  static const replaceImage = "Replace Image";
+
+  static const wantToLogout = "Are you sure you want to logout?";
 }

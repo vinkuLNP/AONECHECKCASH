@@ -1,5 +1,4 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
-import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +25,9 @@ class ProfileHeader extends StatelessWidget {
             radius: 42,
             backgroundColor: Colors.white,
             child: AppText(
-              text: p.user?.name.substring(0, 2) ?? AppStrings.na,
+              text: p.user == null
+                  ? ""
+                  : p.user!.name.substring(0, 2).toUpperCase(),
               fontSize: 22,
               fontWeight: FontWeight.bold,
               color: Colors.black,

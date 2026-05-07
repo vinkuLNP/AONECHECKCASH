@@ -1,14 +1,15 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
+import 'package:a1_check_cashers/features/cheque/presentation/screens/cheque_screen_main.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/profile_card.dart';
-import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_form_mode_enum.dart';
-import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_status_enum.dart';
-import 'package:a1_check_cashers/features/upload_image/presentation/provider/cheque_provider.dart';
-import 'package:a1_check_cashers/features/upload_image/presentation/screens/cheque/cheque_list_screen.dart';
-import 'package:a1_check_cashers/features/upload_image/presentation/screens/cheque/cheque_screen_main.dart';
+import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_form_mode_enum.dart';
+import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_status_enum.dart';
+import 'package:a1_check_cashers/features/cheque/presentation/provider/cheque_provider.dart';
+import 'package:a1_check_cashers/features/cheque/presentation/screens/cheque_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:provider/provider.dart';
 
 class ProfileChequeCard extends StatelessWidget {
   final ChequeFormProvider provider;
@@ -42,14 +43,18 @@ class ProfileChequeCard extends StatelessWidget {
                   child: AppButton(
                     borderRadius: 4,
                     text: AppStrings.addCheque,
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async {
+                      final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
                               EditChequeScreen(mode: ChequeFormMode.create),
                         ),
                       );
+
+                      if (result == true && context.mounted) {
+                        await context.read<ChequeFormProvider>().loadCheques();
+                      }
                     },
                     icon: Icon(Icons.add, color: AppColors.whiteColor),
                   ),
@@ -67,11 +72,15 @@ class ProfileChequeCard extends StatelessWidget {
           const Divider(),
 
           GestureDetector(
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => ChequeListScreen()),
               );
+
+              if (context.mounted) {
+                await context.read<ChequeFormProvider>().loadCheques();
+              }
             },
             child: ListTile(
               title: const AppText(

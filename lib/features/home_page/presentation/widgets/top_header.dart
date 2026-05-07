@@ -50,7 +50,7 @@ class TopHeader extends StatelessWidget {
                   onPressed: () async {
                     final isLoggedIn = await SessionManager.isLoggedIn();
                     if (isLoggedIn) {
-                      Navigator.pushNamed(context, AppRoutes.imageViewer);
+                      Navigator.pushNamed(context, AppRoutes.profileView);
                     } else {
                       Navigator.pushNamed(context, AppRoutes.login);
                     }

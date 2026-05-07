@@ -16,7 +16,7 @@ class ProfileRemoteDataSource {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print("PROFILE RESPONSE =====");
+      log("PROFILE RESPONSE =====");
       log(data.toString());
       return ClientModel.fromJson(data);
     } else {

@@ -76,6 +76,7 @@ class AppInputField extends StatelessWidget {
             fontSize: isDense ? 14 : 12,
             color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
+          enabled: !readOnly,
           keyboardType: keyboardType,
           readOnly: readOnly,
           maxLength: maxLength,
@@ -85,6 +86,7 @@ class AppInputField extends StatelessWidget {
           decoration: InputDecoration(
             counterText: '',
             hintText: hint,
+            errorMaxLines: 3,
             filled: isDense || readOnly || fillTextField,
             fillColor:
                 fillColor ??
@@ -112,6 +114,12 @@ class AppInputField extends StatelessWidget {
               borderSide: BorderSide(
                 color: focusColor ?? AppColors.authThemeColor,
                 width: 2,
+              ),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: borderColor ?? AppColors.authThemeColor,
               ),
             ),
             contentPadding: EdgeInsets.symmetric(
