@@ -73,7 +73,7 @@ class ChequeCard extends StatelessWidget {
               Expanded(
                 child: AppInfoColumn(
                   title: AppStrings.company,
-                  value: cheque.companyName,
+                  value: cheque.makerName,
                   titleColor: AppColors.secondaryText,
                   valueColor: AppColors.primaryText,
                 ),

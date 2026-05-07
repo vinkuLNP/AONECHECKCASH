@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/cheque_entity.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/item_entity.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_status_enum.dart';
-import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/create_cheque_usecase.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/create_document_usecase.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/delete_document_usecase.dart';
@@ -134,8 +132,6 @@ class UploadProvider extends ChangeNotifier {
 
   ///////------------------- For Cheque Management ------------------///////
 
-
-
   List<Cheque> _cheques = [];
 
   ChequeStatus? _filterStatus;
@@ -187,49 +183,4 @@ class UploadProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
-
-
-Future<bool> saveCheque({
-  required String chequeNumber,
-  required double amount,
-  required DateTime date,
-  required String companyName,
-  required String frontFileId,
-  required String backFileId,
-  required ChequeType type,
-  String? notes,
-}) async {
-  isLoading = true;
-  notifyListeners();
-
-  final userId = await SessionManager.getClientRecordId();
-
-  if (userId == null) {
-    isLoading = false;
-    notifyListeners();
-    return false;
-  }
-
-  bool success = false;
-
-  success = await createChequeUsecase(
-    userId,
-    chequeNumber,
-    amount,
-    date,
-    companyName,
-    frontFileId,
-    backFileId,
-    type,
-    AppStrings.underReview,
-    notes,
-  );
-
-  await loadCheques();
-
-  isLoading = false;
-  notifyListeners();
-
-  return success;
-}
 }

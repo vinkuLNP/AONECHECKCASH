@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
+import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class AppImageBox extends StatelessWidget {
@@ -42,10 +43,18 @@ class AppImageBox extends StatelessWidget {
           onTap: onTap,
           child: Container(
             height: height,
+            width: double.infinity,
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
               border: showBorder
                   ? Border.all(color: AppColors.primary.withValues(alpha: .25))
                   : null,
@@ -70,26 +79,36 @@ class AppImageBox extends StatelessWidget {
       fit: BoxFit.cover,
       width: double.infinity,
       errorBuilder: (_, __, ___) {
-        return const Center(child: Icon(Icons.image));
+        return const Center(child: Icon(Icons.broken_image, size: 30));
       },
     );
   }
 
   Widget _buildPlaceholder() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Icon(Icons.upload_rounded, color: AppColors.primary, size: 40),
-        if (title != null) ...[
-          const SizedBox(height: 12),
+    return Container(
+      color: AppColors.primary.withValues(alpha: 0.05),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.upload_rounded, color: AppColors.primary, size: 40),
+          if (title != null) ...[
+            const SizedBox(height: 12),
+            AppText(
+              text: title!,
+              color: AppColors.primary,
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),
+          ],
+          const SizedBox(height: 4),
+
           AppText(
-            text: title!,
-            color: AppColors.primary,
-            fontWeight: FontWeight.w600,
-            fontSize: 15,
+            text: AppStrings.uploadHint,
+            fontSize: 12,
+            color: Colors.grey,
           ),
         ],
-      ],
+      ),
     );
   }
 }

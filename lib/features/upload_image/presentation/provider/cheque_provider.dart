@@ -4,6 +4,7 @@ import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/entities/cheque_entity.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_form_mode_enum.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_status_enum.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/upload_image/domain/usecases/create_cheque_usecase.dart';
@@ -30,9 +31,14 @@ class ChequeFormProvider extends ChangeNotifier {
 
   late TextEditingController chequeNumberController;
   late TextEditingController amountController;
-  late TextEditingController companyController;
   late TextEditingController notesController;
+  late TextEditingController customerNameController;
+  late TextEditingController chequeDetailsController;
 
+  late TextEditingController customerPhoneController;
+  late TextEditingController payeeController;
+  late TextEditingController makerNameController;
+  late TextEditingController makerPhoneController;
   ChequeStatus status = ChequeStatus.underReview;
   ChequeType type = ChequeType.personal;
   DateTime selectedDate = DateTime.now();
@@ -45,7 +51,9 @@ class ChequeFormProvider extends ChangeNotifier {
 
   bool isSaving = false;
 
-  void initialize(Cheque? cheque) {
+  void initialize(Cheque? cheque, ChequeFormMode mode) {
+    _cheque = cheque;
+    _mode = mode;
     chequeNumberController = TextEditingController(
       text: cheque?.chequeNumber ?? '',
     );
@@ -54,7 +62,25 @@ class ChequeFormProvider extends ChangeNotifier {
       text: cheque?.amount.toString() ?? '',
     );
 
-    companyController = TextEditingController(text: cheque?.companyName ?? '');
+    customerNameController = TextEditingController(
+      text: cheque?.customerName ?? '',
+    );
+
+    customerPhoneController = TextEditingController(
+      text: cheque?.customerPhone ?? '',
+    );
+
+    payeeController = TextEditingController(text: cheque?.payee ?? '');
+
+    makerNameController = TextEditingController(text: cheque?.makerName ?? '');
+
+    makerPhoneController = TextEditingController(
+      text: cheque?.makerPhone ?? '',
+    );
+
+    chequeDetailsController = TextEditingController(
+      text: cheque?.chequeDetails ?? '',
+    );
 
     notesController = TextEditingController(text: cheque?.notes ?? '');
 
@@ -134,19 +160,43 @@ class ChequeFormProvider extends ChangeNotifier {
     bool success = false;
     isSaving = true;
     notifyListeners();
-
-    success = await createChequeUsecase(
-      userId,
-      chequeNumberController.text,
-      double.parse(amountController.text),
-      selectedDate,
-      companyController.text,
-      frontFileId!,
-      backFileId!,
-      type,
-      AppStrings.underReview,
-      notesController.text,
-    );
+    if (!isEditMode) {
+      success = await createChequeUsecase(
+        userId,
+        chequeNumberController.text,
+        double.parse(amountController.text),
+        selectedDate,
+        frontFileId!,
+        backFileId!,
+        type,
+        customerNameController.text,
+        customerPhoneController.text,
+        payeeController.text,
+        makerNameController.text,
+        makerPhoneController.text,
+        chequeDetailsController.text,
+        AppStrings.underReview,
+        notesController.text,
+      );
+    } else {
+      success = await updateChequeUsecase(
+        _cheque!.id,
+        chequeNumberController.text,
+        double.parse(amountController.text),
+        selectedDate,
+        frontFileId!,
+        backFileId!,
+        type,
+        customerNameController.text,
+        customerPhoneController.text,
+        payeeController.text,
+        makerNameController.text,
+        makerPhoneController.text,
+        chequeDetailsController.text,
+        status.status,
+        notesController.text,
+      );
+    }
     await loadCheques();
     isSaving = false;
 
@@ -191,4 +241,23 @@ class ChequeFormProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Map<ChequeStatus, List<Cheque>> get groupedCheques {
+    final Map<ChequeStatus, List<Cheque>> map = {};
+
+    for (var cheque in _cheques) {
+      map.putIfAbsent(cheque.status, () => []).add(cheque);
+    }
+
+    return map;
+  }
+
+  late ChequeFormMode _mode;
+
+  bool get isEditMode => _mode == ChequeFormMode.edit;
+  bool get isCreateMode => _mode == ChequeFormMode.create;
+  bool get isViewMode => _mode == ChequeFormMode.view;
+  bool get isReadOnly => _mode == ChequeFormMode.view;
+
+  Cheque? _cheque;
 }

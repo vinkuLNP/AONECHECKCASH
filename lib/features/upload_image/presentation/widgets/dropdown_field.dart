@@ -7,7 +7,7 @@ class AppDropdownField<T> extends StatelessWidget {
   final List<T> items;
   final String Function(T item) labelBuilder;
 
-  final ValueChanged<T?> onChanged;
+  final ValueChanged<T?>? onChanged;
 
   const AppDropdownField({
     super.key,
@@ -19,13 +19,19 @@ class AppDropdownField<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDisabled = onChanged == null;
     return DropdownButtonFormField<T>(
       initialValue: value,
 
       items: items.map((item) {
         return DropdownMenuItem<T>(
           value: item,
-          child: AppText(text: labelBuilder(item)),
+          child: AppText(
+            text: labelBuilder(item),
+            color: isDisabled
+                ? AppColors.primary.withValues(alpha: 0.5)
+                : AppColors.primary,
+          ),
         );
       }).toList(),
 
@@ -33,7 +39,10 @@ class AppDropdownField<T> extends StatelessWidget {
 
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white,
+
+        fillColor: isDisabled
+            ? Colors.white.withValues(alpha: 0.5)
+            : Colors.white,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
           borderSide: BorderSide(

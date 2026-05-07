@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
@@ -154,11 +155,16 @@ class UploadRemoteDataSource {
     required String chequeNumber,
     required double amount,
     required DateTime date,
-    required String companyName,
     required String frontFileId,
     required String backFileId,
     required String chequeType,
-    String status = "Under Review",
+    required String customerName,
+    required String customerPhone,
+    required String payeeName,
+    required String makerName,
+    required String makerPhone,
+    required String chequeDetails,
+    String status = AppStrings.underReview,
     String? notes,
   }) async {
     final body = {
@@ -176,7 +182,14 @@ class UploadRemoteDataSource {
 
       KnackFields.chequeType: chequeType,
 
-      KnackFields.chequeCompanyName: companyName,
+      KnackFields.customerName: customerName,
+      KnackFields.customerPhone: customerPhone,
+      KnackFields.payeeName: payeeName,
+
+      KnackFields.chequeMakerName: makerName,
+      KnackFields.makerPhone: makerPhone,
+
+      KnackFields.chequeDetails: chequeDetails,
 
       KnackFields.chequeFrontImage: frontFileId,
 
@@ -196,10 +209,15 @@ class UploadRemoteDataSource {
     required String chequeNumber,
     required double amount,
     required DateTime date,
-    required String companyName,
     required String frontFileId,
     required String backFileId,
     required String chequeType,
+    required String customerName,
+    required String customerPhone,
+    required String payeeName,
+    required String makerName,
+    required String makerPhone,
+    required String chequeDetails,
     required String status,
     String? notes,
   }) async {
@@ -214,7 +232,14 @@ class UploadRemoteDataSource {
 
       KnackFields.chequeType: chequeType,
 
-      KnackFields.chequeCompanyName: companyName,
+      KnackFields.customerName: customerName,
+      KnackFields.customerPhone: customerPhone,
+      KnackFields.payeeName: payeeName,
+
+      KnackFields.chequeMakerName: makerName,
+      KnackFields.makerPhone: makerPhone,
+
+      KnackFields.chequeDetails: chequeDetails,
 
       KnackFields.chequeFrontImage: frontFileId,
 

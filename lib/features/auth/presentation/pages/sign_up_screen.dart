@@ -228,7 +228,7 @@ class SignupScreen extends StatelessWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
-                                            content: Text(message),
+                                            content: AppText(text: message),
                                             backgroundColor: isSuccess
                                                 ? Colors.green
                                                 : Colors.red,

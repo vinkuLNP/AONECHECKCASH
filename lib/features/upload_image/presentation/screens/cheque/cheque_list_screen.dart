@@ -1,6 +1,7 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/features/upload_image/domain/enum/cheque_form_mode_enum.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/provider/upload_provider.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/screens/cheque/cheque_card.dart';
 import 'package:a1_check_cashers/features/upload_image/presentation/screens/cheque/cheque_screen_main.dart';
@@ -23,7 +24,7 @@ class ChequeListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
-        onPressed: () => _navigateToEdit(context),
+        onPressed: () => _navigateToEdit(context, mode: ChequeFormMode.create),
         child: Icon(Icons.add, color: AppColors.whiteColor),
       ),
       body: AnimatedSwitcher(
@@ -47,7 +48,18 @@ class ChequeListScreen extends StatelessWidget {
                   return ChequeCard(
                     cheque: cheque,
                     onEdit: () {
-                      _navigateToEdit(context, cheque: cheque);
+                      _navigateToEdit(
+                        context,
+                        cheque: cheque,
+                        mode: ChequeFormMode.edit,
+                      );
+                    },
+                    onView: () {
+                      _navigateToEdit(
+                        context,
+                        cheque: cheque,
+                        mode: ChequeFormMode.view,
+                      );
                     },
                   );
                 },
@@ -56,10 +68,17 @@ class ChequeListScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToEdit(BuildContext context, {dynamic cheque}) {
+  void _navigateToEdit(
+    BuildContext context, {
+    dynamic cheque,
+    ChequeFormMode? mode,
+  }) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => EditChequeScreen(cheque: cheque)),
+      MaterialPageRoute(
+        builder: (_) =>
+            EditChequeScreen(cheque: cheque, mode: mode ?? ChequeFormMode.view),
+      ),
     );
   }
 }

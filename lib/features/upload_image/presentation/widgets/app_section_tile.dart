@@ -4,15 +4,28 @@ import 'package:flutter/material.dart';
 
 class AppSectionTitle extends StatelessWidget {
   final String title;
+  final FontWeight fontWeight;
+  final bool isPadding;
+  final double fontSize;
 
-  const AppSectionTitle({super.key, required this.title});
+  const AppSectionTitle({
+    super.key,
+    required this.title,
+    this.isPadding = true,
+    this.fontWeight = FontWeight.normal,
+    this.fontSize = 12,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-
-      child: AppText(text: title, color: AppColors.primary, fontSize: 14),
+      padding: isPadding ? const EdgeInsets.only(bottom: 8) : EdgeInsets.zero,
+      child: AppText(
+        text: title,
+        color: AppColors.primary,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      ),
     );
   }
 }

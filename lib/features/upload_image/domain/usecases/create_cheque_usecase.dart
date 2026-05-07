@@ -10,25 +10,32 @@ class CreateChequeUsecase {
     String chequeNumber,
     double amount,
     DateTime date,
-    String companyName,
     String frontImage,
     String backImage,
     ChequeType type,
+    String customerName,
+    String customerPhone,
+    String payeeName,
+    String makerName,
+    String makerPhone,
+    String chequeDetails,
     String status,
     String? notes,
-
-  ) =>
-      repo.createCheque(
-        userId,
-        chequeNumber,
-        amount,
-        date,
-        companyName,
-        frontImage,
-        backImage,
-        type,
-        status,
-        notes,
-
-      );
+  ) => repo.createCheque(
+    userId,
+    chequeNumber,
+    amount,
+    date,
+    frontImage,
+    backImage,
+    type,
+    customerName,
+    customerPhone,
+    payeeName,
+    makerName,
+    makerPhone,
+    chequeDetails,
+    status,
+    notes,
+  );
 }
