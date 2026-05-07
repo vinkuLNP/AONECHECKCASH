@@ -1,6 +1,9 @@
 class AppKeys {
   static const String usersKeyword = 'users';
   static const String emailKeyword = 'email';
+  static const String activeKeyword = 'active';
+  static const String clientKeyword = 'client';
+
   static const String inProgressKeyword = 'in_progress';
   static const String missingIdTokenKeyword = 'missing_id_token';
 
@@ -32,9 +35,9 @@ class AppKeys {
   static const String success = 'success';
   static const String requiresRecentLogin = 'requires-recent-login';
   static const String requiresPassword = 'requires-password';
-static const String addNew = 'add_new';
-static const String notesAttachments = 'notes_attachments';
-static const String tasksAttachments = 'tasks_attachments';
-static const String tasksAttachmentsFolder = 'tasks';
-static const String notesAttachmentsFolder = 'notes';
+  static const String addNew = 'add_new';
+  static const String notesAttachments = 'notes_attachments';
+  static const String tasksAttachments = 'tasks_attachments';
+  static const String tasksAttachmentsFolder = 'tasks';
+  static const String notesAttachmentsFolder = 'notes';
 }

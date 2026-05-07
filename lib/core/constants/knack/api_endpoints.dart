@@ -1,16 +1,19 @@
 import 'app_config.dart';
+
 class ApiEndpoints {
   static String login = "$baseUrl/applications/$appId/session";
 
-  static String signup =
-      "$baseUrl/objects/$objectKeyUsers/records";
+  static String signup = "$baseUrl/objects/$objectKeyUsers/records";
 
   static String uploadFile =
-      "$baseUrl/applications/$appId/assets/file/upload";
+      "$knackUploadUrl/applications/$appId/assets/image/upload/stream";
 
-  static String documents =
-      "$baseUrl/objects/$objectKeyDocuments/records";
+  static String idDocuments = "$baseUrl/objects/$objectKeyIdDocuments/records";
+  // static String idDocuments = "$baseUrl/objects/$objectKeyUsers/records";
 
-  static String updateDocument(String id) =>
-      "$baseUrl/objects/$objectKeyDocuments/records/$id";
+
+  static String cheques = "$baseUrl/objects/$objectKeyIdCheques/records";
+
+  static String updateIdDocument(String id) =>
+      "$baseUrl/objects/$objectKeyIdDocuments/records/$id";
 }

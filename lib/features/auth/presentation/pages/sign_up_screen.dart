@@ -34,7 +34,7 @@ class SignupScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 40),
+                  padding: const EdgeInsets.only(top: 40, bottom: 40),
                   child: Column(
                     children: [
                       const AppText(
@@ -228,7 +228,7 @@ class SignupScreen extends StatelessWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
-                                            content: Text(message),
+                                            content: AppText(text: message),
                                             backgroundColor: isSuccess
                                                 ? Colors.green
                                                 : Colors.red,
@@ -274,7 +274,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 20),
                       termsAndPrivacy(),
                       backToHomeButton(context),
                       SizedBox(height: 20),

@@ -23,7 +23,7 @@ class ServiceSection extends StatelessWidget {
           }
 
           return GridView.builder(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: services.length,

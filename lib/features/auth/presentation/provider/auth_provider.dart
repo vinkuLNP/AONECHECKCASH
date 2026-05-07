@@ -49,13 +49,20 @@ class AuthProvider extends ChangeNotifier {
 
   Future<String?> login(String email, String password) async {
     _setLoading(true);
-
     try {
       user = await loginUseCase(email, password);
-      await SessionManager.saveSession(userId: user!.id, token: user!.token);
+      if (user!.clientRecordId.isEmpty) {
+        return "Client record not found";
+      }
+
+      await SessionManager.saveSession(
+        userId: user!.id,
+        token: user!.token,
+        clientRecordId: user!.clientRecordId,
+      );
+
       return AppStrings.loginSuccessful;
     } catch (e) {
-      debugPrint("Login Error: $e");
       return _handleError(e);
     } finally {
       _setLoading(false);

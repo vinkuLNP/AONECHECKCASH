@@ -5,35 +5,43 @@ class ItemModel extends Item {
   ItemModel({
     required super.id,
     required super.description,
-    required super.imageUrl,
     required super.status,
-    required super.fileId,
-    required super.createdAt,
+    required super.frontFileId,
+    required super.backFileId,
+    required super.frontImageUrl,
+    required super.backImageUrl,
   });
 
   factory ItemModel.fromJson(Map<String, dynamic> json) {
-    String imageUrl = "";
-    String fileId = "";
-    String createdAt = "";
-    final imageRaw = json["field_39_raw"];
-    final dateRaw = json["field_32_raw"];
-    if (imageRaw is Map) {
-      imageUrl = imageRaw["signed_url_inline"] ?? imageRaw["url"] ?? "";
-      fileId = imageRaw["id"] ?? "";
-    }
-    if (dateRaw is Map && dateRaw["iso_timestamp"] != null) {
-      DateTime utcTime = DateTime.parse(dateRaw["iso_timestamp"]);
-      DateTime localTime = utcTime.toLocal();
-      createdAt = DateFormat("dd MMM yyyy, hh:mm a").format(localTime);
+    String frontImageUrl = "";
+    String backImageUrl = "";
+
+    String frontFileId = "";
+    String backFileId = "";
+
+    final frontRaw = json["field_62_raw"];
+
+    if (frontRaw is Map) {
+      frontImageUrl = frontRaw["signed_url_inline"] ?? frontRaw["url"] ?? "";
+      frontFileId = frontRaw["id"] ?? "";
     }
 
+    /// BACK IMAGE
+    final backRaw = json["field_63_raw"];
+
+    if (backRaw is Map) {
+      backImageUrl = backRaw["signed_url_inline"] ?? backRaw["url"] ?? "";
+      backFileId = backRaw["id"] ?? "";
+    }
     return ItemModel(
       id: json["id"].toString(),
       description: json["field_37"] ?? "",
-      imageUrl: imageUrl,
+      frontImageUrl: frontImageUrl,
+      backImageUrl: backImageUrl,
+      frontFileId: frontFileId,
+      backFileId: backFileId,
+
       status: json["field_40"] ?? "Pending",
-      fileId: fileId,
-      createdAt: createdAt,
     );
   }
 }

@@ -164,19 +164,8 @@ class ImageViewerScreen extends StatelessWidget {
                 ),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: item.imageUrl.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: item.imageUrl,
-                          fit: BoxFit.cover,
-
-                          placeholder: (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
-
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.broken_image),
-
-                          fadeInDuration: const Duration(milliseconds: 300),
-                        )
+                  child: item.frontImageUrl.isNotEmpty
+                      ? Image.network(item.frontImageUrl, fit: BoxFit.cover)
                       : const Icon(Icons.image_not_supported),
                 ),
               ),
