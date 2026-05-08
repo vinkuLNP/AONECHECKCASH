@@ -5,6 +5,8 @@ import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/auth/presentation/auth_validator.dart';
 import 'package:a1_check_cashers/features/auth/presentation/widgets/auth_widgets.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/top_header.dart';
+import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
+import 'package:a1_check_cashers/features/cheque/presentation/provider/cheque_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -94,6 +96,7 @@ class LoginScreen extends StatelessWidget {
                                     controller: passwordController,
                                     obscure: provider.obscurePassword,
                                     maxLength: 20,
+                                    maxLines: 1,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
 
@@ -102,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                                           AppStrings.password) {
                                         return null;
                                       }
-                                      return AuthValidator.password(value);
+                                      return AuthValidator.loginPassword(value);
                                     },
 
                                     onToggle: provider.togglePassword,
@@ -160,7 +163,10 @@ class LoginScreen extends StatelessWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
-                                            content: Text(message),
+                                            content: AppText(
+                                              text: message,
+                                              color: AppColors.whiteColor,
+                                            ),
                                             backgroundColor: isSuccess
                                                 ? Colors.green
                                                 : Colors.red,
@@ -169,8 +175,14 @@ class LoginScreen extends StatelessWidget {
                                         if (isSuccess) {
                                           Navigator.pushNamed(
                                             context,
-                                            AppRoutes.imageViewer,
+                                            AppRoutes.profileView,
                                           );
+                                          await context
+                                              .read<ProfileProvider>()
+                                              .loadProfile();
+                                          await context
+                                              .read<ChequeFormProvider>()
+                                              .loadCheques();
                                         }
                                       }
                                     },

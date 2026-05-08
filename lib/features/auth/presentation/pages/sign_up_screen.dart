@@ -1,11 +1,13 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
+import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/auth/presentation/auth_validator.dart';
 import 'package:a1_check_cashers/features/auth/presentation/widgets/auth_widgets.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/top_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_strings.dart';
@@ -65,9 +67,14 @@ class SignupScreen extends StatelessWidget {
                                     label: AppStrings.fullName,
                                     controller: nameController,
                                     hint: AppStrings.enterFullName,
+                                    maxLength: 50,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        AppKeys.charactersOnlyFormatter,
+                                      ),
+                                    ],
                                     validator: (value) {
                                       if (provider.activeField ==
                                           AppStrings.fullName) {
@@ -101,7 +108,7 @@ class SignupScreen extends StatelessWidget {
                                     hint: AppStrings.enterYourEmail,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-
+                                    maxLength: 50,
                                     validator: (value) {
                                       if (provider.activeField ==
                                           AppStrings.email) {
@@ -130,6 +137,7 @@ class SignupScreen extends StatelessWidget {
                                     controller: passwordController,
                                     obscure: provider.obscurePassword,
                                     maxLength: 20,
+                                    maxLines: 1,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
 
@@ -167,6 +175,7 @@ class SignupScreen extends StatelessWidget {
                                     controller: confirmPasswordController,
                                     obscure: provider.obscureConfirmPassword,
                                     maxLength: 20,
+                                    maxLines: 1,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
 
@@ -228,7 +237,10 @@ class SignupScreen extends StatelessWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
-                                            content: Text(message),
+                                            content: AppText(
+                                              text: message,
+                                              color: AppColors.whiteColor,
+                                            ),
                                             backgroundColor: isSuccess
                                                 ? Colors.green
                                                 : Colors.red,

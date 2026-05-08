@@ -40,4 +40,7 @@ class AppKeys {
   static const String tasksAttachments = 'tasks_attachments';
   static const String tasksAttachmentsFolder = 'tasks';
   static const String notesAttachmentsFolder = 'notes';
+  static RegExp charactersOnlyFormatter = RegExp(r'[a-zA-Z ]');
+
+  static RegExp charactersOnlyValidator = RegExp(r'^[a-zA-Z ]+$');
 }

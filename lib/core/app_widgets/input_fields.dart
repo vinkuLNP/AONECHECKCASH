@@ -17,9 +17,10 @@ class AppInputField extends StatelessWidget {
   final String? hint;
   final int? maxLength;
   final int? maxLines;
+  final int? minLines;
   final FocusNode? focusNode;
   final VoidCallback? onTap;
-
+  final double labelFontSize;
   final AutovalidateMode? autovalidateMode;
 
   final bool readOnly;
@@ -34,6 +35,7 @@ class AppInputField extends StatelessWidget {
     this.onChanged,
     this.hint,
     this.maxLength,
+    this.minLines,
     this.onTap,
     this.focusNode,
     this.autovalidateMode,
@@ -47,6 +49,7 @@ class AppInputField extends StatelessWidget {
     this.fillColor,
     this.borderColor,
     this.focusColor,
+    this.labelFontSize = 14,
   });
 
   @override
@@ -58,7 +61,7 @@ class AppInputField extends StatelessWidget {
           AppText(
             text: label,
             fontWeight: FontWeight.w400,
-            fontSize: 14,
+            fontSize: labelFontSize,
             color: labelColor,
           ),
           const SizedBox(height: 8),
@@ -73,14 +76,17 @@ class AppInputField extends StatelessWidget {
             fontSize: isDense ? 14 : 12,
             color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
+          enabled: !readOnly,
           keyboardType: keyboardType,
           readOnly: readOnly,
           maxLength: maxLength,
-          maxLines: maxLength != null ? 1 : maxLines,
+          minLines: minLines,
+          maxLines: maxLines,
           onChanged: onChanged,
           decoration: InputDecoration(
             counterText: '',
             hintText: hint,
+            errorMaxLines: 3,
             filled: isDense || readOnly || fillTextField,
             fillColor:
                 fillColor ??
@@ -108,6 +114,12 @@ class AppInputField extends StatelessWidget {
               borderSide: BorderSide(
                 color: focusColor ?? AppColors.authThemeColor,
                 width: 2,
+              ),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: borderColor ?? AppColors.authThemeColor,
               ),
             ),
             contentPadding: EdgeInsets.symmetric(
@@ -172,7 +184,7 @@ class AppPasswordField extends StatelessWidget {
           onFieldSubmitted: onFieldSubmitted,
           onTap: onTap,
           maxLength: maxLength,
-          maxLines: maxLength != null ? 1 : maxLines,
+          maxLines: maxLines,
           autovalidateMode: autovalidateMode,
           onChanged: onChanged,
           style: appTextStyle(fontSize: 12),

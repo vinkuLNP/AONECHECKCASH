@@ -39,11 +39,19 @@ class AuthValidator {
     return null;
   }
 
+  static String? loginPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.passwordRequired;
+    }
+
+    return null;
+  }
+
   static String? password(String? value) {
     if (value == null || value.isEmpty) {
       return AppStrings.passwordRequired;
     }
- final errors = <String>[];
+    final errors = <String>[];
 
     if (value.length < 6) {
       errors.add(AppStrings.passwordMinLength);
