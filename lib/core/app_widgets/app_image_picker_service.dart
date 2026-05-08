@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
+import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -7,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 
 class AppImagePickerService {
   static final ImagePicker _picker = ImagePicker();
+
+  static const int maxFileSizeInBytes = 2 * 1024 * 1024;
 
   static Future<File?> pickImage(
     BuildContext context, {
@@ -53,30 +56,64 @@ class AppImagePickerService {
 
     if (source == null) return null;
 
-    final picked = await _picker.pickImage(
-      source: source,
-      imageQuality: quality,
-    );
+    final picked = await _picker.pickImage(source: source);
 
     if (picked == null) return null;
 
     File file = File(picked.path);
 
-    if (!compress) return file;
+    if (compress) {
+      file = await _compressImage(file, quality);
+    }
 
-    return await _compressImage(file, quality);
+    final fileSize = await file.length();
+
+    if (fileSize > maxFileSizeInBytes) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: AppText(
+              text: AppStrings.imageSizeShouldNotExceed,
+              color: AppColors.whiteColor,
+            ),
+          ),
+        );
+      }
+
+      return null;
+    }
+
+    return file;
   }
 
   static Future<File> _compressImage(File file, int quality) async {
-    final targetPath =
-        '${file.parent.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+    File currentFile = file;
+    int currentQuality = quality;
 
-    final compressed = await FlutterImageCompress.compressAndGetFile(
-      file.absolute.path,
-      targetPath,
-      quality: quality,
-    );
+    while (true) {
+      final targetPath =
+          '${file.parent.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
 
-    return File(compressed!.path);
+      final compressed = await FlutterImageCompress.compressAndGetFile(
+        currentFile.absolute.path,
+        targetPath,
+        quality: currentQuality,
+      );
+
+      if (compressed == null) {
+        return currentFile;
+      }
+
+      final compressedFile = File(compressed.path);
+
+      final size = await compressedFile.length();
+
+      if (size <= maxFileSizeInBytes || currentQuality <= 20) {
+        return compressedFile;
+      }
+
+      currentQuality -= 10;
+      currentFile = compressedFile;
+    }
   }
 }

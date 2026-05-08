@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
@@ -32,31 +33,37 @@ class ChequeFormProvider extends ChangeNotifier {
   bool get isAnyImageUploading => isUploadingFront || isUploadingBack;
   final formKey = GlobalKey<FormState>();
 
-  late TextEditingController chequeNumberController;
-  late TextEditingController amountController;
-  late TextEditingController notesController;
-  late TextEditingController customerNameController;
-  late TextEditingController chequeDetailsController;
+  final TextEditingController chequeNumberController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
+  final TextEditingController notesController = TextEditingController();
+  final TextEditingController customerNameController = TextEditingController();
+  final TextEditingController chequeDetailsController = TextEditingController();
 
-  late TextEditingController customerPhoneController;
-  late TextEditingController payeeController;
-  late TextEditingController makerNameController;
-  late TextEditingController makerPhoneController;
+  final TextEditingController customerPhoneController = TextEditingController();
+  final TextEditingController payeeController = TextEditingController();
+  final TextEditingController makerNameController = TextEditingController();
+  final TextEditingController makerPhoneController = TextEditingController();
+  final TextEditingController otherChequeTypeController =
+      TextEditingController();
   ChequeStatus status = ChequeStatus.underReview;
   ChequeType type = ChequeType.personal;
   DateTime selectedDate = DateTime.now();
-  late FocusNode customerPhoneFocus;
-  late FocusNode makerPhoneFocus;
-  late FocusNode customerNameFocus;
-  late FocusNode chequeNumberFocus;
-  late FocusNode amountFocus;
-  late FocusNode payeeFocus;
-  late FocusNode makerNameFocus;
-  late FocusNode notesFocus;
+  bool get isOtherChequeType => type == ChequeType.other;
+  final FocusNode customerPhoneFocus = FocusNode();
+  final FocusNode makerPhoneFocus = FocusNode();
+  final FocusNode customerNameFocus = FocusNode();
+  final FocusNode chequeNumberFocus = FocusNode();
+  final FocusNode amountFocus = FocusNode();
+  final FocusNode payeeFocus = FocusNode();
+  final FocusNode makerNameFocus = FocusNode();
+  final FocusNode notesFocus = FocusNode();
   File? frontImage;
   File? backImage;
 
   String? frontFileId;
+  String? frontFileUrl;
+  String? backFileUrl;
+
   String? backFileId;
 
   bool isSaving = false;
@@ -67,61 +74,59 @@ class ChequeFormProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void initialize(Cheque? cheque, ChequeFormMode mode) {
+  void initialize(Cheque? cheque, ChequeFormMode mode) async {
+    final userName = await SessionManager.getUserName();
+    log('usernmae--------------<$userName');
     isLoading = true;
     notifyListeners();
     _cheque = cheque;
     _mode = mode;
-    chequeNumberController = TextEditingController(
-      text: cheque?.chequeNumber ?? '',
-    );
 
-    amountController = TextEditingController(
-      text: cheque?.amount.toString() ?? '',
-    );
+    chequeNumberController.text = cheque?.chequeNumber ?? '';
 
-    customerNameController = TextEditingController(
-      text: cheque?.customerName ?? '',
-    );
+    amountController.text = cheque?.amount == null
+        ? ''
+        : cheque!.amount % 1 == 0
+        ? cheque.amount.toInt().toString()
+        : cheque.amount.toString();
+    customerNameController.text = cheque?.customerName ?? userName ?? '';
 
-    customerPhoneController = TextEditingController(
-      text: cheque?.customerPhone ?? '',
-    );
+    customerPhoneController.text = cheque?.customerPhone ?? '';
 
-    payeeController = TextEditingController(text: cheque?.payee ?? '');
+    payeeController.text = cheque?.payee ?? '';
 
-    makerNameController = TextEditingController(text: cheque?.makerName ?? '');
+    makerNameController.text = cheque?.makerName ?? '';
 
-    makerPhoneController = TextEditingController(
-      text: cheque?.makerPhone ?? '',
-    );
+    makerPhoneController.text = cheque?.makerPhone ?? '';
 
-    chequeDetailsController = TextEditingController(
-      text: cheque?.chequeDetails ?? '',
-    );
+    chequeDetailsController.text = cheque?.chequeDetails ?? '';
 
-    notesController = TextEditingController(text: cheque?.notes ?? '');
+    notesController.text = cheque?.notes ?? '';
 
     if (cheque != null) {
       status = cheque.status;
       type = cheque.type;
       selectedDate = cheque.chequeDate;
 
-      frontFileId = cheque.frontImage;
-      backFileId = cheque.backImage;
+      frontFileId = cheque.frontImageId;
+      backFileId = cheque.backImageId;
+
+      frontFileUrl = cheque.frontImage;
+      backFileUrl = cheque.backImage;
+      otherChequeTypeController.text = cheque.type == ChequeType.other
+          ? cheque.otherChequeType.toString()
+          : '';
     }
-    customerPhoneFocus = FocusNode();
-    makerPhoneFocus = FocusNode();
-    customerNameFocus = FocusNode();
-    chequeNumberFocus = FocusNode();
-    amountFocus = FocusNode();
-    payeeFocus = FocusNode();
-    makerNameFocus = FocusNode();
-    notesFocus = FocusNode();
+    log('front image: $frontFileId');
+    log('back image: $backFileId');
 
     isLoading = false;
     notifyListeners();
   }
+
+  String? get safeFrontImage => _cheque?.frontImage;
+
+  String? get safeBackImage => _cheque?.backImage;
 
   @override
   void dispose() {
@@ -133,12 +138,25 @@ class ChequeFormProvider extends ChangeNotifier {
     payeeFocus.dispose();
     makerNameFocus.dispose();
     notesFocus.dispose();
+    otherChequeTypeController.dispose();
+    chequeNumberController.dispose();
+    amountController.dispose();
+    notesController.dispose();
+    customerNameController.dispose();
+    chequeDetailsController.dispose();
+    customerPhoneController.dispose();
+    payeeController.dispose();
+    makerNameController.dispose();
+    makerPhoneController.dispose();
 
     super.dispose();
   }
 
   void updateType(ChequeType value) {
     type = value;
+    if (value != ChequeType.other) {
+      otherChequeTypeController.clear();
+    }
     notifyListeners();
   }
 
@@ -176,7 +194,8 @@ class ChequeFormProvider extends ChangeNotifier {
           content: AppText(
             text: isFront
                 ? AppStrings.uploadFrontImageHint
-                : AppStrings.uploadBackImageHint,color: AppColors.whiteColor,
+                : AppStrings.uploadBackImageHint,
+            color: AppColors.whiteColor,
           ),
         ),
       );
@@ -198,7 +217,10 @@ class ChequeFormProvider extends ChangeNotifier {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: AppColors.errorColor,
-            content: AppText(text: AppStrings.failedToUploadImage,color: AppColors.whiteColor,),
+            content: AppText(
+              text: AppStrings.failedToUploadImage,
+              color: AppColors.whiteColor,
+            ),
           ),
         );
 
@@ -224,7 +246,12 @@ class ChequeFormProvider extends ChangeNotifier {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: AppText(text: AppStrings.failedToUploadImage,color: AppColors.whiteColor,)),
+        const SnackBar(
+          content: AppText(
+            text: AppStrings.failedToUploadImage,
+            color: AppColors.whiteColor,
+          ),
+        ),
       );
     } finally {
       if (isFront) {
@@ -272,8 +299,11 @@ class ChequeFormProvider extends ChangeNotifier {
         return error;
       }
     }
+    if (isOtherChequeType && otherChequeTypeController.text.trim().isEmpty) {
+      return 'Please enter cheque type';
+    }
 
-    if (frontFileId == null || backFileId == null) {
+    if ((frontFileId?.isEmpty ?? true) || (backFileId?.isEmpty ?? true)) {
       return 'Front and back cheque images are required';
     }
 
@@ -282,7 +312,8 @@ class ChequeFormProvider extends ChangeNotifier {
 
   Future<bool> saveCheque(BuildContext context) async {
     FocusScope.of(context).unfocus();
-
+    final frontImageId = frontFileId;
+    final backImageId = backFileId;
     enableValidation();
 
     await Future.delayed(const Duration(milliseconds: 100));
@@ -306,7 +337,7 @@ class ChequeFormProvider extends ChangeNotifier {
       return false;
     }
 
-    if (frontFileId == null || backFileId == null) {
+    if (frontImageId == null || backImageId == null) {
       return false;
     }
     final userId = await SessionManager.getClientRecordId();
@@ -326,9 +357,11 @@ class ChequeFormProvider extends ChangeNotifier {
         chequeNumberController.text,
         double.parse(amountController.text),
         selectedDate,
-        frontFileId!,
-        backFileId!,
-        type,
+        frontImageId,
+        backImageId,
+        type == ChequeType.other
+            ? otherChequeTypeController.text.trim()
+            : type.chequeTypeName,
         customerNameController.text,
         customerPhoneController.text,
         payeeController.text,
@@ -344,9 +377,11 @@ class ChequeFormProvider extends ChangeNotifier {
         chequeNumberController.text,
         double.parse(amountController.text),
         selectedDate,
-        frontFileId!,
-        backFileId!,
-        type,
+        frontImageId,
+        backImageId,
+        type == ChequeType.other
+            ? otherChequeTypeController.text.trim()
+            : type.chequeTypeName,
         customerNameController.text,
         customerPhoneController.text,
         payeeController.text,
@@ -414,7 +449,7 @@ class ChequeFormProvider extends ChangeNotifier {
     return map;
   }
 
-  late ChequeFormMode _mode;
+  ChequeFormMode _mode = ChequeFormMode.create;
 
   bool get isEditMode => _mode == ChequeFormMode.edit;
   bool get isCreateMode => _mode == ChequeFormMode.create;

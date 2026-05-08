@@ -32,6 +32,14 @@ class ProfileProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       user = await getProfile(id);
+
+      if (user != null) {
+        final savedName = await SessionManager.getUserName();
+
+        if (savedName != user!.name) {
+          await SessionManager.saveUserName(userName: user!.name);
+        }
+      }
     } finally {
       isLoading = false;
       notifyListeners();

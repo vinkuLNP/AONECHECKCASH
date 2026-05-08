@@ -29,7 +29,10 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const TopHeader(showDrawer: false),
+            GestureDetector(
+              onTap: () => backToHomeButton(context),
+              child: const TopHeader(showDrawer: false),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(

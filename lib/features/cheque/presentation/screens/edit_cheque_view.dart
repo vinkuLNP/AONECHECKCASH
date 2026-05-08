@@ -177,7 +177,9 @@ class EditChequeView extends StatelessWidget {
                             maxLength: 15,
                             validator: AppValidators.validateAmount,
                             inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
+                              FilteringTextInputFormatter.allow(
+                                AppKeys.digitsAndDecimalFormatter,
+                              ),
                               LengthLimitingTextInputFormatter(15),
                             ],
                           ),
@@ -219,7 +221,21 @@ class EditChequeView extends StatelessWidget {
                               }
                             },
                     ),
+                    if (provider.isOtherChequeType) ...[
+                      const SizedBox(height: 12),
 
+                      AppFormField(
+                        label: 'Enter cheque type',
+                        controller: provider.otherChequeTypeController,
+                        readOnly: provider.isReadOnly,
+                        autovalidateMode: provider.hasSubmitted
+                            ? AutovalidateMode.always
+                            : AutovalidateMode.disabled,
+
+                        validator: (value) =>
+                            AppValidators.otherChequeType(value, 'cheque type'),
+                      ),
+                    ],
                     const SizedBox(height: 10),
 
                     AppFormField(
@@ -313,14 +329,14 @@ class EditChequeView extends StatelessWidget {
                             title: AppStrings.frontSide,
                             file: provider.frontImage,
                             titleColor: AppColors.black,
-                            imageUrl: provider.frontFileId,
+                            imageUrl: provider.safeFrontImage,
                             isLoading: provider.isUploadingFront,
                             readOnly:
                                 provider.isReadOnly ||
                                 provider.isAnyImageUploading,
                             errorText:
                                 provider.hasSubmitted &&
-                                    provider.frontFileId == null
+                                    provider.safeFrontImage == null
                                 ? 'Front cheque image is required'
                                 : null,
                             onImageSelected: (file) async {
@@ -345,7 +361,7 @@ class EditChequeView extends StatelessWidget {
                                     provider.backFileId == null
                                 ? 'Back cheque image is required'
                                 : null,
-                            imageUrl: provider.backFileId,
+                            imageUrl: provider.safeBackImage,
                             isLoading: provider.isUploadingBack,
                             readOnly:
                                 provider.isReadOnly ||

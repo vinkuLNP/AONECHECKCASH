@@ -86,7 +86,7 @@ class ChequeCard extends StatelessWidget {
             children: [
               Expanded(
                 child: AppImagePickerCard(
-                  height: 80,
+                  height: 100,
 
                   title: AppStrings.frontSide,
                   imageUrl: cheque.frontImage,
@@ -99,7 +99,7 @@ class ChequeCard extends StatelessWidget {
 
               Expanded(
                 child: AppImagePickerCard(
-                  height: 80,
+                  height: 100,
                   title: AppStrings.backSide,
                   imageUrl: cheque.backImage,
                   titleColor: AppColors.primary,

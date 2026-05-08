@@ -30,7 +30,7 @@ class AppStrings {
 
   static const findStore = "Find a Store";
   static const callNow = "Call Now";
-  static const verifyCheckNow = "Verify My Check Now";
+  static const verifyCheckNow = "My Checks";
 
   static const language = "EN / ES";
 
@@ -319,17 +319,17 @@ class AppStrings {
       'Back image uploaded successfully.';
 
   static const personalCheck = "Personal Check";
-  static const businessCheck = "Business Cheque";
-  static const cashierCheck = "Cashier’s Cheque";
-  static const certifiedCheck = "Certified Cheque";
+  static const businessCheck = "Business Check";
+  static const cashierCheck = "Cashier’s Check";
+  static const certifiedCheck = "Certified Check";
   static const bankerCheck = "Banker’s Draft";
-  static const travelerCheck = "Traveler’s Cheque";
-  static const eCheck = "Electronic Cheque (eCheck)";
+  static const travelerCheck = "Traveler’s Check";
+  static const eCheck = "Electronic Check (eCheck)";
   static const other = "Other";
   static const logOut = "Log Out";
 
   static const viewImage = "View Image";
   static const replaceImage = "Replace Image";
-
+  static const imageSizeShouldNotExceed = 'Image size should not exceed 2 MB.';
   static const wantToLogout = "Are you sure you want to logout?";
 }

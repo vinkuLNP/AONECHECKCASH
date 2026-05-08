@@ -19,6 +19,9 @@ class Cheque {
   final ChequeStatus status;
   final String? notes;
   final DateTime createdAt;
+  final String? otherChequeType;
+  final String? frontImageId;
+  final String? backImageId;
 
   Cheque({
     required this.id,
@@ -37,6 +40,9 @@ class Cheque {
     required this.makerName,
     required this.makerPhone,
     required this.chequeDetails,
+    required this.frontImageId,
+    required this.backImageId,
     this.notes,
+    this.otherChequeType,
   });
 }

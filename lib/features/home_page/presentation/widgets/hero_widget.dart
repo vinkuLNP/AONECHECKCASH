@@ -2,7 +2,10 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
+import 'package:a1_check_cashers/core/routes/app_routes.dart';
+import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../core/constants/app_strings.dart';
 
 class HeroWidget extends StatelessWidget {
@@ -49,6 +52,11 @@ class HeroWidget extends StatelessWidget {
                   hint: AppStrings.enterZip,
                   isDense: true,
                   keyboardType: TextInputType.number,
+                  maxLength: 15,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(15),
+                  ],
                 ),
               ),
 
@@ -125,6 +133,14 @@ class HeroWidget extends StatelessWidget {
                     color: AppColors.whiteColor,
                     size: 18,
                   ),
+                  onPressed: () async {
+                    final isLoggedIn = await SessionManager.isLoggedIn();
+                    if (isLoggedIn) {
+                      Navigator.pushNamed(context, AppRoutes.profileView);
+                    } else {
+                      Navigator.pushNamed(context, AppRoutes.login);
+                    }
+                  },
                 ),
               ),
             ],
