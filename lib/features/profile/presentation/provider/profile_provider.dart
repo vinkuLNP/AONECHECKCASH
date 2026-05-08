@@ -1,11 +1,14 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
+import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/profile/domain/enitites/client_entity.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/get_profile_use_case.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/update_id_usecase.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/upload_id_usecase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class ProfileProvider extends ChangeNotifier {
   final GetProfileUseCase getProfile;
@@ -20,31 +23,79 @@ class ProfileProvider extends ChangeNotifier {
 
   Client? user;
   bool isLoading = false;
-
+  bool isUploadingId = false;
   Future<void> loadProfile() async {
     final id = await SessionManager.getClientRecordId();
     if (id == null) return;
 
-    isLoading = true;
-    notifyListeners();
-
-    user = await getProfile(id);
-
-    isLoading = false;
-    notifyListeners();
+    try {
+      isLoading = true;
+      notifyListeners();
+      user = await getProfile(id);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> uploadFrontId(File file) async {
-    final fileId =
-        await uploadId(file, KnackFields.frontImage);
-
-    if (fileId == null) return;
-
     final id = await SessionManager.getClientRecordId();
+
     if (id == null) return;
 
-    await updateId(id, fileId);
+    try {
+      isUploadingId = true;
+      notifyListeners();
 
-    await loadProfile();
+      final compressedFile = await compressImage(file);
+
+      final fileId = await uploadId(compressedFile, KnackFields.frontImage);
+
+      if (fileId == null) return;
+
+      await updateId(id, fileId);
+
+      await loadProfile();
+    } finally {
+      isUploadingId = false;
+      notifyListeners();
+    }
+  }
+
+  Future<File> compressImage(File file) async {
+    final targetPath =
+        '${file.parent.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+    final compressed = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 60,
+    );
+
+    return File(compressed!.path);
+  }
+
+  Future<void> logout(BuildContext context) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      await SessionManager.clearSession();
+
+      if (!context.mounted) {
+        return;
+      }
+
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+        (route) => false,
+      );
+    } catch (e) {
+      log("Logout Error: $e");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }
