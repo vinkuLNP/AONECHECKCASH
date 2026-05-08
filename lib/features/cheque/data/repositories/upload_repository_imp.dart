@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:a1_check_cashers/features/cheque/data/data_sources/upload_remote_data_source.dart';
 import 'package:a1_check_cashers/features/cheque/domain/entities/cheque_entity.dart';
-import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/cheque/domain/repositories/upload_repository.dart';
 
 class UploadRepositoryImpl implements UploadRepository {
@@ -27,7 +26,7 @@ class UploadRepositoryImpl implements UploadRepository {
     DateTime date,
     String frontImage,
     String backImage,
-    ChequeType type,
+    String type,
     String customerName,
     String customerPhone,
     String payeeName,
@@ -44,7 +43,7 @@ class UploadRepositoryImpl implements UploadRepository {
       date: date,
       frontFileId: frontImage,
       backFileId: backImage,
-      chequeType: type.chequeTypeName,
+      chequeType: type,
       customerName: customerName,
       customerPhone: customerPhone,
       payeeName: payeeName,
@@ -64,7 +63,7 @@ class UploadRepositoryImpl implements UploadRepository {
     DateTime date,
     String frontImage,
     String backImage,
-    ChequeType type,
+    String type,
     String customerName,
     String customerPhone,
     String payeeName,
@@ -81,7 +80,7 @@ class UploadRepositoryImpl implements UploadRepository {
       date: date,
       frontFileId: frontImage,
       backFileId: backImage,
-      chequeType: type.chequeTypeName,
+      chequeType: type,
       status: status,
       notes: notes,
       customerName: customerName,

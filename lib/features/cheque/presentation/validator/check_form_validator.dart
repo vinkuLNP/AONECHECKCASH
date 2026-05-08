@@ -41,11 +41,11 @@ class AppValidators {
 
   static String? validateChequeNumber(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Cheque number is required';
+      return 'Check number is required';
     }
 
     if (!RegExp(r'^\d{1,15}$').hasMatch(value.trim())) {
-      return 'Cheque number must be up to 15 digits';
+      return 'Check number must be up to 15 digits';
     }
 
     return null;
@@ -53,11 +53,30 @@ class AppValidators {
 
   static String? validateAmount(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Cheque amount is required';
+      return 'Check amount is required';
     }
 
-    if (!RegExp(r'^\d{1,15}$').hasMatch(value.trim())) {
-      return 'Amount must be up to 15 digits';
+  
+  final cleaned = value.trim();
+
+  final amount = double.tryParse(cleaned);
+
+  if (amount == null) {
+    return 'Enter valid amount';
+  }
+
+  final digitsOnly = cleaned.replaceAll('.', '');
+
+  if (digitsOnly.length > 15) {
+    return 'Amount must be up to 15 digits';
+  }
+
+  return null;
+}
+
+  static String? otherChequeType(String? value, String fieldName) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Other Cheque Type Value is required';
     }
 
     return null;

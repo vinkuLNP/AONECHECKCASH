@@ -41,6 +41,6 @@ class AppKeys {
   static const String tasksAttachmentsFolder = 'tasks';
   static const String notesAttachmentsFolder = 'notes';
   static RegExp charactersOnlyFormatter = RegExp(r'[a-zA-Z ]');
-
+  static RegExp digitsAndDecimalFormatter = RegExp(r'^\d*\.?\d*');
   static RegExp charactersOnlyValidator = RegExp(r'^[a-zA-Z ]+$');
 }

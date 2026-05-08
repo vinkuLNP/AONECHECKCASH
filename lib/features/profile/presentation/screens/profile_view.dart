@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/identity_card.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/profile_card.dart';
@@ -89,6 +92,39 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+                      ),
+                      SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 12),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Material(
+                              color: Colors.white.withValues(alpha: 0.18),
+                              borderRadius: BorderRadius.circular(14),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(14),
+                                onTap: () {
+                                  if (Navigator.canPop(context)) {
+                                    Navigator.pop(context);
+                                  } else {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      AppRoutes.home,
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios_new_rounded,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),

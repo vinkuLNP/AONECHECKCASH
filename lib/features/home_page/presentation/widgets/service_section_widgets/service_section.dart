@@ -21,6 +21,10 @@ class ServiceSection extends StatelessWidget {
           } else if (constraints.maxWidth > 600) {
             crossAxisCount = 3;
           }
+          final width = constraints.maxWidth;
+
+          final itemWidth = (width - 40) / crossAxisCount;
+          final itemHeight = itemWidth * 1.20;
 
           return GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -31,7 +35,7 @@ class ServiceSection extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
-              childAspectRatio: 0.9,
+              childAspectRatio: itemWidth / itemHeight,
             ),
             itemBuilder: (context, index) {
               return ServiceCard(item: services[index]);

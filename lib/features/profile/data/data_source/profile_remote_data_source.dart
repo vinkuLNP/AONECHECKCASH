@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
@@ -16,8 +15,6 @@ class ProfileRemoteDataSource {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      log("PROFILE RESPONSE =====");
-      log(data.toString());
       return ClientModel.fromJson(data);
     } else {
       throw Exception("Failed to load profile");

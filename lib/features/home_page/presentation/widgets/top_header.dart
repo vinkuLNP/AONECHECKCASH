@@ -41,7 +41,14 @@ class TopHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
-              const AppLogoHeaderWidget(textColor: true),
+              GestureDetector(
+                onTap: () {
+                  if (!showDrawer) {
+                    Navigator.pushReplacementNamed(context, AppRoutes.home);
+                  }
+                },
+                child: const AppLogoHeaderWidget(textColor: true),
+              ),
               if (showDrawer) ...[
                 const Spacer(),
                 AppButton(

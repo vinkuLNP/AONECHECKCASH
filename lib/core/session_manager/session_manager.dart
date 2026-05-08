@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
   static const _userIdKey = "user_id";
+  static const _userNameKey = "user_name";
   static const _tokenKey = "token";
   static const _clientRecordIdKey = "client_record_id";
 
@@ -16,9 +17,19 @@ class SessionManager {
     await prefs.setString(_clientRecordIdKey, clientRecordId);
   }
 
+  static Future<void> saveUserName({required String userName}) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_userNameKey, userName);
+  }
+
   static Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_userIdKey);
+  }
+
+  static Future<String?> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_userNameKey);
   }
 
   static Future<String?> getToken() async {

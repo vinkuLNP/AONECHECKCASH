@@ -1,4 +1,3 @@
-import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/cheque/domain/repositories/upload_repository.dart';
 
 class CreateChequeUsecase {
@@ -12,7 +11,7 @@ class CreateChequeUsecase {
     DateTime date,
     String frontImage,
     String backImage,
-    ChequeType type,
+    String type,
     String customerName,
     String customerPhone,
     String payeeName,
