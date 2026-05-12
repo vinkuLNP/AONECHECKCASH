@@ -16,4 +16,5 @@ class ApiEndpoints {
 
   static String updateIdDocument(String id) =>
       "$baseUrl/objects/$objectKeyIdDocuments/records/$id";
+
 }

@@ -38,7 +38,7 @@ class TopHeader extends StatelessWidget {
         ),
         Container(
           color: AppColors.darkRed,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           child: Row(
             children: [
               GestureDetector(

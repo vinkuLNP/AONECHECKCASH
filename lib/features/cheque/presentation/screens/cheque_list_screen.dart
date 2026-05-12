@@ -19,6 +19,7 @@ class ChequeListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: AppText(text: AppStrings.cheques, color: AppColors.black),
         actions: [
           // IconButton(
