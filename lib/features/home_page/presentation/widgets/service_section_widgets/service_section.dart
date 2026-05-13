@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/features/home_page/data/data_sources/services_card_local_data.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/service_section_widgets/service_card.dart';
@@ -24,7 +26,9 @@ class ServiceSection extends StatelessWidget {
           final width = constraints.maxWidth;
 
           final itemWidth = (width - 40) / crossAxisCount;
-          final itemHeight = itemWidth * 1.20;
+          final itemHeight = Platform.isIOS
+              ? itemWidth * 1.33
+              : itemWidth * 1.22;
 
           return GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16),

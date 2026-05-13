@@ -42,7 +42,7 @@ class HeroWidget extends StatelessWidget {
           Row(
             children: [
               Flexible(
-                flex: 2,
+                flex: 1,
                 child: AppInputField(
                   label: "",
                   fillColor: AppColors.whiteColor.withValues(alpha: 0.7),
@@ -60,7 +60,7 @@ class HeroWidget extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
 
               Flexible(
                 flex: 1,

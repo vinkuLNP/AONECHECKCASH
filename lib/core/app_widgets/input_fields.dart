@@ -124,11 +124,7 @@ class AppInputField extends StatelessWidget {
             ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: 10,
-              vertical: isDense
-                  ? 16
-                  : maxLines != null
-                  ? 4
-                  : 0,
+              vertical: isDense ? 16 : 10,
             ),
           ),
 

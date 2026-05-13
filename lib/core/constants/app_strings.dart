@@ -275,8 +275,8 @@ class AppStrings {
   static const customerPhone = "Phone Number";
   static const payeeName = "Payee Name";
   static const makerInfo = "Maker Information";
-  static const makerName = "Check Maker Name";
-  static const makerPhone = "Check Maker Phone Number";
+  static const makerName = "Name";
+  static const makerPhone = "Phone Number";
   static const additionalNotes = "Additional Notes";
 
   static const chequeNumber = "Number";
@@ -285,7 +285,6 @@ class AppStrings {
   static const chequeType = "Type";
   static const companyName = "Check Company Name";
   static const chequeImages = "Check Images";
-  static const notes = "Notes / Comments";
 
   static const noNotes = "No Notes Available";
 
