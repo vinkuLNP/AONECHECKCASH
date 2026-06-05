@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
@@ -51,6 +52,7 @@ class UploadRemoteDataSource {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      log("Fetched cheques data: $data");
       return List<ChequeModel>.from(
         data["records"].map((e) => ChequeModel.fromJson(e)),
       );
@@ -165,3 +167,4 @@ class UploadRemoteDataSource {
     return response.statusCode == 200;
   }
 }
+

@@ -68,6 +68,7 @@ class TopHeader extends StatelessWidget {
                   borderColor: AppColors.whiteColor,
                   icon: Icon(Icons.person, color: AppColors.whiteColor),
                 ),
+                /*  Drawer Button 
                 Builder(
                   builder: (context) => IconButton(
                     icon: const Icon(
@@ -77,7 +78,7 @@ class TopHeader extends StatelessWidget {
                     ),
                     onPressed: () => Scaffold.of(context).openDrawer(),
                   ),
-                ),
+                ),*/
               ],
             ],
           ),

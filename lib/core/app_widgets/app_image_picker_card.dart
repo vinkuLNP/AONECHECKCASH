@@ -3,27 +3,52 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_image_picker_service.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/features/profile/presentation/widgets/pdf_viewer_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+enum PickerFileType { image, pdf }
 
 class AppImagePickerCard extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final String? errorText;
+
   final File? file;
+
   final String? imageUrl;
+
+  final String? fileUrl;
+
+  final String? fileName;
+
   final bool isLoading;
+
   final Future<void> Function(File file)? onImageSelected;
+
   final double height;
+
   final BorderRadius borderRadius;
-  final bool allowCamera, showTitle;
+
+  final bool allowCamera;
+
+  final bool showTitle;
+
   final bool allowGallery;
+
   final bool compressImage;
+
   final Widget? emptyWidget;
+
   final Widget? loadingWidget;
+
   final BoxFit fit;
+
   final bool readOnly;
+
   final Color titleColor;
+
+  final PickerFileType fileType;
 
   const AppImagePickerCard({
     super.key,
@@ -32,6 +57,8 @@ class AppImagePickerCard extends StatelessWidget {
     this.errorText,
     this.file,
     this.imageUrl,
+    this.fileUrl,
+    this.fileName,
     this.isLoading = false,
     this.onImageSelected,
     this.height = 180,
@@ -45,10 +72,18 @@ class AppImagePickerCard extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.readOnly = false,
     this.titleColor = const Color.fromRGBO(97, 97, 97, 1),
+    this.fileType = PickerFileType.image,
   });
 
-  bool get hasImage =>
-      file != null || (imageUrl != null && imageUrl!.isNotEmpty);
+  bool get isPdf => fileType == PickerFileType.pdf;
+
+  bool get hasFile {
+    if (isPdf) {
+      return file != null || (fileUrl != null && fileUrl!.isNotEmpty);
+    }
+
+    return file != null || (imageUrl != null && imageUrl!.isNotEmpty);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,15 +102,17 @@ class AppImagePickerCard extends StatelessWidget {
           onTap: isLoading
               ? null
               : () async {
-                  if (!hasImage) {
+                  if (!hasFile) {
                     if (readOnly) return;
 
-                    final pickedFile = await AppImagePickerService.pickImage(
-                      context,
-                      compress: compressImage,
-                      allowCamera: allowCamera,
-                      allowGallery: allowGallery,
-                    );
+                    final pickedFile = isPdf
+                        ? await AppImagePickerService.pickPdf(context)
+                        : await AppImagePickerService.pickImage(
+                            context,
+                            compress: compressImage,
+                            allowCamera: allowCamera,
+                            allowGallery: allowGallery,
+                          );
 
                     if (pickedFile != null && onImageSelected != null) {
                       await onImageSelected!(pickedFile);
@@ -92,8 +129,16 @@ class AppImagePickerCard extends StatelessWidget {
                         child: Wrap(
                           children: [
                             ListTile(
-                              leading: const Icon(Icons.visibility_outlined),
-                              title: const AppText(text: AppStrings.viewImage),
+                              leading: Icon(
+                                isPdf
+                                    ? Icons.picture_as_pdf
+                                    : Icons.visibility_outlined,
+                              ),
+                              title: AppText(
+                                text: isPdf
+                                    ? AppStrings.viewPdf
+                                    : AppStrings.viewImage,
+                              ),
                               onTap: () {
                                 Navigator.pop(context);
 
@@ -104,19 +149,24 @@ class AppImagePickerCard extends StatelessWidget {
                             if (!readOnly)
                               ListTile(
                                 leading: const Icon(Icons.edit_outlined),
-                                title: const AppText(
-                                  text: AppStrings.replaceImage,
+                                title: AppText(
+                                  text: isPdf
+                                      ? AppStrings.replacePdf
+                                      : AppStrings.replaceImage,
                                 ),
                                 onTap: () async {
                                   Navigator.pop(context);
 
-                                  final pickedFile =
-                                      await AppImagePickerService.pickImage(
-                                        context,
-                                        compress: compressImage,
-                                        allowCamera: allowCamera,
-                                        allowGallery: allowGallery,
-                                      );
+                                  final pickedFile = isPdf
+                                      ? await AppImagePickerService.pickPdf(
+                                          context,
+                                        )
+                                      : await AppImagePickerService.pickImage(
+                                          context,
+                                          compress: compressImage,
+                                          allowCamera: allowCamera,
+                                          allowGallery: allowGallery,
+                                        );
 
                                   if (pickedFile != null &&
                                       onImageSelected != null) {
@@ -156,7 +206,7 @@ class AppImagePickerCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: hasImage ? _buildImage() : _buildPlaceholder(),
+                child: hasFile ? _buildFileView() : _buildPlaceholder(),
               ),
 
               if (isLoading)
@@ -178,6 +228,7 @@ class AppImagePickerCard extends StatelessWidget {
             ],
           ),
         ),
+
         if (errorText != null) ...[
           const SizedBox(height: 6),
 
@@ -190,7 +241,38 @@ class AppImagePickerCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImage() {
+  Widget _buildFileView() {
+    if (isPdf) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.picture_as_pdf, size: 52, color: Colors.red),
+
+            const SizedBox(height: 12),
+
+            AppText(
+              text:
+                  fileName ??
+                  file?.path.split('/').last ??
+                  AppStrings.uploadedFile,
+              textAlign: TextAlign.center,
+              fontWeight: FontWeight.w600,
+            ),
+
+            const SizedBox(height: 8),
+
+            AppText(
+              text: AppStrings.tapToViewOrReplace,
+              fontSize: 12,
+              color: Colors.grey.shade600,
+            ),
+          ],
+        ),
+      );
+    }
+
     if (file != null) {
       return Image.file(file!, fit: fit, width: double.infinity);
     }
@@ -216,7 +298,9 @@ class AppImagePickerCard extends StatelessWidget {
               color: Colors.grey.shade500,
               size: 32,
             ),
+
             const SizedBox(height: 8),
+
             AppText(text: AppStrings.failedToLoadImage),
           ],
         );
@@ -235,20 +319,26 @@ class AppImagePickerCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.cloud_upload_outlined,
+            isPdf ? Icons.picture_as_pdf : Icons.cloud_upload_outlined,
             size: 34,
             color: Colors.grey.shade600,
           ),
 
           const SizedBox(height: 12),
+
           AppText(
-            text: title ?? AppStrings.uploadIdDocument,
+            text:
+                title ??
+                (isPdf ? AppStrings.uploadPdf : AppStrings.uploadIdDocument),
             fontWeight: FontWeight.w600,
           ),
+
           const SizedBox(height: 4),
 
           AppText(
-            text: subtitle ?? AppStrings.uploadHint,
+            text:
+                subtitle ??
+                (isPdf ? AppStrings.uploadPdf : AppStrings.uploadHint),
             fontSize: 12,
             color: Colors.grey.shade600,
           ),
@@ -258,6 +348,44 @@ class AppImagePickerCard extends StatelessWidget {
   }
 
   void _openPreview(BuildContext context) {
+    if (isPdf) {
+      final pdfPath = file?.path;
+
+      if (pdfPath != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BusinessPdfViewerScreen(
+              pdfPath: pdfPath,
+              pdfUrl: fileUrl,
+              title:
+                  fileName ??
+                  file?.path.split('/').last ??
+                  AppStrings.pdfPreview,
+              isLocal: true,
+            ),
+          ),
+        );
+
+        return;
+      }
+
+      if (fileUrl != null && fileUrl!.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BusinessPdfViewerScreen(
+              pdfUrl: fileUrl,
+              title: fileName ?? AppStrings.pdfPreview,
+              isLocal: false,
+            ),
+          ),
+        );
+      }
+
+      return;
+    }
+
     showDialog(
       context: context,
       barrierColor: Colors.black,

@@ -2,7 +2,9 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
+import 'package:a1_check_cashers/features/profile/presentation/provider/business_check_provider.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
+import 'package:a1_check_cashers/features/profile/presentation/widgets/business_check_cashing_card.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/identity_card.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/profile_card.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/profile_cheque_card.dart';
@@ -32,6 +34,8 @@ class _ProfileViewState extends State<ProfileView> {
     await Future.wait([
       context.read<ProfileProvider>().loadProfile(),
       context.read<ChequeFormProvider>().loadCheques(),
+      context.read<BusinessCheckProvider>().loadForm(),
+
     ]);
   }
 
@@ -39,8 +43,8 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.heroColor,
-      body: Consumer2<ProfileProvider, ChequeFormProvider>(
-        builder: (_, profile, cheque, __) {
+      body: Consumer3<ProfileProvider, ChequeFormProvider,BusinessCheckProvider>(
+        builder: (_, profile, cheque,businessCheck, __) {
           final isLoading = profile.isLoading || cheque.isLoading;
 
           return Stack(
@@ -63,6 +67,8 @@ class _ProfileViewState extends State<ProfileView> {
                               ProfileHeader(profile),
                               SizedBox(height: 24),
                               IdentityCard(profile),
+                              SizedBox(height: 20),
+                              BusinessCheckCard(provider: businessCheck),
                               SizedBox(height: 20),
                               ProfileChequeCard(cheque),
                               SizedBox(height: 20),

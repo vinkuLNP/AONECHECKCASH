@@ -17,6 +17,7 @@ class SessionManager {
     await prefs.setString(_clientRecordIdKey, clientRecordId);
   }
 
+
   static Future<void> saveUserName({required String userName}) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_userNameKey, userName);

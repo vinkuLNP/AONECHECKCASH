@@ -52,10 +52,10 @@ class HeroWidget extends StatelessWidget {
                   hint: AppStrings.enterZip,
                   isDense: true,
                   keyboardType: TextInputType.number,
-                  maxLength: 15,
+                  maxLength: 5,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(15),
+                    LengthLimitingTextInputFormatter(5),
                   ],
                 ),
               ),

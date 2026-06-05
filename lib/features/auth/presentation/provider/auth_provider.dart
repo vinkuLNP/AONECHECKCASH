@@ -72,7 +72,6 @@ class AuthProvider extends ChangeNotifier {
   Future<String?> signup(
     String name,
     String email,
-    // String phone,
     String password,
   ) async {
     _setLoading(true);
@@ -81,7 +80,7 @@ class AuthProvider extends ChangeNotifier {
       user = await signupUseCase(
         email,
         password,
-        name, //phone
+        name, 
       );
 
       return AppStrings.signupSuccessful;
@@ -112,7 +111,6 @@ class AuthProvider extends ChangeNotifier {
     }
 
     return AppStrings.smthngWntWrong;
-    // return message;
   }
 
   void reset() {

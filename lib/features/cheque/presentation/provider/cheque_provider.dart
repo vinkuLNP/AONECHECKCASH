@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
-import 'package:a1_check_cashers/core/constants/knack/app_config.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/cheque/domain/entities/cheque_entity.dart';
@@ -15,7 +14,6 @@ import 'package:a1_check_cashers/features/cheque/domain/usecases/fetch_cheques_u
 import 'package:a1_check_cashers/features/cheque/domain/usecases/update_cheque_usecase.dart';
 import 'package:a1_check_cashers/features/cheque/domain/usecases/upload_image_usecase.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/validator/check_form_validator.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ChequeFormProvider extends ChangeNotifier {
@@ -203,8 +201,6 @@ class ChequeFormProvider extends ChangeNotifier {
       if (isFront) {
         isUploadingFront = true;
         frontImage = file;
-        // await scanChequeAndAutofill(file);
-        await scanChequeWithMindee(file);
       } else {
         isUploadingBack = true;
         backImage = file;
@@ -303,11 +299,11 @@ class ChequeFormProvider extends ChangeNotifier {
       }
     }
     if (isOtherChequeType && otherChequeTypeController.text.trim().isEmpty) {
-      return 'Please enter cheque type';
+      return AppStrings.otherChequeTypeRequired;
     }
 
     if ((frontFileId?.isEmpty ?? true) || (backFileId?.isEmpty ?? true)) {
-      return 'Front and back cheque images are required';
+      return AppStrings.frontAndBackChequeImagesRequired;
     }
 
     return null;
@@ -460,119 +456,4 @@ class ChequeFormProvider extends ChangeNotifier {
   bool get isReadOnly => _mode == ChequeFormMode.view;
 
   Cheque? _cheque;
-
-  Future<void> scanChequeWithMindee(File file) async {
-    try {
-      isLoading = true;
-      notifyListeners();
-
-      final dio = Dio();
-      final formData = FormData.fromMap({
-        "file": await MultipartFile.fromFile(file.path, filename: "cheque.jpg"),
-
-        "model_id": modelId,
-      });
-
-      final enqueueResponse = await dio.post(
-        "https://api-v2.mindee.net/v2/inferences/enqueue",
-
-        data: formData,
-
-        options: Options(headers: {"Authorization": apiKeyMindee}),
-      );
-
-      log("ENQUEUE RESPONSE => ${enqueueResponse.data}");
-
-      final pollingUrl = enqueueResponse.data["job"]["polling_url"];
-
-      if (pollingUrl == null) {
-        throw Exception("Polling URL missing");
-      }
-
-      Map<String, dynamic>? result;
-
-      while (true) {
-        await Future.delayed(const Duration(seconds: 2));
-
-        final pollResponse = await dio.get(
-          pollingUrl,
-
-          options: Options(headers: {"Authorization": apiKeyMindee}),
-        );
-
-        log("POLL RESPONSE => ${pollResponse.data}");
-
-        if (pollResponse.data["inference"] != null) {
-          result = pollResponse.data;
-          break;
-        }
-
-        final status = pollResponse.data["job"]?["status"];
-
-        if (status == "Failed") {
-          throw Exception("OCR Processing Failed");
-        }
-      }
-
-      final fields = result?["inference"]?["result"]?["fields"];
-
-      if (fields == null) {
-        throw Exception("No extracted fields found");
-      }
-
-      log("FIELDS => $fields");
-
-      payeeController.text = fields["pay_to"]?["value"]?.toString() ?? '';
-
-      makerNameController.text =
-          fields["payer_name"]?["value"]?.toString() ?? '';
-
-      final amount = fields["number_amount"]?["value"];
-
-      if (amount != null) {
-        amountController.text = amount.toString();
-      }
-
-      chequeNumberController.text =
-          fields["check_number"]?["value"]?.toString() ?? '';
-
-      chequeDetailsController.text =
-          fields["bank_name"]?["value"]?.toString() ?? '';
-
-      final accountNumber = fields["account_number"]?["value"]?.toString();
-
-      log("ACCOUNT NUMBER => $accountNumber");
-
-      final rawDate = fields["check_date"]?["value"];
-
-      if (rawDate != null) {
-        try {
-          selectedDate = DateTime.parse(rawDate);
-        } catch (_) {}
-      }
-      log("CHECK DATE => $rawDate");
-      log("selectedDate => $selectedDate");
-
-      final wordAmount = fields["word_amount"]?["value"];
-
-      log("WORD AMOUNT => $wordAmount");
-
-      final hasSignature = fields["signature"]?["value"];
-
-      log("HAS SIGNATURE => $hasSignature");
-
-      notifyListeners();
-
-      log("OCR SUCCESS");
-    } on DioException catch (e) {
-      log("STATUS => ${e.response?.statusCode}");
-
-      log("DATA => ${e.response?.data}");
-    } catch (e) {
-      log("MINDEE OCR ERROR => $e");
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
-  }
 }

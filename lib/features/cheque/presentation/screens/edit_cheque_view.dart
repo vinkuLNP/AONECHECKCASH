@@ -336,7 +336,7 @@ class EditChequeView extends StatelessWidget {
                                 provider.isAnyImageUploading,
                             errorText:
                                 provider.hasSubmitted &&
-                                    provider.safeFrontImage == null
+                                    provider.frontFileId == null
                                 ? 'Front cheque image is required'
                                 : null,
                             onImageSelected: (file) async {
@@ -401,8 +401,6 @@ class EditChequeView extends StatelessWidget {
                         label: AppStrings.notesComments,
                         controller: provider.notesController,
                         readOnly: true,
-                        maxLines: 4,
-                        maxLength: 500,
                       ),
                     ],
 

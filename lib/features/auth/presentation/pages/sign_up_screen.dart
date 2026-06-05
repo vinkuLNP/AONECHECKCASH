@@ -106,6 +106,7 @@ class SignupScreen extends StatelessWidget {
                                     label: AppStrings.email,
                                     controller: emailController,
                                     hint: AppStrings.enterYourEmail,
+                                    keyboardType: TextInputType.emailAddress,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     maxLength: 50,
