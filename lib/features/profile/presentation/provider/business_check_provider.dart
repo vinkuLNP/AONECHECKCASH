@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/profile/domain/enitites/business_check_cashing_entity.dart';
@@ -55,7 +53,6 @@ class BusinessCheckProvider extends ChangeNotifier {
     final clientId = await SessionManager.getClientRecordId();
 
     if (clientId == null) {
-      log("Client ID is null");
       return;
     }
 
@@ -64,46 +61,21 @@ class BusinessCheckProvider extends ChangeNotifier {
 
       notifyListeners();
 
-      log("========== BUSINESS FORM UPLOAD ==========");
-      log("Client ID: $clientId");
-      log("Selected File: ${file.path}");
 
       final fileId = await uploadUsecase(file, KnackFields.applicationForm);
 
-      log("Received File ID: $fileId");
 
       if (fileId == null) {
-        log("File Upload Failed");
 
         return;
       }
 
-      bool success = false;
-
-      // if (form == null) {
-      log("Creating New Form Record");
-
-      success = await createUsecase(clientId: clientId, fileId: fileId);
-      // } else {
-      //   log("Updating Existing Form");
-      //   log("Record ID: ${form!.id}");
-
-      //   success = await updateUsecase(
-      //     recordId: form!.id,
-      //     fileId: fileId,
-      //   );
-      // }
-
-      log("Create/Update Success: $success");
+     await createUsecase(clientId: clientId, fileId: fileId);
 
       await loadForm();
 
-      log("Latest Form Loaded");
-      log("Current File URL: ${form?.fileUrl}");
 
-      log("========== BUSINESS FORM DONE ==========");
     } catch (e) {
-      log("Business Form Upload Error: $e");
     } finally {
       isUploading = false;
 

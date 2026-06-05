@@ -337,7 +337,7 @@ class EditChequeView extends StatelessWidget {
                             errorText:
                                 provider.hasSubmitted &&
                                     provider.frontFileId == null
-                                ? 'Front cheque image is required'
+                                ? AppStrings.frontChequeImageRequired
                                 : null,
                             onImageSelected: (file) async {
                               await provider.uploadChequeImage(
@@ -359,7 +359,7 @@ class EditChequeView extends StatelessWidget {
                             errorText:
                                 provider.hasSubmitted &&
                                     provider.backFileId == null
-                                ? 'Back cheque image is required'
+                                ? AppStrings.backChequeImageRequired
                                 : null,
                             imageUrl: provider.safeBackImage,
                             isLoading: provider.isUploadingBack,

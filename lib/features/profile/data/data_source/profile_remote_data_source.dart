@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
@@ -65,13 +64,9 @@ class ProfileRemoteDataSource {
 
   Future<String?> uploadForm(File file, String fieldKey) async {
     try {
-      log("========== PDF UPLOAD START ==========");
-      log("File Path: ${file.path}");
-      log("Field Key: $fieldKey");
 
       final fileSize = await file.length();
 
-      log("File Size: $fileSize");
 
       final uri = Uri.parse(ApiEndpoints.uploadPdfFile).replace(
         queryParameters: {
@@ -84,7 +79,6 @@ class ProfileRemoteDataSource {
         },
       );
 
-      log("Upload URI: $uri");
 
       var request = http.MultipartRequest('POST', uri);
 
@@ -92,32 +86,25 @@ class ProfileRemoteDataSource {
 
       request.files.add(await http.MultipartFile.fromPath("files", file.path));
 
-      log("Sending Upload Request...");
 
       final response = await request.send();
 
-      log("Upload Response Status: ${response.statusCode}");
 
       final res = await http.Response.fromStream(response);
 
-      log("Upload Response Body: ${res.body}");
 
       if (response.statusCode == 200) {
         final data = jsonDecode(res.body);
 
         final fileId = data["id"];
 
-        log("Uploaded File ID: $fileId");
-        log("========== PDF UPLOAD SUCCESS ==========");
 
         return fileId;
       }
 
-      log("========== PDF UPLOAD FAILED ==========");
 
       return null;
     } catch (e) {
-      log("PDF Upload Error: $e");
 
       return null;
     }
@@ -155,7 +142,6 @@ class ProfileRemoteDataSource {
 
   Future<BusinessCheckFormModel?> fetchForm(String clientId) async {
     try {
-      log("Fetching business form for client: $clientId");
 
       final response = await http.get(
         Uri.parse(
@@ -169,8 +155,6 @@ class ProfileRemoteDataSource {
         headers: ApiHeaders.jsonHeaders(),
       );
 
-      log("Fetch Status Code: ${response.statusCode}");
-      log("Fetch Response: ${response.body}");
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -178,20 +162,17 @@ class ProfileRemoteDataSource {
         final records = data["records"];
 
         if (records == null || records.isEmpty) {
-          log("No business form found");
           return null;
         }
 
         final latestRecord = records.first;
 
-        log("Latest Record: $latestRecord");
 
         return BusinessCheckFormModel.fromJson(latestRecord);
       }
 
       return null;
     } catch (e) {
-      log("Fetch Form Error: $e");
       return null;
     }
   }

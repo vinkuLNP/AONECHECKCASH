@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/auth/domain/enitities/user_entity.dart';
@@ -85,7 +83,6 @@ class AuthProvider extends ChangeNotifier {
 
       return AppStrings.signupSuccessful;
     } catch (e) {
-      log("Signup Error: $e");
       return _handleError(e);
     } finally {
       _setLoading(false);

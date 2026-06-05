@@ -359,4 +359,6 @@ class AppStrings {
   static const htmlTagsAreNotAllowed = "HTML tags are not allowed";
   static const pleaseEnterChequeType = "Please enter cheque type";
   static const frontAndBackChequeImagesRequired = "Front and back cheque images are required";
+  static const frontChequeImageRequired = "Front cheque image is required";
+  static const backChequeImageRequired = "Back cheque image is required";
 }

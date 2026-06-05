@@ -1,10 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
+import 'package:a1_check_cashers/core/utils/file_utils.dart';
 import 'package:a1_check_cashers/features/cheque/domain/entities/cheque_entity.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_form_mode_enum.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_status_enum.dart';
@@ -75,7 +75,6 @@ class ChequeFormProvider extends ChangeNotifier {
 
   void initialize(Cheque? cheque, ChequeFormMode mode) async {
     final userName = await SessionManager.getUserName();
-    log('usernmae--------------<$userName');
     isLoading = true;
     notifyListeners();
     _cheque = cheque;
@@ -116,9 +115,6 @@ class ChequeFormProvider extends ChangeNotifier {
           ? cheque.otherChequeType.toString()
           : '';
     }
-    log('front image: $frontFileId');
-    log('back image: $backFileId');
-
     isLoading = false;
     notifyListeners();
   }
@@ -184,7 +180,20 @@ class ChequeFormProvider extends ChangeNotifier {
 
       return;
     }
+    final isValid = await FileUtils.isValidFileSize(file);
 
+    if (!isValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: AppColors.errorColor,
+          content: AppText(
+            text: AppStrings.imageSizeShouldNotExceed,
+            color: AppColors.whiteColor,
+          ),
+        ),
+      );
+      return;
+    }
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
