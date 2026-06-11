@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => backToHomeButton(context),
+              // onTap: () => backToHomeButton(context),
               child: const TopHeader(showDrawer: false),
             ),
             Expanded(
@@ -229,7 +229,7 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       termsAndPrivacy(),
-                      backToHomeButton(context),
+                      // backToHomeButton(context),
                     ],
                   ),
                 ),

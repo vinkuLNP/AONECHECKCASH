@@ -4,6 +4,7 @@ import 'package:a1_check_cashers/core/app_widgets/app_image_picker_card.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_status_enum.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/provider/cheque_provider.dart';
@@ -444,7 +445,10 @@ class EditChequeView extends StatelessWidget {
                                           .read<ChequeFormProvider>()
                                           .loadCheques();
 
-                                      Navigator.pop(context, true);
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.profileView,
+                                      );
                                     }
                                   },
                             textColor: AppColors.whiteColor,

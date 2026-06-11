@@ -20,10 +20,10 @@ class _ServiceCardState extends State<ServiceCard> {
 
   void _onTapDown(_) => setState(() => isPressed = true);
 
-  void _onTapUp(_) {
-    setState(() => isPressed = false);
-    widget.item.onTap.call();
-  }
+  // void _onTapUp(_) {
+  //   setState(() => isPressed = false);
+  //   widget.item.onTap.call();
+  // }
 
   void _onTapCancel() => setState(() => isPressed = false);
 
@@ -31,7 +31,7 @@ class _ServiceCardState extends State<ServiceCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: _onTapDown,
-      onTapUp: _onTapUp,
+      // onTapUp: _onTapUp,
       onTapCancel: _onTapCancel,
 
       child: AnimatedScale(

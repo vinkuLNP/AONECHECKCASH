@@ -5,6 +5,22 @@ class AppStrings {
   static const home = "Home";
   static const westernUnion = "Western Union";
 
+  static const checkCashingUrl =
+      "https://www.aonecheckcashing.com/check-cashing";
+  static const moneyTransferUrl =
+      "https://www.aonecheckcashing.com/money-transfer";
+  static const moneyOrdersUrl = "https://www.aonecheckcashing.com/money-orders";
+  static const billPayUrl = "https://www.aonecheckcashing.com/bill-payments";
+  static const businessCheckCashingUrl =
+      "https://www.aonecheckcashing.com/business-check-cashing";
+  static const prepaidCardsUrl =
+      "https://www.aonecheckcashing.com/prepaid-card";
+  static const convenienceServicesUrl =
+      "https://www.aonecheckcashing.com/fax-copies";
+  static const a1AutoUrl = "https://www.aonecheckcashing.com/auto";
+  static const storeLocationsUrl =
+      "https://www.aonecheckcashing.com/store-locations";
+
   static const checkCashing = "Check Cashing";
   static const moneyTransfer = "Money Transfer";
   static const moneyOrders = "Money Orders";
@@ -303,7 +319,7 @@ class AppStrings {
   static const na = "N/A";
   static const identityVerification = "Identity Verification";
   static const businessCheckCashingUpload = "Business Check Cashing Document";
-  static const pdfSize2Mb =  "PDF size should not exceed 2 MB";
+  static const pdfSize2Mb = "PDF size should not exceed 2 MB";
 
   static const uploadIdDocument = "Upload ID Document";
   static const uploadIdHint = "PNG, JPG up to 2MB";
@@ -346,19 +362,23 @@ class AppStrings {
   static const pdfPreview = "PDF Preview";
   static const isRequired = "is required";
   static const cannotExceed50Characters = "cannot exceed 50 characters";
-  static const canOnlyContainLettersAndSpaces = "can contain only letters and spaces";
+  static const canOnlyContainLettersAndSpaces =
+      "can contain only letters and spaces";
   static const mustBe10Digits = "must be 10 digits";
   static const mustBeValidAmount = "must be a valid amount";
   static const chequeNumberRequired = "Check number is required";
-  static const chequeNumberMustBeUpTo15Digits = "Check number must be up to 15 digits";
+  static const chequeNumberMustBeUpTo15Digits =
+      "Check number must be up to 15 digits";
   static const chequeAmountRequired = "Check amount is required";
   static const enterValidAmount = "Enter valid amount";
   static const amountMustBeUpTo15Digits = "Amount must be up to 15 digits";
   static const otherChequeTypeRequired = "Other Cheque Type Value is required";
-  static const additionalNotesCannotExceed500Characters = "Additional notes cannot exceed 500 characters";
+  static const additionalNotesCannotExceed500Characters =
+      "Additional notes cannot exceed 500 characters";
   static const htmlTagsAreNotAllowed = "HTML tags are not allowed";
   static const pleaseEnterChequeType = "Please enter cheque type";
-  static const frontAndBackChequeImagesRequired = "Front and back cheque images are required";
+  static const frontAndBackChequeImagesRequired =
+      "Front and back cheque images are required";
   static const frontChequeImageRequired = "Front cheque image is required";
   static const backChequeImageRequired = "Back cheque image is required";
 }

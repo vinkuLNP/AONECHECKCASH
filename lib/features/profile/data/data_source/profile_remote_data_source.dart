@@ -74,8 +74,6 @@ class ProfileRemoteDataSource {
           "filename": file.path.split('/').last,
           "size": fileSize.toString(),
           "type": "application/pdf",
-          // "type": "pdf",
-          //
         },
       );
 

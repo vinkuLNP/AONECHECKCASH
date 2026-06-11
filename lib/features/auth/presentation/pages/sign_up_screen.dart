@@ -289,7 +289,7 @@ class SignupScreen extends StatelessWidget {
 
                       const SizedBox(height: 20),
                       termsAndPrivacy(),
-                      backToHomeButton(context),
+                      // backToHomeButton(context),
                       SizedBox(height: 20),
                     ],
                   ),

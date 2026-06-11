@@ -22,12 +22,12 @@ class ChequeListScreen extends StatelessWidget {
         centerTitle: false,
         title: AppText(text: AppStrings.cheques, color: AppColors.black),
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.refresh),
-          //   onPressed: () async {
-          //     await context.read<ChequeFormProvider>().loadCheques();
-          //   },
-          // ),
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () async {
+              await context.read<ChequeFormProvider>().loadCheques();
+            },
+          ),
           ChequeFilterDropdown(),
         ],
       ),

@@ -248,9 +248,9 @@ class AppImagePickerCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.picture_as_pdf, size: 52, color: Colors.red),
+            const Icon(Icons.picture_as_pdf, size: 40, color: Colors.red),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
             AppText(
               text:
