@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
@@ -14,9 +13,6 @@ class AuthRemoteDataSource {
       headers: ApiHeaders.loginHeaders(),
       body: jsonEncode({"email": email, "password": password}),
     );
-
-    log("STATUS: ${response.statusCode}");
-    log("BODY: ${response.body}");
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
@@ -37,12 +33,9 @@ class AuthRemoteDataSource {
         KnackFields.userStatus: AppKeys.activeKeyword,
       }),
     );
-    log(response.body.toString());
     if (response.statusCode == 200 || response.statusCode == 201) {
       return await login(email, password);
     } else {
-      log(response.body.toString());
-
       throw Exception("Signup failed");
     }
   }

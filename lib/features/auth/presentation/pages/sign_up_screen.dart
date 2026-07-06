@@ -106,6 +106,7 @@ class SignupScreen extends StatelessWidget {
                                     label: AppStrings.email,
                                     controller: emailController,
                                     hint: AppStrings.enterYourEmail,
+                                    keyboardType: TextInputType.emailAddress,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     maxLength: 50,
@@ -288,7 +289,7 @@ class SignupScreen extends StatelessWidget {
 
                       const SizedBox(height: 20),
                       termsAndPrivacy(),
-                      backToHomeButton(context),
+                      // backToHomeButton(context),
                       SizedBox(height: 20),
                     ],
                   ),

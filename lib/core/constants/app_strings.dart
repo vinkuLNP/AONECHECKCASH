@@ -5,6 +5,22 @@ class AppStrings {
   static const home = "Home";
   static const westernUnion = "Western Union";
 
+  static const checkCashingUrl =
+      "https://www.aonecheckcashing.com/check-cashing";
+  static const moneyTransferUrl =
+      "https://www.aonecheckcashing.com/money-transfer";
+  static const moneyOrdersUrl = "https://www.aonecheckcashing.com/money-orders";
+  static const billPayUrl = "https://www.aonecheckcashing.com/bill-payments";
+  static const businessCheckCashingUrl =
+      "https://www.aonecheckcashing.com/business-check-cashing";
+  static const prepaidCardsUrl =
+      "https://www.aonecheckcashing.com/prepaid-card";
+  static const convenienceServicesUrl =
+      "https://www.aonecheckcashing.com/fax-copies";
+  static const a1AutoUrl = "https://www.aonecheckcashing.com/auto";
+  static const storeLocationsUrl =
+      "https://www.aonecheckcashing.com/store-locations";
+
   static const checkCashing = "Check Cashing";
   static const moneyTransfer = "Money Transfer";
   static const moneyOrders = "Money Orders";
@@ -179,39 +195,38 @@ class AppStrings {
   static const backToHomePage = "Back to Home Page";
   static const loginSuccessful = "Login successful!";
 
-  static const String createAccount = "Create Account";
-  static const String signupSubtitle = "Join A1 Check Cashing today";
+  static const createAccount = "Create Account";
+  static const signupSubtitle = "Join A1 Check Cashing today";
 
-  static const String signupSuccessful = "Account created successfully";
-  static const String signupFailed = "Signup failed";
-  static const String loginFailed = "Email or password incorrect";
-  static const String smthngWntWrong = "Something went wrong";
-  static const String alreadyHaveAccount = "Already have an account? ";
-  static const String fullName = "Full Name";
-  static const String phone = "Phone Number";
-  static const String confirmPassword = "Confirm Password";
-  static const String enterFullName = "Enter your full name";
-  static const String enterPhone = "(555) 123-4567";
-  static const String createPassword = "Create a password";
-  static const String confirmYourPassword = "Confirm your password";
-  static const String nameRequired = "Full name is required";
-  static const String emailRequired = "Email is required";
-  static const String invalidEmail = "Enter a valid email";
-  static const String phoneRequired = "Phone number is required";
-  static const String invalidPhone = "Enter a valid phone number";
-  static const String passwordRequired = "Password is required";
-  static const String mustIncludeUppercase =
+  static const signupSuccessful = "Account created successfully";
+  static const signupFailed = "Signup failed";
+  static const loginFailed = "Email or password incorrect";
+  static const smthngWntWrong = "Something went wrong";
+  static const alreadyHaveAccount = "Already have an account? ";
+  static const fullName = "Full Name";
+  static const phone = "Phone Number";
+  static const confirmPassword = "Confirm Password";
+  static const enterFullName = "Enter your full name";
+  static const enterPhone = "(555) 123-4567";
+  static const createPassword = "Create a password";
+  static const confirmYourPassword = "Confirm your password";
+  static const nameRequired = "Full name is required";
+  static const emailRequired = "Email is required";
+  static const invalidEmail = "Enter a valid email";
+  static const phoneRequired = "Phone number is required";
+  static const invalidPhone = "Enter a valid phone number";
+  static const passwordRequired = "Password is required";
+  static const mustIncludeUppercase =
       "Must include at least one uppercase letter";
-  static const String mustIncludeNumber = "Must include at least one number";
-  static const String mustIncludeSpecialCharacter =
+  static const mustIncludeNumber = "Must include at least one number";
+  static const mustIncludeSpecialCharacter =
       "Must include at least one special character";
-  static const String passwordMinLength =
-      "Password must be at least 6 characters";
-  static const String confirmPasswordRequired = "Confirm password is required";
-  static const String passwordMismatch = "Passwords do not match";
-  static const String invalidName = "Enter a valid name";
-  static const String emailAlreadyExists = "Email already registered";
-  static const String noInternet = "No internet connection";
+  static const passwordMinLength = "Password must be at least 6 characters";
+  static const confirmPasswordRequired = "Confirm password is required";
+  static const passwordMismatch = "Passwords do not match";
+  static const invalidName = "Enter a valid name";
+  static const emailAlreadyExists = "Email already registered";
+  static const noInternet = "No internet connection";
   static const uploadDocument = "Upload Document";
   static const editDocument = "Edit Document";
   static const camera = "Camera";
@@ -302,9 +317,12 @@ class AppStrings {
   static const saveFailed = "Failed to save check";
 
   static const na = "N/A";
-  static const identityVerification = "IDENTITY VERIFICATION";
+  static const identityVerification = "Identity Verification";
+  static const businessCheckCashingUpload = "Business Check Cashing Document";
+  static const pdfSize2Mb = "PDF size should not exceed 2 MB";
+
   static const uploadIdDocument = "Upload ID Document";
-  static const uploadIdHint = "PNG, JPG up to 3MB";
+  static const uploadIdHint = "PNG, JPG up to 2MB";
   static const manageChecks = "Manage Checks";
   static const failedToLoadImage = "Failed to load image";
   static const pleaseWaitForCurrentUpload =
@@ -331,4 +349,36 @@ class AppStrings {
   static const replaceImage = "Replace Image";
   static const imageSizeShouldNotExceed = 'Image size should not exceed 2 MB.';
   static const wantToLogout = "Are you sure you want to logout?";
+  static const uploadFilledForm = "Upload Filled Form";
+  static const uploadFilledFormSubtitle = "Upload your completed PDF form";
+  static const downloadForm = "Download Form";
+  static const uploadedFile = "Uploaded File";
+  static const viewPdf = "View PDF";
+  static const reUpload = "Re-upload";
+  static const replacePdf = "Replace PDF";
+  static const uploadedPdf = "Uploaded PDF";
+  static const tapToViewOrReplace = "Tap to view or replace";
+  static const uploadPdf = "Upload PDF";
+  static const pdfPreview = "PDF Preview";
+  static const isRequired = "is required";
+  static const cannotExceed50Characters = "cannot exceed 50 characters";
+  static const canOnlyContainLettersAndSpaces =
+      "can contain only letters and spaces";
+  static const mustBe10Digits = "must be 10 digits";
+  static const mustBeValidAmount = "must be a valid amount";
+  static const chequeNumberRequired = "Check number is required";
+  static const chequeNumberMustBeUpTo15Digits =
+      "Check number must be up to 15 digits";
+  static const chequeAmountRequired = "Check amount is required";
+  static const enterValidAmount = "Enter valid amount";
+  static const amountMustBeUpTo15Digits = "Amount must be up to 15 digits";
+  static const otherChequeTypeRequired = "Other Cheque Type Value is required";
+  static const additionalNotesCannotExceed500Characters =
+      "Additional notes cannot exceed 500 characters";
+  static const htmlTagsAreNotAllowed = "HTML tags are not allowed";
+  static const pleaseEnterChequeType = "Please enter cheque type";
+  static const frontAndBackChequeImagesRequired =
+      "Front and back cheque images are required";
+  static const frontChequeImageRequired = "Front cheque image is required";
+  static const backChequeImageRequired = "Back cheque image is required";
 }

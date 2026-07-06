@@ -33,4 +33,10 @@ class KnackFields {
   static const makerPhone = "field_69";
   static const payeeName = "field_70";
   static const chequeDetails = "field_71";
+
+  static const formId = "field_79";
+  static const clientId = "field_80";
+  static const applicationForm = "field_81";
+  static const createdDate = "field_82";
+
 }

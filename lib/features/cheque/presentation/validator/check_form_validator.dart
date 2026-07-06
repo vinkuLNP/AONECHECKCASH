@@ -1,9 +1,12 @@
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
+import 'package:a1_check_cashers/core/constants/app_strings.dart';
 
 class AppValidators {
   static String? requiredField(String? value, String fieldName) {
     if (value == null || value.trim().isEmpty) {
-      return '$fieldName is required';
+      return 
+      
+      '$fieldName ${AppStrings.isRequired}';
     }
 
     return null;
@@ -11,17 +14,17 @@ class AppValidators {
 
   static String? validateName(String? value, String fieldName) {
     if (value == null || value.trim().isEmpty) {
-      return '$fieldName is required';
+      return '$fieldName ${AppStrings.isRequired}';
     }
 
     if (value.trim().length > 50) {
-      return '$fieldName cannot exceed 50 characters';
+      return '$fieldName ${AppStrings.cannotExceed50Characters}';
     }
 
     final regex = AppKeys.charactersOnlyValidator;
 
     if (!regex.hasMatch(value.trim())) {
-      return '$fieldName can contain only letters';
+      return '$fieldName ${AppStrings.canOnlyContainLettersAndSpaces}';
     }
 
     return null;
@@ -29,11 +32,11 @@ class AppValidators {
 
   static String? validatePhone(String? value, String fieldName) {
     if (value == null || value.trim().isEmpty) {
-      return '$fieldName is required';
+      return '$fieldName ${AppStrings.isRequired}';
     }
 
     if (!RegExp(r'^\d{10}$').hasMatch(value.trim())) {
-      return '$fieldName must be 10 digits';
+      return '$fieldName ${AppStrings.mustBe10Digits}';
     }
 
     return null;
@@ -41,11 +44,11 @@ class AppValidators {
 
   static String? validateChequeNumber(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Check number is required';
+      return AppStrings.chequeNumberRequired;
     }
 
     if (!RegExp(r'^\d{1,15}$').hasMatch(value.trim())) {
-      return 'Check number must be up to 15 digits';
+      return AppStrings.chequeNumberMustBeUpTo15Digits;
     }
 
     return null;
@@ -53,7 +56,7 @@ class AppValidators {
 
   static String? validateAmount(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Check amount is required';
+      return AppStrings.chequeAmountRequired;
     }
 
   
@@ -62,13 +65,13 @@ class AppValidators {
   final amount = double.tryParse(cleaned);
 
   if (amount == null) {
-    return 'Enter valid amount';
+    return AppStrings.enterValidAmount;
   }
 
   final digitsOnly = cleaned.replaceAll('.', '');
 
   if (digitsOnly.length > 15) {
-    return 'Amount must be up to 15 digits';
+    return AppStrings.amountMustBeUpTo15Digits;
   }
 
   return null;
@@ -76,7 +79,7 @@ class AppValidators {
 
   static String? otherChequeType(String? value, String fieldName) {
     if (value == null || value.trim().isEmpty) {
-      return 'Other Cheque Type Value is required';
+      return AppStrings.otherChequeTypeRequired;
     }
 
     return null;
@@ -86,18 +89,15 @@ class AppValidators {
     if (value == null || value.trim().isEmpty) {
       return null;
     }
-    //    if (value == null || value.trim().isEmpty) {
-    //   return 'Additional notes are required';
-    // }
 
     if (value.length > 500) {
-      return 'Additional notes cannot exceed 500 characters';
+      return AppStrings.additionalNotesCannotExceed500Characters;
     }
 
     final htmlRegex = RegExp(r'<[^>]*>');
 
     if (htmlRegex.hasMatch(value)) {
-      return 'HTML tags are not allowed';
+      return AppStrings.htmlTagsAreNotAllowed;
     }
 
     return null;

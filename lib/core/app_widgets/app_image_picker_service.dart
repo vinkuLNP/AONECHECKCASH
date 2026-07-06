@@ -5,11 +5,52 @@ import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 class AppImagePickerService {
   static final ImagePicker _picker = ImagePicker();
 
   static const int maxFileSizeInBytes = 2 * 1024 * 1024;
+
+  static Future<File?> pickPdf(BuildContext context) async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+      );
+
+      if (result == null) {
+        return null;
+      }
+
+      if (result.files.single.path == null) {
+        return null;
+      }
+
+      final file = File(result.files.single.path!);
+
+      final fileSize = await file.length();
+
+      if (fileSize > maxFileSizeInBytes) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: AppText(
+                text: AppStrings.pdfSize2Mb,
+                color: AppColors.whiteColor,
+              ),
+            ),
+          );
+        }
+
+        return null;
+      }
+
+      return file;
+    } catch (e) {
+      return null;
+    }
+  }
 
   static Future<File?> pickImage(
     BuildContext context, {
@@ -88,6 +129,7 @@ class AppImagePickerService {
 
   static Future<File> _compressImage(File file, int quality) async {
     File currentFile = file;
+
     int currentQuality = quality;
 
     while (true) {
@@ -113,6 +155,7 @@ class AppImagePickerService {
       }
 
       currentQuality -= 10;
+
       currentFile = compressedFile;
     }
   }

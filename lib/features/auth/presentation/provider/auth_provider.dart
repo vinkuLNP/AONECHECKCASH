@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/auth/domain/enitities/user_entity.dart';
@@ -72,7 +70,6 @@ class AuthProvider extends ChangeNotifier {
   Future<String?> signup(
     String name,
     String email,
-    // String phone,
     String password,
   ) async {
     _setLoading(true);
@@ -81,12 +78,11 @@ class AuthProvider extends ChangeNotifier {
       user = await signupUseCase(
         email,
         password,
-        name, //phone
+        name, 
       );
 
       return AppStrings.signupSuccessful;
     } catch (e) {
-      log("Signup Error: $e");
       return _handleError(e);
     } finally {
       _setLoading(false);
@@ -112,7 +108,6 @@ class AuthProvider extends ChangeNotifier {
     }
 
     return AppStrings.smthngWntWrong;
-    // return message;
   }
 
   void reset() {

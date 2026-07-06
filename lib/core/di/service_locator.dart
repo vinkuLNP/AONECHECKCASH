@@ -1,12 +1,13 @@
 import 'package:a1_check_cashers/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:a1_check_cashers/features/auth/domain/repositories/auth_repository.dart';
-import 'package:a1_check_cashers/features/drawer/presentation/provider/drawer_provider.dart';
 import 'package:a1_check_cashers/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:a1_check_cashers/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:a1_check_cashers/features/profile/domain/repository/profile_repository.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/get_profile_use_case.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/update_id_usecase.dart';
+import 'package:a1_check_cashers/features/profile/domain/usecases/upload_business_form_usecase.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/upload_id_usecase.dart';
+import 'package:a1_check_cashers/features/profile/presentation/provider/business_check_provider.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
 import 'package:a1_check_cashers/features/cheque/data/data_sources/upload_remote_data_source.dart';
 import 'package:a1_check_cashers/features/cheque/data/repositories/upload_repository_imp.dart';
@@ -37,6 +38,20 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateChequeUsecase(sl()));
   sl.registerLazySingleton(() => CreateChequeUsecase(sl()));
 
+  sl.registerLazySingleton(() => UploadBusinessFormUsecase(sl()));
+  sl.registerLazySingleton(() => FetchBusinessFormUsecase(sl()));
+  sl.registerLazySingleton(() => CreateBusinessFormUsecase(sl()));
+  sl.registerLazySingleton(() => UpdateBusinessFormUsecase(sl()));
+  sl.registerLazySingleton(() => DownloadEmptyFormUsecase(sl()));
+  sl.registerFactory(
+    () => BusinessCheckProvider(
+      uploadUsecase: sl(),
+      updateUsecase: sl(),
+      createUsecase: sl(),
+      fetchUsecase: sl(),
+      downloadUsecase: sl(),
+    ),
+  );
   sl.registerFactory(() => AuthProvider(sl(), sl()));
   sl.registerFactory(
     () => ChequeFormProvider(
@@ -60,5 +75,5 @@ Future<void> init() async {
   sl.registerFactory(
     () => ProfileProvider(getProfile: sl(), uploadId: sl(), updateId: sl()),
   );
-  sl.registerFactory(() => DrawerProvider());
+  // sl.registerFactory(() => DrawerProvider());
 }

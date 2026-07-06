@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
+import 'package:a1_check_cashers/features/profile/data/models/business_check_cashing_form_model.dart';
 import 'package:a1_check_cashers/features/profile/data/models/client_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -59,5 +60,122 @@ class ProfileRemoteDataSource {
     );
 
     return response.statusCode == 200;
+  }
+
+  Future<String?> uploadForm(File file, String fieldKey) async {
+    try {
+
+      final fileSize = await file.length();
+
+
+      final uri = Uri.parse(ApiEndpoints.uploadPdfFile).replace(
+        queryParameters: {
+          "fieldKey": fieldKey,
+          "filename": file.path.split('/').last,
+          "size": fileSize.toString(),
+          "type": "application/pdf",
+        },
+      );
+
+
+      var request = http.MultipartRequest('POST', uri);
+
+      request.headers.addAll(ApiHeaders.baseHeaders());
+
+      request.files.add(await http.MultipartFile.fromPath("files", file.path));
+
+
+      final response = await request.send();
+
+
+      final res = await http.Response.fromStream(response);
+
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(res.body);
+
+        final fileId = data["id"];
+
+
+        return fileId;
+      }
+
+
+      return null;
+    } catch (e) {
+
+      return null;
+    }
+  }
+
+  Future<bool> createForm({
+    required String clientId,
+    required String fileId,
+  }) async {
+    final body = {"field_80": clientId, "field_81": fileId};
+
+    final response = await http.post(
+      Uri.parse(ApiEndpoints.businessCheckForm),
+      headers: ApiHeaders.jsonHeaders(),
+      body: jsonEncode(body),
+    );
+
+    return response.statusCode == 200 || response.statusCode == 201;
+  }
+
+  Future<bool> updateForm({
+    required String recordId,
+    required String fileId,
+  }) async {
+    final body = {"field_81": fileId};
+
+    final response = await http.put(
+      Uri.parse("${ApiEndpoints.businessCheckForm}/$recordId"),
+      headers: ApiHeaders.jsonHeaders(),
+      body: jsonEncode(body),
+    );
+
+    return response.statusCode == 200;
+  }
+
+  Future<BusinessCheckFormModel?> fetchForm(String clientId) async {
+    try {
+
+      final response = await http.get(
+        Uri.parse(
+          "${ApiEndpoints.businessCheckForm}"
+          "?filters[0][field]=field_80"
+          "&filters[0][operator]=is"
+          "&filters[0][value]=$clientId"
+          "&sort_field=field_74"
+          "&sort_order=desc",
+        ),
+        headers: ApiHeaders.jsonHeaders(),
+      );
+
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        final records = data["records"];
+
+        if (records == null || records.isEmpty) {
+          return null;
+        }
+
+        final latestRecord = records.first;
+
+
+        return BusinessCheckFormModel.fromJson(latestRecord);
+      }
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<String> downloadEmptyForm() async {
+    return "https://123f5cb6-497b-4561-91ba-d5ec09651b52.usrfiles.com/ugd/123f5c_7aacbe6478384482bdeafaf2eaa314d7.pdf";
   }
 }

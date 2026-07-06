@@ -4,6 +4,7 @@ import 'package:a1_check_cashers/core/app_widgets/app_image_picker_card.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_status_enum.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/provider/cheque_provider.dart';
@@ -336,8 +337,8 @@ class EditChequeView extends StatelessWidget {
                                 provider.isAnyImageUploading,
                             errorText:
                                 provider.hasSubmitted &&
-                                    provider.safeFrontImage == null
-                                ? 'Front cheque image is required'
+                                    provider.frontFileId == null
+                                ? AppStrings.frontChequeImageRequired
                                 : null,
                             onImageSelected: (file) async {
                               await provider.uploadChequeImage(
@@ -359,7 +360,7 @@ class EditChequeView extends StatelessWidget {
                             errorText:
                                 provider.hasSubmitted &&
                                     provider.backFileId == null
-                                ? 'Back cheque image is required'
+                                ? AppStrings.backChequeImageRequired
                                 : null,
                             imageUrl: provider.safeBackImage,
                             isLoading: provider.isUploadingBack,
@@ -401,8 +402,6 @@ class EditChequeView extends StatelessWidget {
                         label: AppStrings.notesComments,
                         controller: provider.notesController,
                         readOnly: true,
-                        maxLines: 4,
-                        maxLength: 500,
                       ),
                     ],
 
@@ -446,7 +445,10 @@ class EditChequeView extends StatelessWidget {
                                           .read<ChequeFormProvider>()
                                           .loadCheques();
 
-                                      Navigator.pop(context, true);
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.profileView,
+                                      );
                                     }
                                   },
                             textColor: AppColors.whiteColor,

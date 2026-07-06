@@ -5,6 +5,7 @@ import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/auth/presentation/auth_validator.dart';
 import 'package:a1_check_cashers/features/auth/presentation/widgets/auth_widgets.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/top_header.dart';
+import 'package:a1_check_cashers/features/profile/presentation/provider/business_check_provider.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/provider/cheque_provider.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => backToHomeButton(context),
+              // onTap: () => backToHomeButton(context),
               child: const TopHeader(showDrawer: false),
             ),
             Expanded(
@@ -129,17 +130,6 @@ class LoginScreen extends StatelessWidget {
                                       provider.clearActiveField();
                                     },
                                   ),
-                                  /*
-                              const SizedBox(height: 12),
-
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: const AppText(
-                                  text: AppStrings.forgotPassword,
-                                  color: Colors.red,
-                                ),
-                              ),
-*/
                                   const SizedBox(height: 20),
 
                                   AppButton(
@@ -186,6 +176,9 @@ class LoginScreen extends StatelessWidget {
                                           await context
                                               .read<ChequeFormProvider>()
                                               .loadCheques();
+                                         await context
+                                              .read<BusinessCheckProvider>()
+                                              .loadForm();
                                         }
                                       }
                                     },
@@ -236,7 +229,7 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       termsAndPrivacy(),
-                      backToHomeButton(context),
+                      // backToHomeButton(context),
                     ],
                   ),
                 ),

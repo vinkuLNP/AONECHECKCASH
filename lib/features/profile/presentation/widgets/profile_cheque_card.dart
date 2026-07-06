@@ -41,7 +41,6 @@ class ProfileChequeCard extends StatelessWidget {
                 Flexible(
                   flex: 2,
                   child: AppButton(
-                    borderRadius: 4,
                     text: AppStrings.addCheque,
                     onPressed: () async {
                       final result = await Navigator.push(

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
@@ -100,7 +99,6 @@ class ProfileProvider extends ChangeNotifier {
         (route) => false,
       );
     } catch (e) {
-      log("Logout Error: $e");
     } finally {
       isLoading = false;
       notifyListeners();

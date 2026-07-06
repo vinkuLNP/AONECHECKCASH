@@ -1,7 +1,6 @@
 import 'package:a1_check_cashers/features/cheque/domain/entities/cheque_entity.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_status_enum.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
-import 'package:flutter/material.dart';
 
 class ChequeModel extends Cheque {
   ChequeModel({
@@ -27,7 +26,6 @@ class ChequeModel extends Cheque {
     super.otherChequeType,
   });
   static double _parseAmount(dynamic value) {
-    debugPrint("Parsing Amount Raw: $value");
 
     if (value == null) return 0;
 
@@ -37,27 +35,18 @@ class ChequeModel extends Cheque {
         .replaceAll(",", "")
         .trim();
 
-    debugPrint("Cleaned Amount: $cleaned");
-
     final parsed = double.tryParse(cleaned) ?? 0;
-
-    debugPrint("Parsed Amount Result: $parsed");
 
     return parsed;
   }
 
   static DateTime _parseDate(dynamic value) {
-    debugPrint("Parsing Date Raw: $value");
 
     if (value is Map) {
       final iso = value["iso_timestamp"];
 
-      debugPrint("ISO Timestamp: $iso");
-
       if (iso != null) {
         final parsed = DateTime.tryParse(iso);
-
-        debugPrint("Parsed Date Result: $parsed");
 
         return parsed ?? DateTime.now();
       }
