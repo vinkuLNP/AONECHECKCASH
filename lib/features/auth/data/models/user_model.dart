@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:a1_check_cashers/core/constants/knack/app_config.dart';
 import 'package:a1_check_cashers/features/auth/domain/enitities/user_entity.dart';
 
@@ -7,9 +9,11 @@ class UserModel extends User {
     required super.email,
     required super.token,
     required super.clientRecordId,
+    required super.name,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    log('UserModel.fromJson: $json');
     final session = json['session'];
     final user = session['user'];
     final values = user['values'];
@@ -30,6 +34,10 @@ class UserModel extends User {
       email: values['email']?['email']?.toString() ?? '',
       token: session['token'].toString(),
       clientRecordId: clientRecordId,
+      name:
+          values['name']?['full']?.toString() ??
+          values['field_1']?['full']?.toString() ??
+          '',
     );
   }
 }

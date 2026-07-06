@@ -3,8 +3,9 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_logo_header_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
-import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
+import 'package:a1_check_cashers/features/auth/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/constants/app_strings.dart';
 
 class TopHeader extends StatelessWidget {
@@ -13,6 +14,7 @@ class TopHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
     return Column(
       children: [
         Container(
@@ -53,10 +55,12 @@ class TopHeader extends StatelessWidget {
                 const Spacer(),
                 AppButton(
                   width: 100,
-                  text: AppStrings.signIn,
+
+                  text: auth.isLoggedIn
+                      ? auth.loginUser?.name ?? AppStrings.profile
+                      : AppStrings.signIn,
                   onPressed: () async {
-                    final isLoggedIn = await SessionManager.isLoggedIn();
-                    if (isLoggedIn) {
+                    if (auth.isLoggedIn) {
                       Navigator.pushNamed(context, AppRoutes.profileView);
                     } else {
                       Navigator.pushNamed(context, AppRoutes.login);
@@ -66,7 +70,9 @@ class TopHeader extends StatelessWidget {
                   isOutlined: true,
                   outlinedColor: AppColors.darkRed,
                   borderColor: AppColors.whiteColor,
-                  icon: Icon(Icons.person, color: AppColors.whiteColor),
+                  icon: auth.isLoggedIn
+                      ? null
+                      : Icon(Icons.person, color: AppColors.whiteColor),
                 ),
                 /*  Drawer Button 
                 Builder(

@@ -5,22 +5,6 @@ class AppStrings {
   static const home = "Home";
   static const westernUnion = "Western Union";
 
-  static const checkCashingUrl =
-      "https://www.aonecheckcashing.com/check-cashing";
-  static const moneyTransferUrl =
-      "https://www.aonecheckcashing.com/money-transfer";
-  static const moneyOrdersUrl = "https://www.aonecheckcashing.com/money-orders";
-  static const billPayUrl = "https://www.aonecheckcashing.com/bill-payments";
-  static const businessCheckCashingUrl =
-      "https://www.aonecheckcashing.com/business-check-cashing";
-  static const prepaidCardsUrl =
-      "https://www.aonecheckcashing.com/prepaid-card";
-  static const convenienceServicesUrl =
-      "https://www.aonecheckcashing.com/fax-copies";
-  static const a1AutoUrl = "https://www.aonecheckcashing.com/auto";
-  static const storeLocationsUrl =
-      "https://www.aonecheckcashing.com/store-locations";
-
   static const checkCashing = "Check Cashing";
   static const moneyTransfer = "Money Transfer";
   static const moneyOrders = "Money Orders";
@@ -62,6 +46,18 @@ class AppStrings {
 
   static const tagline =
       "Convenient locations. Fast service. Friendly support.";
+
+  static const locationDisabled =
+      "Location services are disabled for this device. Please enable them";
+
+  static const locationDenied =
+      "Location permission is denied. Please enable it ";
+
+  static const locationDeniedForever =
+      "Location permission is permanently denied. Please enable it in settings ";
+
+  static const serviceUnavailable =
+      "A1 Check Cashers Services are not available in your location";
 
   static const getDirections = "Get Directions";
 
@@ -182,6 +178,8 @@ class AppStrings {
   static const email = "Email Address";
   static const password = "Password";
   static const signIn = "Sign In";
+  static const profile = "Profile";
+
   static const rememberMe = "Remember me";
   static const forgotPassword = "Forgot password?";
   static const noAccount = "Don't have an account? ";
@@ -344,11 +342,14 @@ class AppStrings {
   static const eCheck = "Electronic Check (eCheck)";
   static const other = "Other";
   static const logOut = "Log Out";
+  static const deleteAccount = "Delete Account";
 
   static const viewImage = "View Image";
   static const replaceImage = "Replace Image";
   static const imageSizeShouldNotExceed = 'Image size should not exceed 2 MB.';
   static const wantToLogout = "Are you sure you want to logout?";
+  static const wantToDeleteAccount =
+      "Are you sure you want to delete your account?";
   static const uploadFilledForm = "Upload Filled Form";
   static const uploadFilledFormSubtitle = "Upload your completed PDF form";
   static const downloadForm = "Download Form";
@@ -381,4 +382,20 @@ class AppStrings {
       "Front and back cheque images are required";
   static const frontChequeImageRequired = "Front cheque image is required";
   static const backChequeImageRequired = "Back cheque image is required";
+
+  static const checkCashingUrl =
+      "https://www.aonecheckcashing.com/check-cashing";
+  static const moneyTransferUrl =
+      "https://www.aonecheckcashing.com/money-transfer";
+  static const moneyOrdersUrl = "https://www.aonecheckcashing.com/money-orders";
+  static const billPayUrl = "https://www.aonecheckcashing.com/bill-payments";
+  static const businessCheckCashingUrl =
+      "https://www.aonecheckcashing.com/business-check-cashing";
+  static const prepaidCardsUrl =
+      "https://www.aonecheckcashing.com/prepaid-card";
+  static const convenienceServicesUrl =
+      "https://www.aonecheckcashing.com/fax-copies";
+  static const a1AutoUrl = "https://www.aonecheckcashing.com/auto";
+  static const storeLocationsUrl =
+      "https://www.aonecheckcashing.com/store-locations";
 }

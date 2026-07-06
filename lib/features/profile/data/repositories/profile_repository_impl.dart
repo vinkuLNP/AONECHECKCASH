@@ -31,19 +31,18 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<bool> createForm({
-    required String clientId,
-    required String fileId,
-  }) {
+  Future<bool> createForm({required String clientId, required String fileId}) {
     return remote.createForm(clientId: clientId, fileId: fileId);
   }
 
   @override
-  Future<bool> updateForm({
-    required String recordId,
-    required String fileId,
-  }) {
+  Future<bool> updateForm({required String recordId, required String fileId}) {
     return remote.updateForm(recordId: recordId, fileId: fileId);
+  }
+
+  @override
+  Future<bool> deleteUser({required String clientId}) {
+    return remote.deleteUser(recordId: clientId);
   }
 
   @override

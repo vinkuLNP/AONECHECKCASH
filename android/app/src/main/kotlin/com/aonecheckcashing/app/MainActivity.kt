@@ -1,4 +1,4 @@
-package com.example.a1_check_cashers
+package com.aonecheckcashing.app
 
 import io.flutter.embedding.android.FlutterActivity
 
