@@ -12,14 +12,15 @@ class AuthProvider extends ChangeNotifier {
   AuthProvider(this.loginUseCase, this.signupUseCase);
 
   bool isLoading = false;
+  User? _user;
   User? user;
-
+  bool _isLoggedIn = false;
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
   bool rememberMe = false;
-
+  bool get isLoggedIn => _isLoggedIn;
   String? activeField;
-
+  User? get loginUser => _user;
   void setActiveField(String field) {
     activeField = field;
     notifyListeners();
@@ -45,6 +46,22 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> initialize() async {
+    _isLoggedIn = await SessionManager.isLoggedIn();
+
+    if (_isLoggedIn) {
+      _user = User(
+        id: await SessionManager.getUserId() ?? "",
+        name: await SessionManager.getUserName() ?? "",
+        token: await SessionManager.getToken() ?? "",
+        clientRecordId: await SessionManager.getClientRecordId() ?? "",
+        email: await SessionManager.getUserEmail() ?? "",
+      );
+    }
+
+    notifyListeners();
+  }
+
   Future<String?> login(String email, String password) async {
     _setLoading(true);
     try {
@@ -58,7 +75,8 @@ class AuthProvider extends ChangeNotifier {
         token: user!.token,
         clientRecordId: user!.clientRecordId,
       );
-
+      _user = user;
+      _isLoggedIn = true;
       return AppStrings.loginSuccessful;
     } catch (e) {
       return _handleError(e);
@@ -67,19 +85,11 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<String?> signup(
-    String name,
-    String email,
-    String password,
-  ) async {
+  Future<String?> signup(String name, String email, String password) async {
     _setLoading(true);
 
     try {
-      user = await signupUseCase(
-        email,
-        password,
-        name, 
-      );
+      user = await signupUseCase(email, password, name);
 
       return AppStrings.signupSuccessful;
     } catch (e) {
@@ -117,6 +127,16 @@ class AuthProvider extends ChangeNotifier {
     obscureConfirmPassword = true;
     rememberMe = false;
     activeField = null;
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    await SessionManager.clearSession();
+
+    _user = null;
+    user = null;
+    _isLoggedIn = false;
+
     notifyListeners();
   }
 }

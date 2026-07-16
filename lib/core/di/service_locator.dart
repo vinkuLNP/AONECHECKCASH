@@ -3,6 +3,7 @@ import 'package:a1_check_cashers/features/auth/domain/repositories/auth_reposito
 import 'package:a1_check_cashers/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:a1_check_cashers/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:a1_check_cashers/features/profile/domain/repository/profile_repository.dart';
+import 'package:a1_check_cashers/features/profile/domain/usecases/delete_user_usecase.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/get_profile_use_case.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/update_id_usecase.dart';
 import 'package:a1_check_cashers/features/profile/domain/usecases/upload_business_form_usecase.dart';
@@ -71,9 +72,11 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetProfileUseCase(sl()));
   sl.registerLazySingleton(() => UploadIdUseCase(sl()));
   sl.registerLazySingleton(() => UpdateIdUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteUserUseCase(sl()));
+
 
   sl.registerFactory(
-    () => ProfileProvider(getProfile: sl(), uploadId: sl(), updateId: sl()),
+    () => ProfileProvider(getProfile: sl(), uploadId: sl(), updateId: sl(), deleteUser: sl()),
   );
   // sl.registerFactory(() => DrawerProvider());
 }

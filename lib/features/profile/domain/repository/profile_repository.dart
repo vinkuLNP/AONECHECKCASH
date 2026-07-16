@@ -7,6 +7,8 @@ abstract class ProfileRepository {
 
   Future<bool> updateIdFront(String clientId, String fileId);
 
+  Future<bool> deleteUser({required String clientId});
+
   Future<String?> uploadImage(File file, String fieldKey);
 
   Future<String?> uploadForm(File file, String fieldKey);

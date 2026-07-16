@@ -2,12 +2,14 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
+import 'package:a1_check_cashers/core/constants/knack/app_config.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/core/utils/file_utils.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -89,8 +91,7 @@ class HeroWidget extends StatelessWidget {
                     controller.showLoader();
 
                     try {
-                      final url =
-                          "https://www.aonecheckcashing.com/store-locations?zip=$zip";
+                      final url = "${AppStrings.storeLocationsUrl}?zip=$zip";
 
                       await openUrl(url);
                     } catch (e) {
@@ -126,10 +127,8 @@ class HeroWidget extends StatelessWidget {
 
                 if (!serviceEnabled) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        "Location services are disabled for this device. Please enable them to use this feature.",
-                      ),
+                    SnackBar(
+                      content: AppText(text: AppStrings.locationDisabled),
                     ),
                   );
 
@@ -145,9 +144,7 @@ class HeroWidget extends StatelessWidget {
                   if (permission == LocationPermission.denied) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text(
-                          "Location permission is denied. Please enable it to use this feature.",
-                        ),
+                        content: AppText(text: AppStrings.locationDenied),
                       ),
                     );
                     controller.hideLoader();
@@ -158,9 +155,7 @@ class HeroWidget extends StatelessWidget {
                 if (permission == LocationPermission.deniedForever) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text(
-                        "Location permission is permanently denied. Please enable it in settings to use this feature.",
-                      ),
+                      content: AppText(text: AppStrings.locationDeniedForever),
                     ),
                   );
                   controller.hideLoader();
@@ -179,9 +174,7 @@ class HeroWidget extends StatelessWidget {
                 if (!zipRegex.hasMatch(zip.toString())) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text(
-                        "A1 Check Cashers Services are not available in your location",
-                      ),
+                      content: AppText(text: AppStrings.serviceUnavailable),
                     ),
                   );
 
@@ -190,8 +183,7 @@ class HeroWidget extends StatelessWidget {
                 }
 
                 if (zip != null && zip.isNotEmpty) {
-                  final url =
-                      "https://www.aonecheckcashing.com/store-locations?zip=$zip";
+                  final url = "${AppStrings.storeLocationsUrl}?zip=$zip";
 
                   await openUrl(url);
                 } else {
@@ -281,8 +273,9 @@ class HeroWidget extends StatelessWidget {
 }
 
 Future<String?> getZipFromLatLng(double lat, double lng) async {
+  String apiKey = dotenv.env['API_KEY'] ?? '';
   final url =
-      "https://maps.googleapis.com/maps/api/geocode/json"
+      "$geocodeUrl"
       "?latlng=$lat,$lng&key=$apiKey";
 
   final response = await http.get(Uri.parse(url));
@@ -305,5 +298,3 @@ Future<String?> getZipFromLatLng(double lat, double lng) async {
 
   return null;
 }
-
-const apiKey = "AIzaSyAE5i-r1yN-wFd27V8_kwTSWP8IjH0093c";

@@ -1,10 +1,13 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/features/auth/presentation/provider/auth_provider.dart';
+import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:a1_check_cashers/core/constants/app_assets.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
+import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -41,17 +44,26 @@ class _SplashPageState extends State<SplashPage>
 
     _controller.forward();
   }
-
   Future<void> _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 3));
 
-    final bool isLoggedIn = await SessionManager.isLoggedIn();
-    if (!mounted) return;
+    final auth = context.read<AuthProvider>();
+    await auth.initialize();
+    if (!auth.isLoggedIn) {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+      return;
+    }
 
-    Navigator.pushReplacementNamed(
-      context,
-      isLoggedIn ? AppRoutes.profileView : AppRoutes.login,
-    );
+    try {
+      final profile = context.read<ProfileProvider>();
+
+      await profile.getProfile(auth.loginUser!.clientRecordId);
+
+      Navigator.pushReplacementNamed(context, AppRoutes.profileView);
+    } catch (_) {
+      await SessionManager.clearSession();
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+    }
   }
 
   @override
