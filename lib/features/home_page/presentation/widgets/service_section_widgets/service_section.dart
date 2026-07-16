@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/features/home_page/data/data_sources/services_card_local_data.dart';
@@ -16,19 +16,17 @@ class ServiceSection extends StatelessWidget {
       color: AppColors.heroColor,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          int crossAxisCount = 2;
-
+          int crossAxisCount = 1;
+          log('constraints.maxWidth: ${constraints.maxWidth}');
           if (constraints.maxWidth > 900) {
             crossAxisCount = 4;
           } else if (constraints.maxWidth > 600) {
             crossAxisCount = 3;
+            // } else if (constraints.maxWidth > 500) {
+            //   crossAxisCount = 2;
+          } else if (constraints.maxWidth > 400) {
+            crossAxisCount = 1;
           }
-          final width = constraints.maxWidth;
-
-          final itemWidth = (width - 40) / crossAxisCount;
-          final itemHeight = Platform.isIOS
-              ? itemWidth * 1.33
-              : itemWidth * 1.22;
 
           return GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -39,7 +37,12 @@ class ServiceSection extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
-              childAspectRatio: itemWidth / itemHeight,
+              childAspectRatio:
+                  constraints.maxWidth > 300 && constraints.maxWidth < 350
+                  ? 1.28
+                  : constraints.maxWidth > 350 && constraints.maxWidth < 400
+                  ? 1.5
+                  : 2,
             ),
             itemBuilder: (context, index) {
               return ServiceCard(item: services[index]);

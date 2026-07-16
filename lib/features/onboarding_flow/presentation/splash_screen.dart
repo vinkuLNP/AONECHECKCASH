@@ -1,5 +1,6 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/utils/network_info.dart';
 import 'package:a1_check_cashers/features/auth/presentation/provider/auth_provider.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
@@ -44,13 +45,29 @@ class _SplashPageState extends State<SplashPage>
 
     _controller.forward();
   }
+
   Future<void> _navigateToNextScreen() async {
+    if (!await NetworkInfo().hasInternetConnection()) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("No internet connection available."),
+            duration: Duration(seconds: 6),
+          ),
+        );
+      }
+    }
+
     await Future.delayed(const Duration(seconds: 3));
 
     final auth = context.read<AuthProvider>();
     await auth.initialize();
     if (!auth.isLoggedIn) {
-      Navigator.pushReplacementNamed(context, AppRoutes.login);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+        (route) => false,
+      );
       return;
     }
 
@@ -59,10 +76,18 @@ class _SplashPageState extends State<SplashPage>
 
       await profile.getProfile(auth.loginUser!.clientRecordId);
 
-      Navigator.pushReplacementNamed(context, AppRoutes.profileView);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.profileView,
+        (route) => false,
+      );
     } catch (_) {
       await SessionManager.clearSession();
-      Navigator.pushReplacementNamed(context, AppRoutes.login);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+        (route) => false,
+      );
     }
   }
 

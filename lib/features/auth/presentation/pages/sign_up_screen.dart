@@ -249,9 +249,10 @@ class SignupScreen extends StatelessWidget {
                                         );
 
                                         if (isSuccess) {
-                                          Navigator.pushReplacementNamed(
+                                          Navigator.pushNamedAndRemoveUntil(
                                             context,
                                             AppRoutes.login,
+                                            (route) => false,
                                           );
                                         }
                                       }

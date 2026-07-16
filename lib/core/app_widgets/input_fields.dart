@@ -187,6 +187,7 @@ class AppPasswordField extends StatelessWidget {
           decoration: InputDecoration(
             counterText: '',
             filled: false,
+            errorMaxLines: 6,
             hintText: '******',
             hintStyle: appTextStyle(fontSize: 12, color: Colors.grey),
             errorStyle: appTextStyle(fontSize: 12, color: AppColors.primary),

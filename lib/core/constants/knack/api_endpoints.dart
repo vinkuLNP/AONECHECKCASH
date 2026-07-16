@@ -1,5 +1,3 @@
-import 'package:a1_check_cashers/core/constants/app_strings.dart';
-
 import 'app_config.dart';
 
 class ApiEndpoints {
@@ -30,9 +28,7 @@ class ApiEndpoints {
   }) {
     return "$geocodeUrl?latlng=$lat,$lng&key=$apiKey";
   }
-    static String objectKeyUrlForDelete(String objectKey) =>
- "$baseUrl/objects/$objectKey/records";
-  static String storeLocationByZip(String zip) {
-    return "${AppStrings.storeLocationsUrl}?zip=$zip";
-  }
+
+  static String objectKeyUrlForDelete(String objectKey) =>
+      "$baseUrl/objects/$objectKey/records";
 }

@@ -29,6 +29,7 @@ class HomeView extends StatelessWidget {
             SliverList(
               delegate: SliverChildListDelegate([
                 HeroWidget(),
+                // const AppVersionWidget(),
                 ServiceSection(),
                 /*   WhyChoose(),
                 HighlightSection(),

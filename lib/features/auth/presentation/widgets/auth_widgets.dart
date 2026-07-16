@@ -9,7 +9,11 @@ Widget backToHomeButton(BuildContext context) => AppButton(
   width: 200,
   textColor: AppColors.primary,
   text: AppStrings.backToHomePage,
-  onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.home),
+  onPressed: () => Navigator.pushNamedAndRemoveUntil(
+    context,
+    AppRoutes.home,
+    (route) => false,
+  ),
   isOutlined: true,
   icon: Icon(Icons.arrow_back, color: AppColors.primary),
 );

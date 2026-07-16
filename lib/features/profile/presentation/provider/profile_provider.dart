@@ -29,12 +29,15 @@ class ProfileProvider extends ChangeNotifier {
   Client? user;
   bool isLoading = false;
   bool isUploadingId = false;
-  Future<void> loadProfile() async {
+  Future<void> loadProfile({bool showLoader = true}) async {
     final id = await SessionManager.getClientRecordId();
     if (id == null) return;
 
     try {
-      isLoading = true;
+      if (showLoader) {
+        isLoading = true;
+        notifyListeners();
+      }
       notifyListeners();
       user = await getProfile(id);
 
@@ -68,7 +71,7 @@ class ProfileProvider extends ChangeNotifier {
 
       await updateId(id, fileId);
 
-      await loadProfile();
+      await loadProfile(showLoader: false);
     } finally {
       isUploadingId = false;
       notifyListeners();

@@ -27,7 +27,7 @@ class ProfileChequeCard extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                  flex: 3,
+                  flex: 2,
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: AppText(
