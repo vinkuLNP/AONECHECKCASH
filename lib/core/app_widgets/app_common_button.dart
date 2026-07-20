@@ -9,7 +9,8 @@ class AppButton extends StatelessWidget {
 
   final bool isLoading;
   final bool isDisabled;
-
+  final int? maxLines;
+  final TextOverflow? overflow;
   final bool isOutlined;
   final bool hasElevation;
 
@@ -42,6 +43,8 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.iconPosition = IconPosition.prefix,
     this.padding = const EdgeInsets.all(8),
+    this.maxLines = 1,
+    this.overflow = TextOverflow.ellipsis,
   });
 
   @override
@@ -69,8 +72,9 @@ class AppButton extends StatelessWidget {
                 child: AppText(
                   text: text,
                   color: textColor,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: maxLines,
+                  overflow: overflow,
+
                   fontWeight: FontWeight.w600,
                 ),
               ),

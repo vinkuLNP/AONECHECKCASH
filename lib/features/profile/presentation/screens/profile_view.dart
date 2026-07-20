@@ -41,141 +41,160 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.heroColor,
-      body:
-          Consumer3<ProfileProvider, ChequeFormProvider, BusinessCheckProvider>(
-            builder: (_, profile, cheque, businessCheck, __) {
-              final isLoading = profile.isLoading || cheque.isLoading;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
 
-              return Stack(
-                children: [
-                  AbsorbPointer(
-                    absorbing: isLoading,
-                    child: Opacity(
-                      opacity: isLoading ? 0.4 : 1,
-                      child: Stack(
-                        children: [
-                          const TopBackground(),
-                          SafeArea(
-                            child: RefreshIndicator(
-                              color: AppColors.primary,
-                              onRefresh: _refreshAllData,
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.home,
+          (route) => false,
+        );
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.heroColor,
+        body:
+            Consumer3<
+              ProfileProvider,
+              ChequeFormProvider,
+              BusinessCheckProvider
+            >(
+              builder: (_, profile, cheque, businessCheck, __) {
+                final isLoading = profile.isLoading || cheque.isLoading;
 
-                              child: ListView(
+                return Stack(
+                  children: [
+                    AbsorbPointer(
+                      absorbing: isLoading,
+                      child: Opacity(
+                        opacity: isLoading ? 0.4 : 1,
+                        child: Stack(
+                          children: [
+                            const TopBackground(),
+                            SafeArea(
+                              child: RefreshIndicator(
+                                color: AppColors.primary,
+                                onRefresh: _refreshAllData,
+
+                                child: ListView(
+                                  padding: const EdgeInsets.only(
+                                    top: 40,
+                                    bottom: 24,
+                                  ),
+                                  children: [
+                                    ProfileHeader(profile),
+                                    SizedBox(height: 24),
+                                    IdentityCard(profile),
+                                    SizedBox(height: 20),
+                                    BusinessCheckCard(provider: businessCheck),
+                                    SizedBox(height: 20),
+                                    ProfileChequeCard(cheque),
+                                    SizedBox(height: 20),
+                                    GestureDetector(
+                                      onTap: () =>
+                                          showLogoutDialog(context, profile),
+                                      child: ProfileCard(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.logout,
+                                              color: AppColors.primary,
+                                              size: 24,
+                                            ),
+                                            const SizedBox(width: 16),
+                                            const AppText(
+                                              text: AppStrings.logOut,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black54,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    GestureDetector(
+                                      onTap: () =>
+                                          deleteAccountDialog(context, profile),
+                                      child: ProfileCard(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.delete,
+                                              color: AppColors.primary,
+                                              size: 24,
+                                            ),
+                                            const SizedBox(width: 16),
+                                            const AppText(
+                                              text: AppStrings.deleteAccount,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black54,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SafeArea(
+                              child: Padding(
                                 padding: const EdgeInsets.only(
-                                  top: 40,
-                                  bottom: 24,
+                                  left: 16,
+                                  top: 12,
                                 ),
-                                children: [
-                                  ProfileHeader(profile),
-                                  SizedBox(height: 24),
-                                  IdentityCard(profile),
-                                  SizedBox(height: 20),
-                                  BusinessCheckCard(provider: businessCheck),
-                                  SizedBox(height: 20),
-                                  ProfileChequeCard(cheque),
-                                  SizedBox(height: 20),
-                                  GestureDetector(
-                                    onTap: () =>
-                                        showLogoutDialog(context, profile),
-                                    child: ProfileCard(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            Icons.logout,
-                                            color: AppColors.primary,
-                                            size: 24,
-                                          ),
-                                          const SizedBox(width: 16),
-                                          const AppText(
-                                            text: AppStrings.logOut,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black54,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  GestureDetector(
-                                    onTap: () =>
-                                        deleteAccountDialog(context, profile),
-                                    child: ProfileCard(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            Icons.delete,
-                                            color: AppColors.primary,
-                                            size: 24,
-                                          ),
-                                          const SizedBox(width: 16),
-                                          const AppText(
-                                            text: AppStrings.deleteAccount,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black54,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 16, top: 12),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Material(
-                                  color: Colors.white.withValues(alpha: 0.18),
-                                  borderRadius: BorderRadius.circular(14),
-                                  child: InkWell(
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Material(
+                                    color: Colors.white.withValues(alpha: 0.18),
                                     borderRadius: BorderRadius.circular(14),
-                                    onTap: () {
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        AppRoutes.home,
-                                      );
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Icon(
-                                        Icons.arrow_back_ios_new_rounded,
-                                        color: Colors.white,
-                                        size: 20,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(14),
+                                      onTap: () {
+                                        Navigator.pushReplacementNamed(
+                                          context,
+                                          AppRoutes.home,
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: const Icon(
+                                          Icons.arrow_back_ios_new_rounded,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  if (isLoading)
-                    Container(
-                      color: Colors.black.withValues(alpha: 0.15),
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primary,
+                          ],
                         ),
                       ),
                     ),
-                ],
-              );
-            },
-          ),
+
+                    if (isLoading)
+                      Container(
+                        color: Colors.black.withValues(alpha: 0.15),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
+      ),
     );
   }
 
@@ -212,7 +231,7 @@ class _ProfileViewState extends State<ProfileView> {
 
     if (shouldLogout == true && context.mounted) {
       final auth = context.read<AuthProvider>();
-      await profile.logout(context,auth);
+      await profile.logout(context, auth);
     }
   }
 
@@ -248,8 +267,8 @@ class _ProfileViewState extends State<ProfileView> {
     );
 
     if (shouldDeleteAccount == true && context.mounted) {
-          final auth = context.read<AuthProvider>();
-      await profile.deleteAccount(context,auth);
+      final auth = context.read<AuthProvider>();
+      await profile.deleteAccount(context, auth);
     }
   }
 }

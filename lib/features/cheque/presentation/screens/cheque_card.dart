@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_image_picker_card.dart';
@@ -138,43 +136,27 @@ class ChequeCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
       children: [
-        Platform.isIOS
-            ? Column(
-                children: [
-                  AppText(
-                    text: "#${cheque.chequeNumber}",
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  AppStatusChip(
-                    title: cheque.status.status,
-                    icon: cheque.status.statusIcon,
-                    color: cheque.status.statusColor,
-                  ),
-                ],
-              )
-            : Row(
-                children: [
-                  AppText(
-                    text: "#${cheque.chequeNumber}",
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  AppStatusChip(
-                    title: cheque.status.status,
-                    icon: cheque.status.statusIcon,
-                    color: cheque.status.statusColor,
-                  ),
-                ],
-              ),
-
+        // Platform.isIOS
+        // ?
         Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppText(
+              text: "#${cheque.chequeNumber}",
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+
+            AppStatusChip(
+              title: cheque.status.status,
+              icon: cheque.status.statusIcon,
+              color: cheque.status.statusColor,
+            ),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             AppText(
               text: "\$${cheque.amount.toStringAsFixed(2)}",

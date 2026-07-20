@@ -58,20 +58,44 @@ class EditChequeView extends StatelessWidget {
                   children: [
                     if (!provider.isCreateMode) ...[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          AppSectionTitle(
-                            title: AppStrings.status,
-                            isPadding: false,
-                          ),
-                          const SizedBox(width: 20),
+                          Flexible(
+                            flex: 2,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AppSectionTitle(
+                                  title: AppStrings.status,
+                                  isPadding: false,
+                                ),
+                                const SizedBox(width: 20),
 
-                          AppStatusChip(
-                            title: provider.status.status,
-                            icon: provider.status.statusIcon,
-                            color: provider.status.statusColor,
+                                AppStatusChip(
+                                  title: provider.status.status,
+                                  icon: provider.status.statusIcon,
+                                  color: provider.status.statusColor,
+                                ),
+                              ],
+                            ),
                           ),
+
+                          if (provider.isViewMode &&
+                              provider.checkStatusNeedMoreInfo)
+                            Expanded(
+                              child: AppButton(
+                                text: AppStrings.edit,
+                                onPressed: provider.switchToEditMode,
+                                textColor: AppColors.whiteColor,
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: AppColors.whiteColor,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -175,13 +199,13 @@ class EditChequeView extends StatelessWidget {
                             autovalidateMode: provider.hasSubmitted
                                 ? AutovalidateMode.always
                                 : AutovalidateMode.disabled,
-                            maxLength: 15,
+                            maxLength: 7,
                             validator: AppValidators.validateAmount,
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
                                 AppKeys.digitsAndDecimalFormatter,
                               ),
-                              LengthLimitingTextInputFormatter(15),
+                              LengthLimitingTextInputFormatter(7),
                             ],
                           ),
                         ),
@@ -226,7 +250,7 @@ class EditChequeView extends StatelessWidget {
                       const SizedBox(height: 12),
 
                       AppFormField(
-                        label: 'Enter cheque type',
+                        label: AppStrings.pleaseEnterChequeType,
                         controller: provider.otherChequeTypeController,
                         readOnly: provider.isReadOnly,
                         autovalidateMode: provider.hasSubmitted

@@ -38,9 +38,12 @@ class IdentityCard extends StatelessWidget {
               onImageSelected: (file) async {
                 await profileProvider.uploadFrontId(file);
               },
+
+              borderRadius: BorderRadius.circular(12),
               title: AppStrings.uploadIdDocument,
               subtitle: AppStrings.uploadIdHint,
               showTitle: false,
+              showBorder: false,
             ),
           ),
         ],

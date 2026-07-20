@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/features/auth/domain/enitities/user_entity.dart';
@@ -116,8 +118,10 @@ class AuthProvider extends ChangeNotifier {
     } else if (message.contains("network")) {
       return AppStrings.noInternet;
     }
-
-    return AppStrings.smthngWntWrong;
+    log('Error: $message'); // Log the error message for debugging
+    return 
+    // message; // Return the actual error message for other cases
+    AppStrings.smthngWntWrong;
   }
 
   void reset() {

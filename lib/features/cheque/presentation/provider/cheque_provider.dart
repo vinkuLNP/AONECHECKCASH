@@ -458,11 +458,19 @@ class ChequeFormProvider extends ChangeNotifier {
   }
 
   ChequeFormMode _mode = ChequeFormMode.create;
-
-  bool get isEditMode => _mode == ChequeFormMode.edit;
+  bool get checkStatusNeedMoreInfo => status == ChequeStatus.needMoreInfo;
+  ChequeFormMode get mode => _mode;
+  bool get isEditMode =>
+      _mode == ChequeFormMode.edit && checkStatusNeedMoreInfo;
   bool get isCreateMode => _mode == ChequeFormMode.create;
   bool get isViewMode => _mode == ChequeFormMode.view;
-  bool get isReadOnly => _mode == ChequeFormMode.view;
-
+  bool get isReadOnly => isViewMode;
   Cheque? _cheque;
+
+  void switchToEditMode() {
+    if (_mode == ChequeFormMode.view) {
+      _mode = ChequeFormMode.edit;
+      notifyListeners();
+    }
+  }
 }

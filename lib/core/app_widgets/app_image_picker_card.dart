@@ -33,6 +33,7 @@ class AppImagePickerCard extends StatelessWidget {
   final bool allowCamera;
 
   final bool showTitle;
+  final bool showBorder;
 
   final bool allowGallery;
 
@@ -73,6 +74,7 @@ class AppImagePickerCard extends StatelessWidget {
     this.readOnly = false,
     this.titleColor = const Color.fromRGBO(97, 97, 97, 1),
     this.fileType = PickerFileType.image,
+    this.showBorder = true,
   });
 
   bool get isPdf => fileType == PickerFileType.pdf;
@@ -197,7 +199,9 @@ class AppImagePickerCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: borderRadius,
-                  border: Border.all(color: Colors.grey.shade300),
+                  border: showBorder
+                      ? Border.all(color: Colors.grey.shade300)
+                      : null,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.04),
@@ -428,3 +432,6 @@ class AppImagePickerCard extends StatelessWidget {
     );
   }
 }
+
+
+

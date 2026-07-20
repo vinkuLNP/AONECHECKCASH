@@ -166,9 +166,10 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                         );
                                         if (isSuccess) {
-                                          Navigator.pushNamed(
+                                          Navigator.pushNamedAndRemoveUntil(
                                             context,
                                             AppRoutes.profileView,
+                                            (route) => false,
                                           );
                                           await context
                                               .read<ProfileProvider>()
@@ -176,7 +177,7 @@ class LoginScreen extends StatelessWidget {
                                           await context
                                               .read<ChequeFormProvider>()
                                               .loadCheques();
-                                         await context
+                                          await context
                                               .read<BusinessCheckProvider>()
                                               .loadForm();
                                         }

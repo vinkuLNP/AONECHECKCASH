@@ -199,7 +199,7 @@ class AppStrings {
   static const signupSuccessful = "Account created successfully";
   static const signupFailed = "Signup failed";
   static const loginFailed = "Email or password incorrect";
-  static const smthngWntWrong = "Something went wrong";
+  static const smthngWntWrong = "Something went wrong. Please try again later.";
   static const alreadyHaveAccount = "Already have an account? ";
   static const fullName = "Full Name";
   static const phone = "Phone Number";
@@ -279,7 +279,7 @@ class AppStrings {
   static const editCheque = "Edit Check";
   static const viewCheque = "View Check";
 
-  static const saveCheque = "Save Check";
+  static const saveCheque = "Submit";
   static const cancel = "Cancel";
 
   static const status = "Status";
