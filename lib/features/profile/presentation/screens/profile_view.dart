@@ -53,6 +53,7 @@ class _ProfileViewState extends State<ProfileView> {
         );
       },
       child: Scaffold(
+        
         backgroundColor: AppColors.heroColor,
         body:
             Consumer3<

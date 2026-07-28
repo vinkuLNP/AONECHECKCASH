@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_endpoints.dart';
 import 'package:a1_check_cashers/core/constants/knack/api_headers.dart';
@@ -36,7 +37,8 @@ class AuthRemoteDataSource {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return await login(email, password);
     } else {
-      throw Exception("Signup failed");
+      log("Signup failed: ${response.body}", name: 'AuthRemoteDataSource');
+      throw Exception("Signup failed: ${response.body}");
     }
   }
 }

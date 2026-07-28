@@ -107,20 +107,22 @@ class AuthProvider extends ChangeNotifier {
   }
 
   String _handleError(dynamic e) {
+    log(e.toString(), name: 'AuthProvider Error');
     final message = e.toString();
 
     if (message.contains("invalid-credentials") ||
         message.contains("validate_login_incorrect") ||
         message.contains("Email or password incorrect")) {
       return AppStrings.loginFailed;
-    } else if (message.contains("email-already-in-use")) {
+    } else if (message.contains("email-already-in-use") ||
+        message.contains("validate_signup_email_exists") ||
+        message.contains("Email already exists")|| message.contains("Email must be unique")) {
       return AppStrings.emailAlreadyExists;
     } else if (message.contains("network")) {
       return AppStrings.noInternet;
     }
-    log('Error: $message'); // Log the error message for debugging
-    return 
-    // message; // Return the actual error message for other cases
+    log('Error: $message'); 
+    return
     AppStrings.smthngWntWrong;
   }
 

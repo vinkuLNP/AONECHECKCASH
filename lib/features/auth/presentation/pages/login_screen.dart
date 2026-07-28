@@ -111,9 +111,7 @@ class LoginScreen extends StatelessWidget {
                                       }
                                       return AuthValidator.loginPassword(value);
                                     },
-
                                     onToggle: provider.togglePassword,
-
                                     onTap: () {
                                       provider.setActiveField(
                                         AppStrings.password,

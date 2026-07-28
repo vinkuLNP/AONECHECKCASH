@@ -22,8 +22,8 @@ class ServiceSection extends StatelessWidget {
             crossAxisCount = 4;
           } else if (constraints.maxWidth > 600) {
             crossAxisCount = 3;
-            // } else if (constraints.maxWidth > 500) {
-            //   crossAxisCount = 2;
+            } else if (constraints.maxWidth > 500) {
+              crossAxisCount = 2;
           } else if (constraints.maxWidth > 400) {
             crossAxisCount = 1;
           }
@@ -42,7 +42,9 @@ class ServiceSection extends StatelessWidget {
                   ? 1.28
                   : constraints.maxWidth > 350 && constraints.maxWidth < 400
                   ? 1.5
-                  : 2,
+                  : crossAxisCount == 1
+                  ? 1.8
+                  : 1,
             ),
             itemBuilder: (context, index) {
               return ServiceCard(item: services[index]);

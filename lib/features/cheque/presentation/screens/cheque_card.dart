@@ -6,6 +6,7 @@ import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_info_c
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_status_chip.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/cheque_notes_card.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/extensions/date_extension.dart';
@@ -136,8 +137,6 @@ class ChequeCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
       children: [
-        // Platform.isIOS
-        // ?
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +158,9 @@ class ChequeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             AppText(
-              text: "\$${cheque.amount.toStringAsFixed(2)}",
+              // text: "\$${cheque.amount.toStringAsFixed(2)}",
+
+text: '\$${NumberFormat('#,##0.00', 'en_US').format(cheque.amount)}',
               color: AppColors.primary,
               fontSize: 16,
               fontWeight: FontWeight.bold,

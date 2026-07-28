@@ -1,7 +1,7 @@
 name: a1_check_cashers
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.10+10
+version: 1.0.11+11
 
 
 environment:
@@ -32,14 +32,23 @@ dependencies:
   flutter_dotenv: ^6.0.1
   package_info_plus: ^9.0.1
   internet_connection_checker_plus: ^3.1.1
+  intl: ^0.20.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
 
   flutter_lints: ^5.0.0
 flutter:
   uses-material-design: true
+  config:
+    enable-swift-package-manager: false
   assets:
     - assets/images/
     - .env
+flutter_launcher_icons:
+  ios: true
+  android: true
+  image_path: "ios/Runner/Assets.xcassets/AppIcon.appiconset/1024.png"
+  remove_alpha_ios: true
