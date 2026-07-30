@@ -72,14 +72,15 @@ class ProfileChequeCard extends StatelessWidget {
 
           GestureDetector(
             onTap: () async {
+               if (context.mounted) {
+                await context.read<ChequeFormProvider>().loadCheques();
+              }
               await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => ChequeListScreen()),
               );
 
-              if (context.mounted) {
-                await context.read<ChequeFormProvider>().loadCheques();
-              }
+             
             },
             child: ListTile(
               title: const AppText(

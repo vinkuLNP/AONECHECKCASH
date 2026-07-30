@@ -3,6 +3,8 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 import 'package:a1_check_cashers/core/constants/knack/knack_fields.dart';
+import 'package:a1_check_cashers/core/extensions/currency_formatter.dart';
+import 'package:a1_check_cashers/core/extensions/phone_number_input_formatter.dart';
 import 'package:a1_check_cashers/core/session_manager/session_manager.dart';
 import 'package:a1_check_cashers/core/utils/file_utils.dart';
 import 'package:a1_check_cashers/features/cheque/domain/entities/cheque_entity.dart';
@@ -83,44 +85,42 @@ class ChequeFormProvider extends ChangeNotifier {
     hasSubmitted = true;
     notifyListeners();
   }
+
   final ScrollController scrollController = ScrollController();
 
-Future<void> scrollToField(
-  GlobalKey key, {
-  FocusNode? focusNode,
-}) async {
-   await WidgetsBinding.instance.endOfFrame;
-  final fieldContext = key.currentContext;
+  Future<void> scrollToField(GlobalKey key, {FocusNode? focusNode}) async {
+    await WidgetsBinding.instance.endOfFrame;
+    final fieldContext = key.currentContext;
 
-  if (fieldContext == null || !fieldContext.mounted) {
-    debugPrint('Unable to find field context for $key');
-    return;
-  }
+    if (fieldContext == null || !fieldContext.mounted) {
+      debugPrint('Unable to find field context for $key');
+      return;
+    }
 
-  await Scrollable.ensureVisible(
-    fieldContext,
-       duration: const Duration(milliseconds: 500),
-    curve: Curves.easeInOut,
-    alignment: 0.15,
+    await Scrollable.ensureVisible(
+      fieldContext,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+      alignment: 0.15,
 
-    alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
-  );
+      alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
+    );
 
-   if (focusNode != null && focusNode.canRequestFocus) {
-    focusNode.requestFocus();
+    if (focusNode != null && focusNode.canRequestFocus) {
+      focusNode.requestFocus();
       await Future.delayed(const Duration(milliseconds: 300));
 
-    if (fieldContext.mounted) {
-      await Scrollable.ensureVisible(
-        fieldContext,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-        alignment: 0.15,
-        alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
-      );
+      if (fieldContext.mounted) {
+        await Scrollable.ensureVisible(
+          fieldContext,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+          alignment: 0.15,
+          alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
+        );
+      }
     }
   }
-}
 
   void initialize(Cheque? cheque, ChequeFormMode mode) async {
     final userName = await SessionManager.getUserName();
@@ -131,20 +131,21 @@ Future<void> scrollToField(
 
     chequeNumberController.text = cheque?.chequeNumber ?? '';
 
-    amountController.text = cheque?.amount == null
-        ? ''
-        : cheque!.amount % 1 == 0
-        ? cheque.amount.toInt().toString()
-        : cheque.amount.toString();
+    amountController.text = CurrencyFormatter.format(cheque?.amount);
+    // cheque?.amount == null
+    //     ? ''
+    //     : cheque!.amount % 1 == 0
+    //     ? cheque.amount.toInt().toString()
+    //     : cheque.amount.toString();
     customerNameController.text = cheque?.customerName ?? userName ?? '';
 
-    customerPhoneController.text = cheque?.customerPhone ?? '';
+    customerPhoneController.text = PhoneFormatter.format(cheque?.customerPhone);
 
     payeeController.text = cheque?.payee ?? '';
 
     makerNameController.text = cheque?.makerName ?? '';
 
-    makerPhoneController.text = cheque?.makerPhone ?? '';
+    makerPhoneController.text = PhoneFormatter.format(cheque?.makerPhone);
 
     chequeDetailsController.text = cheque?.chequeDetails ?? '';
 
@@ -174,7 +175,7 @@ Future<void> scrollToField(
 
   @override
   void dispose() {
-      scrollController.dispose();
+    scrollController.dispose();
     customerPhoneFocus.dispose();
     makerPhoneFocus.dispose();
     customerNameFocus.dispose();
@@ -329,13 +330,13 @@ Future<void> scrollToField(
       ),
 
       AppValidators.validatePhone(
-        customerPhoneController.text,
+        customerPhoneController.text.replaceAll('-', ''),
         "Customer's ${AppStrings.customerPhone}",
       ),
 
       AppValidators.validateChequeNumber(chequeNumberController.text),
 
-      AppValidators.validateAmount(amountController.text),
+      AppValidators.validateAmount(amountController.text.replaceAll(',', '')),
 
       AppValidators.validateName(payeeController.text, AppStrings.payeeName),
 
@@ -345,7 +346,7 @@ Future<void> scrollToField(
       ),
 
       AppValidators.validatePhone(
-        makerPhoneController.text,
+        makerPhoneController.text.replaceAll('-', ''),
         "Maker's ${AppStrings.makerPhone}",
       ),
 
@@ -367,138 +368,130 @@ Future<void> scrollToField(
 
     return null;
   }
+
   Future<String?> _validateField({
-  required BuildContext context,
-  required String? error,
-  required GlobalKey key,
-  FocusNode? focusNode,
-}) async {
-  if (error == null) return null;
+    required BuildContext context,
+    required String? error,
+    required GlobalKey key,
+    FocusNode? focusNode,
+  }) async {
+    if (error == null) return null;
 
-  await scrollToField(
-    key,
-    focusNode: focusNode,
-  );
+    await scrollToField(key, focusNode: focusNode);
 
-  return error;
-}
-Future<String?> validateAndScroll(BuildContext context) async {
-  String? error;
+    return error;
+  }
 
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validateName(
-      customerNameController.text,
-      AppStrings.customerName,
-    ),
-    key: customerNameKey,
-    focusNode: customerNameFocus,
-  );
-  if (error != null) return error;
+  Future<String?> validateAndScroll(BuildContext context) async {
+    String? error;
 
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validatePhone(
-      customerPhoneController.text,
-      "Customer's ${AppStrings.customerPhone}",
-    ),
-    key: customerPhoneKey,
-    focusNode: customerPhoneFocus,
-  );
-  if (error != null) return error;
-
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validateChequeNumber(
-      chequeNumberController.text,
-    ),
-    key: chequeNumberKey,
-    focusNode: chequeNumberFocus,
-  );
-  if (error != null) return error;
-
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validateAmount(
-      amountController.text,
-    ),
-    key: amountKey,
-    focusNode: amountFocus,
-  );
-  if (error != null) return error;
-
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validateName(
-      payeeController.text,
-      AppStrings.payeeName,
-    ),
-    key: payeeKey,
-    focusNode: payeeFocus,
-  );
-  if (error != null) return error;
-
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validateName(
-      makerNameController.text,
-      AppStrings.makerName,
-    ),
-    key: makerNameKey,
-    focusNode: makerNameFocus,
-  );
-  if (error != null) return error;
-
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validatePhone(
-      makerPhoneController.text,
-      "Maker's ${AppStrings.makerPhone}",
-    ),
-    key: makerPhoneKey,
-    focusNode: makerPhoneFocus,
-  );
-  if (error != null) return error;
-
-  if (isOtherChequeType) {
     error = await _validateField(
       context: context,
-      error: AppValidators.otherChequeType(
-        otherChequeTypeController.text,
-        "Cheque Type",
+      error: AppValidators.validateName(
+        customerNameController.text,
+        AppStrings.customerName,
       ),
-      key: otherChequeTypeKey,
+      key: customerNameKey,
+      focusNode: customerNameFocus,
     );
-
     if (error != null) return error;
-  }
 
-  if (frontFileId == null || frontFileId!.isEmpty) {
-    await scrollToField(
-      frontImageKey,
+    error = await _validateField(
+      context: context,
+      error: AppValidators.validatePhone(
+        customerPhoneController.text.replaceAll('-', ''),
+        "Customer's ${AppStrings.customerPhone}",
+      ),
+      key: customerPhoneKey,
+      focusNode: customerPhoneFocus,
     );
-    return AppStrings.frontChequeImageRequired;
-  }
+    if (error != null) return error;
 
-  if (backFileId == null || backFileId!.isEmpty) {
-    await scrollToField(
-      backImageKey,
+    error = await _validateField(
+      context: context,
+      error: AppValidators.validateChequeNumber(chequeNumberController.text),
+      key: chequeNumberKey,
+      focusNode: chequeNumberFocus,
     );
-    return AppStrings.backChequeImageRequired;
+    if (error != null) return error;
+
+    error = await _validateField(
+      context: context,
+      error: AppValidators.validateAmount(
+        amountController.text.replaceAll(',', ''),
+      ),
+      key: amountKey,
+      focusNode: amountFocus,
+    );
+    if (error != null) return error;
+
+    error = await _validateField(
+      context: context,
+      error: AppValidators.validateName(
+        payeeController.text,
+        AppStrings.payeeName,
+      ),
+      key: payeeKey,
+      focusNode: payeeFocus,
+    );
+    if (error != null) return error;
+
+    error = await _validateField(
+      context: context,
+      error: AppValidators.validateName(
+        makerNameController.text,
+        AppStrings.makerName,
+      ),
+      key: makerNameKey,
+      focusNode: makerNameFocus,
+    );
+    if (error != null) return error;
+
+    error = await _validateField(
+      context: context,
+      error: AppValidators.validatePhone(
+        makerPhoneController.text.replaceAll('-', ''),
+        "Maker's ${AppStrings.makerPhone}",
+      ),
+      key: makerPhoneKey,
+      focusNode: makerPhoneFocus,
+    );
+    if (error != null) return error;
+
+    if (isOtherChequeType) {
+      error = await _validateField(
+        context: context,
+        error: AppValidators.otherChequeType(
+          otherChequeTypeController.text,
+          "Cheque Type",
+        ),
+        key: otherChequeTypeKey,
+      );
+
+      if (error != null) return error;
+    }
+
+    if (frontFileId == null || frontFileId!.isEmpty) {
+      await scrollToField(frontImageKey);
+      return AppStrings.frontChequeImageRequired;
+    }
+
+    if (backFileId == null || backFileId!.isEmpty) {
+      await scrollToField(backImageKey);
+      return AppStrings.backChequeImageRequired;
+    }
+
+    error = await _validateField(
+      context: context,
+      error: AppValidators.validateNotes(chequeDetailsController.text),
+      key: chequeDetailsKey,
+      focusNode: notesFocus,
+    );
+    if (error != null) return error;
+
+    return null;
   }
 
-  error = await _validateField(
-    context: context,
-    error: AppValidators.validateNotes(
-      chequeDetailsController.text,
-    ),
-    key: chequeDetailsKey,
-    focusNode: notesFocus,
-  );
-  if (error != null) return error;
-
-  return null;
-}
   Future<bool> saveCheque(BuildContext context) async {
     FocusScope.of(context).unfocus();
     final frontImageId = frontFileId;
@@ -506,12 +499,11 @@ Future<String?> validateAndScroll(BuildContext context) async {
     enableValidation();
 
     final isValid = formKey.currentState!.validate();
-      await WidgetsBinding.instance.endOfFrame;
+    await WidgetsBinding.instance.endOfFrame;
     final firstError = await validateAndScroll(context);
 
-
     if (!isValid || firstError != null) {
-       if (!context.mounted) return false;
+      if (!context.mounted) return false;
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -544,7 +536,7 @@ Future<String?> validateAndScroll(BuildContext context) async {
       success = await createChequeUsecase(
         userId,
         chequeNumberController.text,
-        double.parse(amountController.text),
+        double.parse(amountController.text.replaceAll(',', '')),
         selectedDate,
         frontImageId,
         backImageId,
@@ -552,10 +544,10 @@ Future<String?> validateAndScroll(BuildContext context) async {
             ? otherChequeTypeController.text.trim()
             : type.chequeTypeName,
         customerNameController.text,
-        customerPhoneController.text,
+        customerPhoneController.text.replaceAll('-', ''),
         payeeController.text,
         makerNameController.text,
-        makerPhoneController.text,
+        makerPhoneController.text.replaceAll('-', ''),
         chequeDetailsController.text,
         AppStrings.underReview,
         notesController.text,
@@ -564,7 +556,7 @@ Future<String?> validateAndScroll(BuildContext context) async {
       success = await updateChequeUsecase(
         _cheque!.id,
         chequeNumberController.text,
-        double.parse(amountController.text),
+        double.parse(amountController.text.replaceAll(',', '')),
         selectedDate,
         frontImageId,
         backImageId,
@@ -572,18 +564,18 @@ Future<String?> validateAndScroll(BuildContext context) async {
             ? otherChequeTypeController.text.trim()
             : type.chequeTypeName,
         customerNameController.text,
-        customerPhoneController.text,
+        customerPhoneController.text.replaceAll('-', ''),
         payeeController.text,
         makerNameController.text,
-        makerPhoneController.text,
+        makerPhoneController.text.replaceAll('-', ''),
         chequeDetailsController.text,
         status.status,
         notesController.text,
       );
     }
-    await loadCheques();
-    isSaving = false;
-    isLoading = false;
+    // await loadCheques();
+    // isSaving = false;
+    // isLoading = false;
     notifyListeners();
 
     return success;

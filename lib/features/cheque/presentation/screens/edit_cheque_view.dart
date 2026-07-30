@@ -4,6 +4,8 @@ import 'package:a1_check_cashers/core/app_widgets/app_image_picker_card.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
+import 'package:a1_check_cashers/core/extensions/currency_formatter.dart';
+import 'package:a1_check_cashers/core/extensions/phone_number_input_formatter.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_status_enum.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
@@ -152,14 +154,15 @@ class EditChequeView extends StatelessWidget {
                                   ? AutovalidateMode.always
                                   : AutovalidateMode.disabled,
                               readOnly: provider.isReadOnly,
-                              maxLength: 10,
+                              maxLength: 12,
                               validator: (value) => AppValidators.validatePhone(
                                 value,
                                 "Customer's ${AppStrings.customerPhone}",
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10),
+                                PhoneNumberInputFormatter(),
+                                // LengthLimitingTextInputFormatter(10),
                               ],
                             ),
                           ),
@@ -209,13 +212,15 @@ class EditChequeView extends StatelessWidget {
                               autovalidateMode: provider.hasSubmitted
                                   ? AutovalidateMode.always
                                   : AutovalidateMode.disabled,
-                              maxLength: 7,
+                              maxLength: 9,
                               validator: AppValidators.validateAmount,
                               inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  AppKeys.digitsAndDecimalFormatter,
-                                ),
-                                LengthLimitingTextInputFormatter(7),
+                                // FilteringTextInputFormatter.allow(
+                                //   AppKeys.digitsAndDecimalFormatter,
+                                // ),
+                                // LengthLimitingTextInputFormatter(7),
+                                FilteringTextInputFormatter.digitsOnly,
+                                CurrencyInputFormatter(),
                               ],
                             ),
                           ),
@@ -342,14 +347,15 @@ class EditChequeView extends StatelessWidget {
                               autovalidateMode: provider.hasSubmitted
                                   ? AutovalidateMode.always
                                   : AutovalidateMode.disabled,
-                              maxLength: 10,
+                              maxLength: 12,
                               validator: (value) => AppValidators.validatePhone(
                                 value,
                                 "Maker's ${AppStrings.makerPhone}",
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10),
+                                PhoneNumberInputFormatter(),
+                                // LengthLimitingTextInputFormatter(10),
                               ],
                             ),
                           ),
@@ -492,10 +498,15 @@ class EditChequeView extends StatelessWidget {
                                             .read<ChequeFormProvider>()
                                             .loadCheques();
 
-                                        Navigator.pushNamed(
+                                        Navigator.pushReplacementNamed(
                                           context,
                                           AppRoutes.profileView,
                                         );
+                                        provider.isSaving = false;
+                                        provider.isLoading = false;
+                                      } else {
+                                        provider.isSaving = false;
+                                        provider.isLoading = false;
                                       }
                                     },
                               textColor: AppColors.whiteColor,

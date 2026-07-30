@@ -21,8 +21,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
       return oldValue;
     }
 
-    // Max 7 digits
-    if (text.length > 7) {
+    // Max 8 digits
+    if (text.length > 8) {
       return oldValue;
     }
 
@@ -32,5 +32,26 @@ class CurrencyInputFormatter extends TextInputFormatter {
       text: formatted,
       selection: TextSelection.collapsed(offset: formatted.length),
     );
+  }
+
+
+}
+
+
+class CurrencyFormatter {
+  static final NumberFormat _formatter = NumberFormat('#,##0', 'en_US');
+
+  static String format(num? value) {
+    if (value == null) return '';
+    return _formatter.format(value);
+  }
+
+  static String formatString(String? value) {
+    if (value == null || value.trim().isEmpty) return '';
+
+    final number = int.tryParse(value.replaceAll(',', ''));
+    if (number == null) return value;
+
+    return _formatter.format(number);
   }
 }
