@@ -6,10 +6,8 @@ class PhoneNumberInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    // Remove all non-digits
     String digits = newValue.text.replaceAll(RegExp(r'\D'), '');
 
-    // Limit to 12 digits
     if (digits.length > 12) {
       digits = digits.substring(0, 12);
     }

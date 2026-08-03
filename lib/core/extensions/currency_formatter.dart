@@ -9,19 +9,16 @@ class CurrencyInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    // Remove commas
     String text = newValue.text.replaceAll(',', '');
 
     if (text.isEmpty) {
       return newValue.copyWith(text: '');
     }
 
-    // Allow only digits
     if (!RegExp(r'^\d+$').hasMatch(text)) {
       return oldValue;
     }
 
-    // Max 8 digits
     if (text.length > 8) {
       return oldValue;
     }

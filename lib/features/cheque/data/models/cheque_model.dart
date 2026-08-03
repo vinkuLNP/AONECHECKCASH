@@ -39,9 +39,27 @@ class ChequeModel extends Cheque {
 
     return parsed;
   }
+static String? _parseNotes(dynamic value) {
+  if (value == null) return null;
 
+  String text = value.toString();
+  text = text
+      .replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n')
+      .replaceAll(RegExp(r'</p>', caseSensitive: false), '\n')
+      .replaceAll(RegExp(r'<p[^>]*>', caseSensitive: false), '');
+
+  text = text.replaceAll(RegExp(r'<[^>]*>'), '');
+  text = text
+      .replaceAll('&nbsp;', ' ')
+      .replaceAll('&amp;', '&')
+      .replaceAll('&lt;', '<')
+      .replaceAll('&gt;', '>')
+      .replaceAll('&quot;', '"')
+      .replaceAll('&#39;', "'");
+
+  return text.trim().isEmpty ? null : text.trim();
+}
   static DateTime _parseDate(dynamic value) {
-
     if (value is Map) {
       final iso = value["iso_timestamp"];
 
@@ -110,7 +128,7 @@ class ChequeModel extends Cheque {
 
       backImage: backImageUrl,
 
-      notes: json["field_46"],
+      notes: _parseNotes(json["field_46"]),
     );
 
     return cheque;

@@ -4,18 +4,14 @@ import 'package:a1_check_cashers/core/app_widgets/app_image_picker_card.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
-import 'package:a1_check_cashers/core/extensions/currency_formatter.dart';
 import 'package:a1_check_cashers/core/extensions/phone_number_input_formatter.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_status_enum.dart';
-import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/provider/cheque_provider.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/validator/check_form_validator.dart';
-import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_date_picker.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_form_field.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_section_tile.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_status_chip.dart';
-import 'package:a1_check_cashers/features/cheque/presentation/widgets/dropdown_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -162,14 +158,13 @@ class EditChequeView extends StatelessWidget {
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 PhoneNumberInputFormatter(),
-                                // LengthLimitingTextInputFormatter(10),
                               ],
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 20),
-
+/*
                       AppSectionTitle(
                         title: AppStrings.chequeInfo,
                         fontWeight: FontWeight.bold,
@@ -215,10 +210,6 @@ class EditChequeView extends StatelessWidget {
                               maxLength: 9,
                               validator: AppValidators.validateAmount,
                               inputFormatters: [
-                                // FilteringTextInputFormatter.allow(
-                                //   AppKeys.digitsAndDecimalFormatter,
-                                // ),
-                                // LengthLimitingTextInputFormatter(7),
                                 FilteringTextInputFormatter.digitsOnly,
                                 CurrencyInputFormatter(),
                               ],
@@ -302,7 +293,7 @@ class EditChequeView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
-
+*/
                       AppSectionTitle(
                         title: AppStrings.makerInfo,
                         fontWeight: FontWeight.bold,
@@ -355,7 +346,6 @@ class EditChequeView extends StatelessWidget {
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 PhoneNumberInputFormatter(),
-                                // LengthLimitingTextInputFormatter(10),
                               ],
                             ),
                           ),

@@ -5,7 +5,6 @@ import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/auth/presentation/provider/auth_provider.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/business_check_provider.dart';
 import 'package:a1_check_cashers/features/profile/presentation/provider/profile_provider.dart';
-import 'package:a1_check_cashers/features/profile/presentation/widgets/business_check_cashing_card.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/identity_card.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/profile_card.dart';
 import 'package:a1_check_cashers/features/profile/presentation/widgets/profile_cheque_card.dart';
@@ -87,8 +86,8 @@ class _ProfileViewState extends State<ProfileView> {
                                     ProfileHeader(profile),
                                     SizedBox(height: 24),
                                     IdentityCard(profile),
-                                    SizedBox(height: 20),
-                                    BusinessCheckCard(provider: businessCheck),
+                              /*      SizedBox(height: 20),
+                                    BusinessCheckCard(provider: businessCheck),*/
                                     SizedBox(height: 20),
                                     ProfileChequeCard(cheque),
                                     SizedBox(height: 20),

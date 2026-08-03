@@ -289,6 +289,8 @@ class AppStrings {
   static const payeeName = "Payee Name";
   static const makerInfo = "Maker Information";
   static const makerName = "Name";
+  static const makerNameTitle = "Maker Name";
+
   static const makerPhone = "Phone Number";
   static const additionalNotes = "Additional Notes";
 

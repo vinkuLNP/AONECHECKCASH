@@ -60,15 +60,15 @@ class UploadRemoteDataSource {
 
   Future<bool> createCheque({
     required String clientId,
-    required String chequeNumber,
-    required double amount,
-    required DateTime date,
+    // required String chequeNumber,
+    // required double amount,
+    // required DateTime date,
     required String frontFileId,
     required String backFileId,
-    required String chequeType,
+    // required String chequeType,
     required String customerName,
     required String customerPhone,
-    required String payeeName,
+    // required String payeeName,
     required String makerName,
     required String makerPhone,
     required String chequeDetails,
@@ -82,17 +82,17 @@ class UploadRemoteDataSource {
 
       KnackFields.chequeStatus: status,
 
-      KnackFields.chequeNumber: chequeNumber,
+      // KnackFields.chequeNumber: chequeNumber,
 
-      KnackFields.chequeAmount: amount,
+      // KnackFields.chequeAmount: amount,
 
-      KnackFields.chequeDate: date.toIso8601String(),
+      // KnackFields.chequeDate: date.toIso8601String(),
 
-      KnackFields.chequeType: chequeType,
+      // KnackFields.chequeType: chequeType,
 
       KnackFields.customerName: customerName,
       KnackFields.customerPhone: customerPhone,
-      KnackFields.payeeName: payeeName,
+      // KnackFields.payeeName: payeeName,
 
       KnackFields.chequeMakerName: makerName,
       KnackFields.makerPhone: makerPhone,
@@ -114,15 +114,15 @@ class UploadRemoteDataSource {
 
   Future<bool> updateCheque({
     required String clientId,
-    required String chequeNumber,
-    required double amount,
-    required DateTime date,
+    // required String chequeNumber,
+    // required double amount,
+    // required DateTime date,
     required String frontFileId,
     required String backFileId,
-    required String chequeType,
+    // required String chequeType,
     required String customerName,
     required String customerPhone,
-    required String payeeName,
+    // required String payeeName,
     required String makerName,
     required String makerPhone,
     required String chequeDetails,
@@ -132,17 +132,17 @@ class UploadRemoteDataSource {
     final body = {
       KnackFields.chequeStatus: status,
 
-      KnackFields.chequeNumber: chequeNumber,
+      // KnackFields.chequeNumber: chequeNumber,
 
-      KnackFields.chequeAmount: amount,
+      // KnackFields.chequeAmount: amount,
 
-      KnackFields.chequeDate: date.toIso8601String(),
+      // KnackFields.chequeDate: date.toIso8601String(),
 
-      KnackFields.chequeType: chequeType,
+      // KnackFields.chequeType: chequeType,
 
       KnackFields.customerName: customerName,
       KnackFields.customerPhone: customerPhone,
-      KnackFields.payeeName: payeeName,
+      // KnackFields.payeeName: payeeName,
 
       KnackFields.chequeMakerName: makerName,
       KnackFields.makerPhone: makerPhone,

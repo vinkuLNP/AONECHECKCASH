@@ -132,11 +132,6 @@ class ChequeFormProvider extends ChangeNotifier {
     chequeNumberController.text = cheque?.chequeNumber ?? '';
 
     amountController.text = CurrencyFormatter.format(cheque?.amount);
-    // cheque?.amount == null
-    //     ? ''
-    //     : cheque!.amount % 1 == 0
-    //     ? cheque.amount.toInt().toString()
-    //     : cheque.amount.toString();
     customerNameController.text = cheque?.customerName ?? userName ?? '';
 
     customerPhoneController.text = PhoneFormatter.format(cheque?.customerPhone);
@@ -406,7 +401,7 @@ class ChequeFormProvider extends ChangeNotifier {
       focusNode: customerPhoneFocus,
     );
     if (error != null) return error;
-
+/*
     error = await _validateField(
       context: context,
       error: AppValidators.validateChequeNumber(chequeNumberController.text),
@@ -436,6 +431,27 @@ class ChequeFormProvider extends ChangeNotifier {
     );
     if (error != null) return error;
 
+
+    if (isOtherChequeType) {
+      error = await _validateField(
+        context: context,
+        error: AppValidators.otherChequeType(
+          otherChequeTypeController.text,
+          "Cheque Type",
+        ),
+        key: otherChequeTypeKey,
+      );
+
+      if (error != null) return error;
+    }
+     error = await _validateField(
+      context: context,
+      error: AppValidators.validateNotes(chequeDetailsController.text),
+      key: chequeDetailsKey,
+      focusNode: notesFocus,
+    );
+    if (error != null) return error;
+*/
     error = await _validateField(
       context: context,
       error: AppValidators.validateName(
@@ -458,18 +474,6 @@ class ChequeFormProvider extends ChangeNotifier {
     );
     if (error != null) return error;
 
-    if (isOtherChequeType) {
-      error = await _validateField(
-        context: context,
-        error: AppValidators.otherChequeType(
-          otherChequeTypeController.text,
-          "Cheque Type",
-        ),
-        key: otherChequeTypeKey,
-      );
-
-      if (error != null) return error;
-    }
 
     if (frontFileId == null || frontFileId!.isEmpty) {
       await scrollToField(frontImageKey);
@@ -481,13 +485,7 @@ class ChequeFormProvider extends ChangeNotifier {
       return AppStrings.backChequeImageRequired;
     }
 
-    error = await _validateField(
-      context: context,
-      error: AppValidators.validateNotes(chequeDetailsController.text),
-      key: chequeDetailsKey,
-      focusNode: notesFocus,
-    );
-    if (error != null) return error;
+   
 
     return null;
   }
@@ -535,17 +533,17 @@ class ChequeFormProvider extends ChangeNotifier {
     if (!isEditMode) {
       success = await createChequeUsecase(
         userId,
-        chequeNumberController.text,
-        double.parse(amountController.text.replaceAll(',', '')),
-        selectedDate,
+        // chequeNumberController.text,
+        // double.parse(amountController.text.replaceAll(',', '')),
+        // selectedDate,
         frontImageId,
         backImageId,
-        type == ChequeType.other
-            ? otherChequeTypeController.text.trim()
-            : type.chequeTypeName,
+        // type == ChequeType.other
+        //     ? otherChequeTypeController.text.trim()
+        //     : type.chequeTypeName,
         customerNameController.text,
         customerPhoneController.text.replaceAll('-', ''),
-        payeeController.text,
+        // payeeController.text,
         makerNameController.text,
         makerPhoneController.text.replaceAll('-', ''),
         chequeDetailsController.text,
@@ -555,17 +553,17 @@ class ChequeFormProvider extends ChangeNotifier {
     } else {
       success = await updateChequeUsecase(
         _cheque!.id,
-        chequeNumberController.text,
-        double.parse(amountController.text.replaceAll(',', '')),
-        selectedDate,
+          // chequeNumberController.text,
+          // double.parse(amountController.text.replaceAll(',', '')),
+          // selectedDate,
         frontImageId,
         backImageId,
-        type == ChequeType.other
-            ? otherChequeTypeController.text.trim()
-            : type.chequeTypeName,
+        // type == ChequeType.other
+        //     ? otherChequeTypeController.text.trim()
+        //     : type.chequeTypeName,
         customerNameController.text,
         customerPhoneController.text.replaceAll('-', ''),
-        payeeController.text,
+        // payeeController.text,
         makerNameController.text,
         makerPhoneController.text.replaceAll('-', ''),
         chequeDetailsController.text,
@@ -573,9 +571,6 @@ class ChequeFormProvider extends ChangeNotifier {
         notesController.text,
       );
     }
-    // await loadCheques();
-    // isSaving = false;
-    // isLoading = false;
     notifyListeners();
 
     return success;
