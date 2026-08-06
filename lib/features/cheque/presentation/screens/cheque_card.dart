@@ -1,7 +1,6 @@
 import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_common_text_widget.dart';
 import 'package:a1_check_cashers/core/app_widgets/app_image_picker_card.dart';
-import 'package:a1_check_cashers/features/cheque/domain/enum/cheque_type_enum.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_info_column.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/app_status_chip.dart';
 import 'package:a1_check_cashers/features/cheque/presentation/widgets/cheque_notes_card.dart';
@@ -61,18 +60,17 @@ class ChequeCard extends StatelessWidget {
 
           Row(
             children: [
-              Expanded(
+              /*  Expanded(
                 child: AppInfoColumn(
                   title: AppStrings.type,
                   value: cheque.type.chequeTypeName,
                   titleColor: AppColors.secondaryText,
                   valueColor: AppColors.primaryText,
                 ),
-              ),
-
+              ),*/
               Expanded(
                 child: AppInfoColumn(
-                  title: AppStrings.makerName,
+                  title: AppStrings.makerNameTitle,
                   value: cheque.makerName,
                   titleColor: AppColors.secondaryText,
                   valueColor: AppColors.primaryText,
@@ -136,18 +134,15 @@ class ChequeCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
       children: [
-        // Platform.isIOS
-        // ?
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText(
+            /* AppText(
               text: "#${cheque.chequeNumber}",
               fontSize: 16,
               fontWeight: FontWeight.bold,
-            ),
-
+            ),*/
             AppStatusChip(
               title: cheque.status.status,
               icon: cheque.status.statusIcon,
@@ -155,11 +150,11 @@ class ChequeCard extends StatelessWidget {
             ),
           ],
         ),
-        Column(
+        /*   Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             AppText(
-              text: "\$${cheque.amount.toStringAsFixed(2)}",
+          text: '\$${NumberFormat('#,##0.00', 'en_US').format(cheque.amount)}',
               color: AppColors.primary,
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -174,6 +169,7 @@ class ChequeCard extends StatelessWidget {
             ),
           ],
         ),
+    */
       ],
     );
   }

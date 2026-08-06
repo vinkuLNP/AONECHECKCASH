@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:a1_check_cashers/core/constants/app_keys.dart';
 import 'package:a1_check_cashers/core/constants/app_strings.dart';
 
@@ -35,7 +37,7 @@ class AppValidators {
       return '$fieldName ${AppStrings.isRequired}';
     }
 
-    if (!RegExp(r'^\d{10}$').hasMatch(value.trim())) {
+    if (!RegExp(r'^\d{10}$').hasMatch(value.trim().replaceAll("-", ""))) {
       return '$fieldName ${AppStrings.mustBe10Digits}';
     }
 
@@ -60,11 +62,12 @@ class AppValidators {
     }
 
   
-  final cleaned = value.trim();
+  final cleaned = value.trim().replaceAll(',', '');
 
   final amount = double.tryParse(cleaned);
 
   if (amount == null) {
+    log(amount.toString());
     return AppStrings.enterValidAmount;
   }
 

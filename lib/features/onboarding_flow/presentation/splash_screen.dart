@@ -119,7 +119,7 @@ class _SplashPageState extends State<SplashPage>
                       children: [
                         Hero(
                           tag: 'app_logo',
-                          child: Image.asset(appLogo, width: 180),
+                          child: Image.asset(appLogo, width: 140),
                         ),
 
                         const SizedBox(height: 20),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppFormField extends StatelessWidget {
+    final GlobalKey? fieldKey;
   final String label;
   final TextEditingController controller;
   final TextInputType keyboardType;
@@ -18,6 +19,7 @@ class AppFormField extends StatelessWidget {
   final AutovalidateMode? autovalidateMode;
   const AppFormField({
     super.key,
+        this.fieldKey,
     required this.label,
     required this.controller,
     this.keyboardType = TextInputType.text,
@@ -33,24 +35,27 @@ class AppFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppInputField(
-      label: label,
-      controller: controller,
-      keyboardType: keyboardType,
-      readOnly: readOnly,
-      
-      labelFontSize: 12,
-      maxLines: maxLines,
-      focusNode: focusNode,
-      autovalidateMode: autovalidateMode,
-      minLines: minLines,
-      fillColor: Colors.white.withValues(alpha: readOnly ? 0.4 : 0.8),
-      borderColor: AppColors.primary.withValues(alpha: .35),
-      labelColor: AppColors.black,
-      fillTextField: true,
-      maxLength: maxLength,
-      validator: validator,
-      inputFormatters: inputFormatters,
+    return Container(
+      key: fieldKey,
+      child: AppInputField(
+        label: label,
+        controller: controller,
+        keyboardType: keyboardType,
+        readOnly: readOnly,
+        
+        labelFontSize: 12,
+        maxLines: maxLines,
+        focusNode: focusNode,
+        autovalidateMode: autovalidateMode,
+        minLines: minLines,
+        fillColor: Colors.white.withValues(alpha: readOnly ? 0.4 : 0.8),
+        borderColor: AppColors.primary.withValues(alpha: .35),
+        labelColor: AppColors.black,
+        fillTextField: true,
+        maxLength: maxLength,
+        validator: validator,
+        inputFormatters: inputFormatters,
+      ),
     );
   }
 }

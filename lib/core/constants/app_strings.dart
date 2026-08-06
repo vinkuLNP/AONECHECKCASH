@@ -223,7 +223,7 @@ class AppStrings {
   static const confirmPasswordRequired = "Confirm password is required";
   static const passwordMismatch = "Passwords do not match";
   static const invalidName = "Enter a valid name";
-  static const emailAlreadyExists = "Email already registered";
+  static const emailAlreadyExists = "Email already registered. Please login.";
   static const noInternet = "No internet connection";
   static const uploadDocument = "Upload Document";
   static const editDocument = "Edit Document";
@@ -289,6 +289,8 @@ class AppStrings {
   static const payeeName = "Payee Name";
   static const makerInfo = "Maker Information";
   static const makerName = "Name";
+  static const makerNameTitle = "Maker Name";
+
   static const makerPhone = "Phone Number";
   static const additionalNotes = "Additional Notes";
 
