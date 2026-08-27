@@ -2,6 +2,7 @@ import 'package:a1_check_cashers/core/app_widgets/app_common_button.dart';
 import 'package:a1_check_cashers/core/app_widgets/input_fields.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
+import 'package:a1_check_cashers/core/utils/file_utils.dart';
 import 'package:a1_check_cashers/features/auth/presentation/auth_validator.dart';
 import 'package:a1_check_cashers/features/auth/presentation/widgets/auth_widgets.dart';
 import 'package:a1_check_cashers/features/home_page/presentation/widgets/top_header.dart';
@@ -129,7 +130,25 @@ class LoginScreen extends StatelessWidget {
                                     },
                                   ),
                                   const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const AppText(
+                                        text: AppStrings.forgotYourPassword,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () => openUrl(
+                                          AppStrings.forgotPasswordUrl,
+                                        ),
 
+                                        child: const AppText(
+                                          text: AppStrings.resetItHere,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 20),
                                   AppButton(
                                     text: AppStrings.signIn,
                                     isLoading: provider.isLoading,

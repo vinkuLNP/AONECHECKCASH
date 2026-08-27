@@ -1,0 +1,5 @@
+sdk.dir=/Users/lnpinfo/Library/Android/sdk
+flutter.sdk=/Users/lnpinfo/flutter/flutter
+flutter.buildMode=debug
+flutter.versionName=1.0.14
+flutter.versionCode=14

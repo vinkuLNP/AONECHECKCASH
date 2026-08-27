@@ -36,6 +36,8 @@ class AppStrings {
 
   static const openToday = "Mon-Sat: 9AM – 8PM • Fri: 9AM – 9PM";
   static const nearestLocation = "Nearest Location: 77015";
+  static const nearestLocationWithoutZip = "Nearest Location: ";
+
 
   static const heroTitle = "Fast Money Services Near You.";
   static const heroSubtitle =
@@ -183,6 +185,10 @@ class AppStrings {
   static const rememberMe = "Remember me";
   static const forgotPassword = "Forgot password?";
   static const noAccount = "Don't have an account? ";
+  static const forgotYourPassword = "Forgot your password? ";
+  static const resetItHere = "Reset it here";
+
+
   static const signUp = "Sign Up";
   static const termsPrefix = "By signing in, you agree to our ";
   static const terms = "Terms of Service";
@@ -384,7 +390,7 @@ class AppStrings {
       "Front and back cheque images are required";
   static const frontChequeImageRequired = "Front cheque image is required";
   static const backChequeImageRequired = "Back cheque image is required";
-
+  static const forgotPasswordUrl = "https://www.aonecheckcashing.com/forgot-password";
   static const checkCashingUrl =
       "https://www.aonecheckcashing.com/check-cashing";
   static const moneyTransferUrl =

@@ -19,6 +19,7 @@ class AuthRemoteDataSource {
       final body = jsonDecode(response.body);
       return UserModel.fromJson(body);
     } else {
+      log("Login failed: ${response.body}", name: 'AuthRemoteDataSource');
       throw Exception("Login failed: ${response.body}");
     }
   }

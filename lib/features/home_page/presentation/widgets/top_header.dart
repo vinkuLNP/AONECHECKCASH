@@ -4,6 +4,7 @@ import 'package:a1_check_cashers/core/app_widgets/app_logo_header_widget.dart';
 import 'package:a1_check_cashers/core/constants/app_colors.dart';
 import 'package:a1_check_cashers/core/routes/app_routes.dart';
 import 'package:a1_check_cashers/features/auth/presentation/provider/auth_provider.dart';
+import 'package:a1_check_cashers/features/home_page/presentation/controller/nearest_store_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -15,6 +16,9 @@ class TopHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
+
+   final nearestStore = context.watch<NearestStoreProvider>();
+
     return Column(
       children: [
         Container(
@@ -22,7 +26,7 @@ class TopHeader extends StatelessWidget {
           color: AppColors.primary,
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Column(
-            children: const [
+            children:  [
               AppText(
                 text: AppStrings.openToday,
                 color: AppColors.whiteColor,
@@ -31,7 +35,7 @@ class TopHeader extends StatelessWidget {
               ),
               SizedBox(height: 2),
               AppText(
-                text: AppStrings.nearestLocation,
+                text:  nearestStore.nearestStore != null ? "${AppStrings.nearestLocationWithoutZip}: ${nearestStore.nearestStore!.zipCode}" : AppStrings.nearestLocation,
                 color: AppColors.whiteColor,
                 fontSize: 12,
               ),
